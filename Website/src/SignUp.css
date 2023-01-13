@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+.bgimage
+{
+    background-image: url("https://akm-img-a-in.tosshub.com/indiatoday/images/story/202206/prakash-sahoo-MgppNRJShm0-unsp_1200x768.jpeg?VersionId=uY_qOBlUMdZO6vbJuXJHKVcQwfNsG5Q6&size=690:388");
+    background-repeat: no-repeat;
+    background-size:cover;
+    opacity: 0.9;
+}
+@tailwind utilities;
