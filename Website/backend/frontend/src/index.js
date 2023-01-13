@@ -4,15 +4,18 @@ import './index.css';
 //  import App from './App';
 // import Login from './Login.js'
 // import './Login.css';
-import './SignUp.css';
-import SignUp from './SignUp.js'
+// import './SignUp.css';
+// import SignUp from './SignUp.js'
+import './Aform.css';
+import Aform from './Aform.js'
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     {/* <Login /> */}
-    <SignUp/>
+    {/* <SignUp/> */}
+    <Aform/>
   </React.StrictMode>
 );
 
