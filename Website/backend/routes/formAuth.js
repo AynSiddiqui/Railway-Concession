@@ -1,5 +1,5 @@
 const express = require('express');
-const User = require('../models/User');
+const FormUser = require('../models/FormUser');
 const router = express.Router();
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
@@ -10,15 +10,18 @@ const JWT_SECRET = 'Harryisagoodb$oy';
 
 // ROUTE 1: Create a User using: POST "/api/auth/createuser". No login required
 let success = false;
-router.post('/createUser', [
-  body('email', 'Enter a valid email').isEmail(),
-  body('regId', 'Enter a valid name').isLength({ max: 9,min:9 }),
+router.post('/fillForm', [
+  body('firstname', 'Enter a valid name').isLength({ min: 3 }),
+  body('middlename', 'Enter a valid name').isLength({ min: 3 }),
+  body('surname', 'Enter a valid name').isLength({ min: 3 }),
+  
+  body('age', 'Enter a valid age').isLength({ max: 2,min:2 }),
+ 
+  body('ticketNo', 'Enter a ticket Number').isLength({ max: 4,min:4 }),
 
-  body('fullname', 'Enter a valid name').isLength({ min: 3 }),
  
   body('phnNumber', 'Enter a valid name').isLength({ max: 10,min:10 }),
-  body('password', 'Password must be atleast 5 characters').isLength({ min: 5 }),
-  body('confirmpassword', 'Password must be atleast 5 characters').isLength({ min: 5 }),
+  
 ], async (req, res) => {
   // If there are errors, return Bad request and the errors
   const errors = validationResult(req);
@@ -26,27 +29,36 @@ router.post('/createUser', [
     return res.status(400).json({ errors: errors.array() });
   }
   try {
-    // Check whether the user with this email exists already
-    let user = await User.findOne({ email: req.body.email });
-    if (user) {
-      return res.status(400).json({ error: "Sorry a user with this email already exists" })
-    }
+    
+    
     let user1 = await User.findOne({ phnNumber: req.body.phnNumber });
-    if (user) {
+    if (user1) {
       return res.status(400).json({ error: "Sorry a user with this phone number already exists" })
     }
-    const salt = await bcrypt.genSalt(10);
-    const secPass = await bcrypt.hash(req.body.password, salt);
-    const secPass1 = await bcrypt.hash(req.body.confirmpassword,salt)
+    
     // Create a new user
     user = await User.create({
-      email: req.body.email,
-      regId:req.body.regId,
-      fullname: req.body.fullname,
-      
+      firstname: req.body.firstname,
+      middlename: req.body.middlename,
+      surname: req.body.surname,
+      dob: req.body.dob,
+      age: req.body.age,
+      gender: req.body.gender,
+      courses: req.body.courses,
+      year: req.body.year,
+      duration: req.body.duration,
+      class: req.body.class,
+      stationfrom: req.body.stationfrom,
+      stationto: req.body.stationto,
+      passduration: req.body.passduration,
+      ticketnumber: req.body.ticketnumber,
+      class1: req.body.class1,
+      periodfrom: req.body.periodfrom,
+      periodto: req.body.periodto,
+      category: req.body.category,
+      address: req.body.address,
       phnNumber:req.body.phnNumber,
-      password: secPass,
-      confirmpassword:secPass1
+      
     });
     const data = {
       user: {

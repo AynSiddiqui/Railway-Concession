@@ -1,7 +1,61 @@
 import React, { useState } from "react";
 import './Aform.css';
 
+import axios from "axios"
+import ErrorMessage from "./ErrorMesssge";
 function Application() {
+    const [firstname,setFirstName] = useState("")
+    const [middlename,setmiddleName] = useState("")
+    const [surname,setsurName] = useState("")
+    const [dob,setdobName] = useState("")
+    const [age,setAgeName] = useState("")
+    const [gender,setgender] = useState("")
+    const [course,setCourse] = useState("")
+    const [year,setYear] = useState("")
+    const [duration,setDuration] = useState("")
+    const [class1,setClass1] = useState("")
+    const [stationfrom,setStationFrom] = useState("")
+    const [stationto,setStationto] = useState("")
+    const [ticketNo,setticketNo] = useState("")
+    const [class2,setClass2] = useState("")
+    const [periodfrom,setPeriodFrom] = useState("")
+    const [periodTo,setPeriodTo] = useState("")
+    const [category,setCategory] = useState("")
+    const [address,setAddress] = useState("")
+    const [phnNumber,setphnNumber] = useState("")
+    const[error,setError] = useState(false)
+    // const[loading,setLoading] = useState(false)
+    const[message,setMessage] = useState("")
+    const submitHandler = async (e) => {
+        e.preventDefault();
+        
+            try {
+                const config = {
+                    headers: {
+                        "Content-type": "application/json"
+                    },
+                }
+                //setLoading(true)
+                const { data } = await axios.post("http://localhost:5000/api/auth/createUser",
+                {firstname:firstname,middlename:middlename,surname:surname,dob:dob,age:age,gender:gender,course:course,year:year,duration:duration,class1:class1,stationfrom:stationfrom,stationto:stationto,ticketNo:ticketNo,class2,class2,periodfrom:periodfrom,periodTo:periodTo,category:category,address:address,phnNumber:phnNumber,},
+                config
+                ) 
+            //    setLoading(false)
+           
+            console.log(data)
+               localStorage.setItem('userInfo',JSON.stringify(data))
+            
+           
+            }
+
+            catch(error)
+            {
+                setError(error.response.data.message)
+                alert("User already exists")
+            }
+        }
+       
+    
     const value = true;
     return (
         <>
@@ -14,25 +68,25 @@ function Application() {
                         <div className="mt-2 flex space-x-5">
                             <div>
                                 <label htmlFor="firstname" className="ml-2 text-lg font-bold">First Name: </label>
-                                <input type="text" name="firstname" className="mx-2 shadow-lg appearance border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"></input>
+                                <input type="text" name="firstname" className="mx-2 shadow-lg appearance border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"onChange = {(e) => setFirstName(e.target.value)} value = {firstname}required/>
                             </div>
                             <div>
                                 <label htmlFor="middlename" className="text-lg font-bold">Middle Name: </label>
-                                <input type="text" name="middlename" className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"></input>
+                                <input type="text" name="middlename" className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"onChange = {(e) => setmiddleName(e.target.value)} value = {middlename}required/>
                             </div>
                             <div>
                                 <label htmlFor="surname" className="text-lg font-bold">Surname: </label>
-                                <span><input type="text" name="surname" className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"></input></span>
+                                <span><input type="text" name="surname" className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"onChange = {(e) => setsurName(e.target.value)} value = {surname}required/></span>
                             </div>
                         </div>
                         <div className="my-1 flex space-x-5">
                             <div>
                                 <label htmlFor="dob" className="ml-2 text-xl font-bold">D.O.B: </label>
-                                <input type="date" name="dob" className="mx-2 shadow-lg appearance border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"></input>
+                                <input type="date" name="dob" className="mx-2 shadow-lg appearance border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"onChange = {(e) => setdobName(e.target.value)} value = {dob}required/>
                             </div>
                             <div>
                                 <label htmlFor="age" className="text-xl font-bold">Age: </label>
-                                <input type="number" maxlength="2" name="age" className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"></input>
+                                <input type="number" maxlength="2" name="age" className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"onChange = {(e) => setAgeName(e.target.value)} value = {age}required/>
                             </div>
                             <div>
                                 <label htmlFor="gender" className="text-xl font-bold ml-16">Gender: </label>

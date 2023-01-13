@@ -39,6 +39,16 @@ const FormUserSchema = new Schema({
         required: true,
        
     },
+    duration:{
+        type: String,
+        required: true,
+       
+    },
+    class:{
+        type: String,
+        required: true,
+       
+    },
     stationFrom:{
         type: String,
         required: true,
@@ -54,7 +64,13 @@ const FormUserSchema = new Schema({
         required: true,
        
     },
-    class:{
+   
+    ticketNumber:{
+        type: String,
+       required:true,
+       unique:true
+    },
+    class1:{
         type: String,
         required: true,
        
