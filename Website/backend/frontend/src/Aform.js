@@ -137,7 +137,7 @@ function Application() {
                         </div>
                         <div className="mt-2 flex space-x-10">
                             <div>
-                                <label htmlFor="AadharCard" className="ml-2 text-xl font-bold">Aadhar Card of Student: </label>
+                                <label htmlFor="AadharCard" className="ml-2 text-xl font-bold">Id Card of Student: </label>
                                 <input type="file" name="AadharCard" className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"></input>
                             </div>
                         </div>
