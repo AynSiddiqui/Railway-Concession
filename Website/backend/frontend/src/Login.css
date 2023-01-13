@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+.bgimage
+{
+    background-image: url("C:\Users\utpal\OneDrive\Documents\CoC_Hackaton_RailwayConcession\backend\frontend\src\loginImage.png");
+    background-repeat: no-repeat;
+    background-size:cover;
+    opacity: 0.9;
+}
+@tailwind utilities;
