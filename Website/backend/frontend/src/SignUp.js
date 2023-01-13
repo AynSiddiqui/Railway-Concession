@@ -87,7 +87,7 @@ function SignUp() {
                     </form>
                     <div className="my-1 text-white">
                         <p className="text-xl text-black">Already have account?</p>
-                        <p className="text-2xl text-black text-center underline cursor-pointer hover:text-red-600">Log In</p>
+                        <a className="text-2xl text-black text-center underline cursor-pointer hover:text-red-600">Log In</a>
                     </div>
                 </div>
             </div>

@@ -2,7 +2,7 @@
 @tailwind components;
 .bgimage
 {
-    background-image: url("C:\Users\utpal\OneDrive\Documents\CoC_Hackaton_RailwayConcession\src\loginImage.png");
+    background-image: url("./loginImage.png");
     background-repeat: no-repeat;
     background-size:cover;
     height: 100%;
