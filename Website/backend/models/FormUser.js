@@ -24,24 +24,67 @@ const FormUserSchema = new Schema({
         required: true,
        
     },
-   regId:{
+    gender:{
         type: String,
-       required:true,
-       unique:true
+        required: true,
+       
+    },
+    courses:{
+        type: String,
+        required: true,
+       
+    },
+    year:{
+        type: String,
+        required: true,
+       
+    },
+    stationFrom:{
+        type: String,
+        required: true,
+       
+    },
+    stationTo:{
+        type: String,
+        required: true,
+       
+    },
+    passduration:{
+        type: String,
+        required: true,
+       
+    },
+    class:{
+        type: String,
+        required: true,
+       
+    },
+    periodFrom:{
+        type: String,
+        required: true,
+       
+    },
+    periodTo:{
+        type: String,
+        required: true,
+       
+    },
+    category:{
+        type: String,
+        required: true,
+       
+    },
+   address:{
+        type: String,
+        required: true,
+       
     },
     phnNumber:{
         type: String,
        required:true,
        unique:true
     },
-    password:{
-        type: String,
-        required: true
-    },
-    confirmpassword:{
-        type: String,
-        required: true
-    },
+
   });
   const FormUser = mongoose.model('FormUser', FormUserSchema);
   module.exports = FormUser;
