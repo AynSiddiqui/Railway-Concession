@@ -2,14 +2,27 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const FormUserSchema = new Schema({
-    email:{
-        type: String,
-        required: true,
-        unique: true
-    },
-    fullname:{
+    firstname:{
         type: String,
         required: true
+    },
+   middlename:{
+        type: String,
+        required: true
+    },
+    surname:{
+        type: String,
+        required: true
+    },
+    dob:{
+        type: String,
+        required: true,
+       
+    },
+    age:{
+        type: String,
+        required: true,
+       
     },
    regId:{
         type: String,
