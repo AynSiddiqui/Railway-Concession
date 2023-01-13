@@ -42,6 +42,7 @@ function SignUp() {
             catch(error)
             {
                 setError(error.response.data.message)
+                alert("User already exists")
             }
         }
        
