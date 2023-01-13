@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+.bgimage
+{
+    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTG0gy42OMlPttBKCMqeDCNM_qJ-uNUhxwsig&usqp=CAU");
+    background-repeat: no-repeat;
+    
+}
+@tailwind utilities;
