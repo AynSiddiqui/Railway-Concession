@@ -2,7 +2,7 @@
 @tailwind components;
 .bgimage
 {
-    background-image: url("./frontend/src/loginImage.png");
+    background-image: url("loginImage.png");
     background-repeat: no-repeat;
     background-size:cover;
     opacity: 0.9;
