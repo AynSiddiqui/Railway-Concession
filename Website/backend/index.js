@@ -13,7 +13,7 @@ app.use(express.json())
 
 // Available Routes
 app.use('/api/auth', require('./routes/auth'))
-app.set('/api/auth', require('./routes/formAuth'))
+app.use('/api/formAuth', require('./routes/formAuth'))
 app.use('/api/notes', require('./routes/notes'))
 
 

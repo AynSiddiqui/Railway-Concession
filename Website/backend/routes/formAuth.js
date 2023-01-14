@@ -1,29 +1,40 @@
 const express = require('express');
 const FormUser = require('../models/FormUser');
+//const User = require('../models/User');
 const router = express.Router();
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 var fetchuser = require('../middleware/fetchuser');
-
+const bodyParser = require("body-parser");
 const JWT_SECRET = 'Harryisagoodb$oy';
 
 // ROUTE 1: Create a User using: POST "/api/auth/createuser". No login required
 let success = false;
 router.post('/fillForm', [
   body('firstname', 'Enter a valid name').isLength({ min: 3 }),
-  body('middlename', 'Enter a valid name').isLength({ min: 3 }),
+  //body('middlename', 'Enter a valid name').isLength({ min: 3 }),
   body('surname', 'Enter a valid name').isLength({ min: 3 }),
-  
-  body('age', 'Enter a valid age').isLength({ max: 2,min:2 }),
- 
-  body('ticketNo', 'Enter a ticket Number').isLength({ max: 4,min:4 }),
-
- 
+  body('dob', 'Enter a valid dob').isLength(),
+  body('age', 'Enter a valid age').isLength({ max: 2,min:1 }),
+  body('gender', 'Enter a valid dob').isLength(),
+  body('course', 'Enter a valid dob').isLength(),
+  body('year', 'Enter a valid dob').isLength(),
+  body('duration', 'Enter a valid dob').isLength(),
+  body('class1', 'Enter a valid dob').isLength(),
+  //body('stationfrom', 'Enter a valid dob').isLength(),
+  body('stationto', 'Enter a valid dob').isLength(),
+  // body('passduration', 'Enter a valid dob').isLength(),
+  // // body('ticketNo', 'Enter a ticket Number').isLength({ max: 4,min:4 }),
+  // body('class2', 'Enter a valid dob').isLength(),
+  // body('periodfrom', 'Enter a valid dob').isLength(),
+  // body('periodto', 'Enter a valid dob').isLength(),
+  // body('category', 'Enter a valid dob').isLength(),
+  body('address', 'Enter a valid dob').isLength(),
   body('phnNumber', 'Enter a valid name').isLength({ max: 10,min:10 }),
   
 ], async (req, res) => {
-  // If there are errors, return Bad request and the errors
+  //If there are errors, return Bad request and the errors
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -31,28 +42,28 @@ router.post('/fillForm', [
   try {
     
     
-    let user1 = await User.findOne({ phnNumber: req.body.phnNumber });
+    let user1 = await FormUser.findOne({ phnNumber: req.body.phnNumber });
     if (user1) {
       return res.status(400).json({ error: "Sorry a user with this phone number already exists" })
     }
     
     // Create a new user
-    user = await User.create({
+    user = await FormUser.create({
       firstname: req.body.firstname,
       middlename: req.body.middlename,
       surname: req.body.surname,
       dob: req.body.dob,
       age: req.body.age,
       gender: req.body.gender,
-      courses: req.body.courses,
+      course: req.body.course,
       year: req.body.year,
       duration: req.body.duration,
-      class: req.body.class,
+      class1: req.body.class1,
       stationfrom: req.body.stationfrom,
       stationto: req.body.stationto,
       passduration: req.body.passduration,
-      ticketnumber: req.body.ticketnumber,
-      class1: req.body.class1,
+      ticketNo: req.body.ticketNo,
+      class2: req.body.class2,
       periodfrom: req.body.periodfrom,
       periodto: req.body.periodto,
       category: req.body.category,
@@ -78,5 +89,5 @@ router.post('/fillForm', [
   }
 })
 
-
+module.exports = router
 
