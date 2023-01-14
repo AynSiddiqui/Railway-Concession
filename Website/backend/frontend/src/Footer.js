@@ -1,4 +1,5 @@
 import React from "react";
+import Pdf from './Documentation.pdf'
 import "./Footer.css";
 
 function Footer() {
@@ -71,7 +72,7 @@ function Footer() {
                                 <a href="#!" className="text-gray-600">Sign Up</a>
                             </p>
                             <p>
-                                <a href="#!" className="text-gray-600">Sign In</a>
+                            <a href = {Pdf} target = "blank" className='text-gray-600' download>Documentation</a>
                             </p>
                         </div>
                         <div className="">
