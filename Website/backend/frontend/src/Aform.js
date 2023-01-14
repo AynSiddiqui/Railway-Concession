@@ -7,7 +7,7 @@ function Application() {
         <>
             <div className="flex">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTG0gy42OMlPttBKCMqeDCNM_qJ-uNUhxwsig&usqp=CAU"
-                    className="w-[650px] h-full" alt=""></img>
+                    className="w-[650px] h-auto" alt=""></img>
                 <div className="">
                     <div className="flex flex-row w-full h-16 text-2xl font-bond justify-center items-center bg-black text-white">Application Form </div>
                     <form autoComplete="on" className="grid grid-col-3 space-y-10 content-center">
