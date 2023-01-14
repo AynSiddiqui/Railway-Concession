@@ -4,15 +4,15 @@ const { Schema } = mongoose;
 const FormUserSchema = new Schema({
     firstname:{
         type: String,
-        required: true
+        required: true,
     },
-   middlename:{
+    middlename:{
         type: String,
-        required: true
+        required: true,
     },
     surname:{
         type: String,
-        required: true
+        required: true,
     },
     dob:{
         type: String,
@@ -29,7 +29,7 @@ const FormUserSchema = new Schema({
         required: true,
        
     },
-    courses:{
+    course:{
         type: String,
         required: true,
        
@@ -44,50 +44,49 @@ const FormUserSchema = new Schema({
         required: true,
        
     },
-    class:{
+    class1:{
+        type: String,
+        required:true
+       
+    },
+    stationfrom:{
         type: String,
         required: true,
        
     },
-    stationFrom:{
-        type: String,
-        required: true,
-       
-    },
-    stationTo:{
+    stationto:{
         type: String,
         required: true,
        
     },
     passduration:{
         type: String,
-        required: true,
+        
        
     },
    
-    ticketNumber:{
+    ticketNo:{
         type: String,
-       required:true,
-       unique:true
+      
+       
     },
-    class1:{
+    class2:{
         type: String,
-        required: true,
+        
        
     },
     periodFrom:{
         type: String,
-        required: true,
+        
        
     },
     periodTo:{
         type: String,
-        required: true,
-       
+        
     },
     category:{
         type: String,
-        required: true,
+        
        
     },
    address:{
