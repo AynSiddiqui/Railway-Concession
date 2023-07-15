@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import './Aform.css';
-import FileBase64 from 'react-file-base64'
+
 import axios from "axios"
 import ErrorMessage from "./ErrorMesssge";
+import { supabase } from './lib/supabase';
+import { v4 as uuidv4 } from "uuid";
+
 function Application() {
+    var filedata = "";
     const [firstname,setFirstName] = useState("")
     const [middlename,setmiddleName] = useState("")
     const [surname,setsurName] = useState("")
@@ -23,9 +27,77 @@ function Application() {
     const [category,setCategory] = useState()
     const [address,setAddress] = useState("")
     const [phnNumber,setphnNumber] = useState("")
+    const[selectedImage,setSelectImage] = useState(null)
     const[error,setError] = useState(false)
     // const[loading,setLoading] = useState(false)
     const[message,setMessage] = useState("")
+    const [aadhar,setaadhar] = useState([])
+//     const handleSubmit = async (e) =>{
+//         try {
+//         e.preventDefault();
+//         const filename = `${uuidv4()}-${e.name}`;
+
+// const { data, error } = await supabase.storage
+// .from("aadhar-card-images")
+// .upload(filename,aadhar, {
+// cacheControl: "3600",
+// upsert: false,
+// });
+
+// const filepath = data.path;
+//         }
+//      catch(error)
+//             {
+//                 setError(error.response.data.message)
+               
+//             }
+//     }
+//     const handleFileSelected = (e) => {
+//         setaadhar(e.target.aadhar[0]);
+//     }
+const handleIDInputChange = async (files) => {
+  const file = files[0];
+  console.log(file);
+  const filename = `${uuidv4()}-${file.name}`;
+  const { data, error } = await supabase.storage.from('aadhar-card-images').upload(filename, file);
+const T = require("tesseract.js");
+
+T.recognize(file, "eng").then((out) => {
+    filedata = out.data.text.slice(14, out.data.text.indexOf("Hostelize")); 
+  console.log(filedata);
+});
+  if (error) {
+    console.error(error);
+  } else {
+    console.log(data.Key);
+    // Save the file path to your database or perform other actions
+  }
+}
+const handleSignatureInputChange = async (files) => {
+  const file = files[0];
+  const filename = `${uuidv4()}-${file.name}`;
+  const { data, error } = await supabase.storage.from('signature').upload(filename, file);
+
+  if (error) {
+    console.error(error);
+  } else {
+    console.log(data.Key);
+    // Save the file path to your database or perform other actions
+  }
+}
+const handleCasteInputChange = async (files) => {
+  const file = files[0];
+  const filename = `${uuidv4()}-${file.name}`;
+  const { data, error } = await supabase.storage.from('caste-validity').upload(filename, file);
+
+  if (error) {
+    console.error(error);
+  } else {
+    console.log(data.Key);
+    // Save the file path to your database or perform other actions
+  }
+}
+
     const submitHandler = async (e) => {
         e.preventDefault();
         
@@ -86,7 +158,7 @@ function Application() {
                             </div>
                             <div>
                                 <label htmlFor="age" className="text-xl font-bold">Age: </label>
-                                <input type="number" maxlength="2" name="age" className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"onChange = {(e) => setAgeName(e.target.value)} value = {age} minLength = {1} maxLength = {2}required/>
+                                <input type="number" maxlength="2" name="age" className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"onChange = {(e) => setAgeName(e.target.value)} value = {age} minLength = {1} maxLength = {2} required/>
                             </div>
                             <div>
                                 <label htmlFor="gender" className="text-xl font-bold ml-16">Gender: </label>
@@ -186,7 +258,7 @@ function Application() {
                                     <option value="S.T.">S.T.</option>
                                 </select>
                                 <label htmlFor="Category" className="ml-8 text-lg font-bold">Upload Caste Validity Certificate(If S.C/S.T then upload): </label>
-                                <input type="file" name="Category" className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"></input>                            </div>
+                                <input type="file" name="Category" className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline" onChange={(e) =>handleCasteInputChange(e.target.files)}></input>                            </div>
 
                         </div>
                         <div className="mt-2 flex space-x-10">
@@ -202,17 +274,19 @@ function Application() {
                         </div>
                         <div className="mt-2 flex space-x-10">
                             <div>
-                                <label htmlFor="AadharCard" className="ml-2 text-xl font-bold">ID Card of Student: </label>
-                                <input type="file" name="AadharCard" className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"></input>
+                                <label htmlFor="AadharCard" className="ml-2 text-xl font-bold">ID Card of Student(having address): </label>
+                                <input type="file" accept="image/*" name="AadharCard" className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline" onChange={(e) =>handleIDInputChange(e.target.files)}
+        ></input>
+                                
                             </div>
                         </div>
                         <div className="mt-2 flex space-x-10">
                             <div>
                                 <label htmlFor="Sign" className="ml-2 text-xl font-bold">Upload Signature of Student: </label>
-                                <input type="file" name="Sign" className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"></input>
+                                <input type="file" name="Sign" className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline" onChange={(e) =>handleSignatureInputChange(e.target.files)}></input>
                             </div>
                         </div>
-                        <button type="submit" className="inline-block m-auto w-32 px-6 py-2.5 bg-blue text-pink font-medium text-lg leading-tight uppercase rounded-full shadow-md hover:bg-red-600 hover:text-white hover:shadow-lg focus:bg-pink-violent focus:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-violent active:text-white active:shadow-lg transition duration-150 ease-in-out" onClick={submitHandler}>Submit</button>
+                        <button type="submit" className="inline-block m-auto w-32 px-6 py-2.5 bg-blue text-pink font-medium text-lg leading-tight uppercase rounded-full shadow-md hover:bg-red-600 hover:text-white hover:shadow-lg focus:bg-pink-violent focus:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-violent active:text-white active:shadow-lg transition duration-150 ease-in-out" onClick={submitHandler} >Submit</button>
                     </form>
                 </div>
             </div>

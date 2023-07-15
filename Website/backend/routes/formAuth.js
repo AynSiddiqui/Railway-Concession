@@ -31,7 +31,7 @@ router.post('/fillForm', [
   // body('periodto', 'Enter a valid dob').isLength(),
   // body('category', 'Enter a valid dob').isLength(),
   body('address', 'Enter a valid dob').isLength(),
-  body('phnNumber', 'Enter a valid name').isLength({ max: 10,min:10 }),
+  // mo
   
 ], async (req, res) => {
   //If there are errors, return Bad request and the errors
