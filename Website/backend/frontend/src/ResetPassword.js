@@ -6,50 +6,50 @@ import { useParams } from "react-router-dom";
 import ErrorMessage from "./ErrorMesssge";
 import { json } from "react-router-dom";
 function PasswordReset() {
-   const [validUrl, setValidUrl] = useState(false);
-   const [password, setPassword] = useState("");
-   const [msg, setMsg] = useState("");
-   const [error, setError] = useState("");
-   const param = useParams();
-   const url = `http://localhost:5000/api/passwordReset/${param.id}/${param.token}`;
+  const [validUrl, setValidUrl] = useState(false);
+  const [password, setPassword] = useState("");
+  const [msg, setMsg] = useState("");
+  const [error, setError] = useState("");
+  const param = useParams();
+  const url = `http://localhost:5000/api/passwordReset/${param.id}/${param.token}`;
 
-   useEffect(() => {
-     const verifyUrl = async () => {
-       try {
-         await axios.get(url);
-         setValidUrl(true);
-       } catch (error) {
-         setValidUrl(false);
-       }
-     };
-     verifyUrl();
-   }, [param, url]);
+  useEffect(() => {
+    const verifyUrl = async () => {
+      try {
+        await axios.get(url);
+        setValidUrl(true);
+      } catch (error) {
+        setValidUrl(false);
+      }
+    };
+    verifyUrl();
+  }, [param, url]);
 
-   const handleSubmit = async (e) => {
-     e.preventDefault();
-     try {
-       const { data } = await axios.post(url, { password });
-       setMsg(data.message);
-       setError("");
-       window.location = "/login";
-       console.log("Password Reset Success");
-     } catch (error) {
-       if (
-         error.response &&
-         error.response.status >= 400 &&
-         error.response.status <= 500
-       ) {
-         setError(error.response.data.message);
-         console.log(error);
-         setMsg("");
-       }
-     }
-   };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.post(url, { password });
+      setMsg(data.message);
+      setError("");
+      window.location = "/login";
+      console.log("Password Reset Success");
+    } catch (error) {
+      if (
+        error.response &&
+        error.response.status >= 400 &&
+        error.response.status <= 500
+      ) {
+        setError(error.response.data.message);
+        console.log(error);
+        setMsg("");
+      }
+    }
+  };
   return (
     <div>
       <div className="h-screen bgimage flex justify-center items-center ">
         <div className="bg-white w-[500px] h-[520px] rounded-3xl flex flex-col space-y-10 justifiy-center items-center">
-          <h1 className="text-4xl text-black font-bold mt-8">Log In</h1>
+          <h1 className="text-4xl text-black font-bold mt-8">Reset Password</h1>
           <form>
             <div className="my-4">
               <label
@@ -76,7 +76,6 @@ function PasswordReset() {
               Submit
             </button>
           </form>
-         
         </div>
       </div>
     </div>
