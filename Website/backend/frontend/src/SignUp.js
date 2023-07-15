@@ -43,6 +43,7 @@ function SignUp() {
 
         console.log(data);
         localStorage.setItem("userInfo", JSON.stringify(data));
+         window.location = "/login";
       } catch (error) {
         setError(error.response.data.message);
       }
