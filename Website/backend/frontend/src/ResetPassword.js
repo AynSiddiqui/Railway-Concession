@@ -49,7 +49,7 @@ function PasswordReset() {
     <div>
       <div className="h-screen bgimage flex justify-center items-center ">
         <div className="bg-white w-[500px] h-[520px] rounded-3xl flex flex-col space-y-10 justifiy-center items-center">
-          <h1 className="text-4xl text-black font-bold mt-8">Log In</h1>
+          <h1 className="text-4xl text-black font-bold mt-8">Reset Password</h1>
           <form>
             <div className="my-4">
               <label
