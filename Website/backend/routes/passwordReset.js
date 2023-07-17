@@ -65,7 +65,8 @@ router.get("/:id/:token", async (req, res) => {
 router.post("/:id/:token", async (req, res) => {
   try {
     const passwordSchema = Joi.object({
-      password: passwordComplexity().required().label("Password"),
+      // password: passwordComplexity().required().label("Password"),
+      password: Joi.string().min(5).required().label("Password"),
     });
     const { error } = passwordSchema.validate(req.body);
     if (error)
