@@ -1,8 +1,51 @@
 // import "./Slip.css";
 import React, { useEffect, useState } from "react";
+
 import axios from "axios";
 
+// Make a GET request to the backend route with the regId as a query parameter
+// axios
+//   .get(`http://localhost:5000/api/formAuth/formusers?regId=${regId}`)
+//   .then((response) => {
+//     // Handle the response from the backend
+//     console.log(response.data);
+//   })
+//   .catch((error) => {
+//     // Handle any errors
+//     console.error(error);
+//   });
+
+// Fetch form users
+
+// const regId = localStorage.getItem("regId");
+
+const fetchFormUsers = async () => {
+  try {
+    const response = await axios.get(
+      // `http://localhost:5000/api/formAuth/formusers?regId=${regId}`
+      "http://localhost:5000/api/formAuth/formusers"
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
 function Slip() {
+  const [formUsers, setFormUsers] = useState([]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const users = await fetchFormUsers();
+      if (users) {
+        setFormUsers(users);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
   return (
     <div id="centerthis">
       <div className="container">
@@ -35,42 +78,50 @@ function Slip() {
           </table>
         </div>
 
-        <div className="mt-4 row justify-content-left">
-          <div className="border-right border-dark col-2">
-            <p>Name: </p>
+        {formUsers.map((user) => (
+          <div key={user._id} className="mt-4 row justify-content-left">
+            <div className="border-right border-dark col-2">
+              <p>
+                Name: {user.firstname} {user.middlename} {user.surname}
+              </p>
+            </div>
+            <div className="col-2">
+              <p>
+                Valid from <span>{user.periodFrom}</span> to{" "}
+                <span>{user.periodTo}</span>
+              </p>
+            </div>
+            <div className="col-2">
+              <p>Duration: {user.duration}</p>
+            </div>
           </div>
-          <div className="col-2">
-            <p>
-              Valid from <span></span> to <span></span>
-            </p>
+        ))}
+
+        {formUsers.map((user) => (
+          <div key={user._id} className="mt-2 row justify-content-left">
+            <div className="col-2">
+              <p>Class type: {user.class1}</p>
+            </div>
+            <div className="col-2">
+              <p>Category: {user.category}</p>
+            </div>
           </div>
-          <div className="col-2">
-            <p>Duration:</p>
+        ))}
+
+        {formUsers.map((user) => (
+          <div key={user._id} className="mt-2 row justify-content-left">
+            <div className="col-3">
+              <p>Ticket Number: {user.ticketNo}</p>
+            </div>
+            <div className="col-2">
+              <img
+                src="./Approved.png"
+                style={{ height: "100%", width: "150%" }}
+                alt="Approved"
+              />
+            </div>
           </div>
-        </div>
-        <div className="mt-2 row justify-content-left">
-          <div className="col-2">
-            <p>Class type: </p>
-          </div>
-          <div className="col-2">
-            <p>Type: </p>
-          </div>
-          <div className="col-2">
-            <p>Category:</p>
-          </div>
-        </div>
-        <div className="mt-2 row justify-content-left">
-          <div className="col-3">
-            <p>Ticket Number: </p>
-          </div>
-          <div className="col-2">
-            <img
-              src="./Approved.png"
-              style={{ height: "100%", width: "150%" }}
-              alt="Approved"
-            />
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );

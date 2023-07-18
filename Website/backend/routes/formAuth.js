@@ -33,6 +33,7 @@ router.post(
     // body('periodto', 'Enter a valid dob').isLength(),
     // body('category', 'Enter a valid dob').isLength(),
     body("address", "Enter a valid dob").isLength(),
+    body("regId", "Enter a valid username").isLength({ min: 9 }),
     // mo
   ],
   async (req, res) => {
@@ -71,6 +72,7 @@ router.post(
         category: req.body.category,
         address: req.body.address,
         phnNumber: req.body.phnNumber,
+        regId: req.body.regId,
       });
       const data = {
         user: {
@@ -89,7 +91,8 @@ router.post(
   }
 );
 
-// ROUTE 2: Retrieve form user data using: GET "/api/auth/formusers". No login required
+//ROUTE 2: Retrieve form user data using: GET "/api/auth/formusers". No login required
+
 router.get("/formusers", async (req, res) => {
   try {
     const formUsers = await FormUser.find();
@@ -99,5 +102,16 @@ router.get("/formusers", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
+// router.get("/formusers", async (req, res) => {
+//   try {
+//     const { regId } = req.query;
+//     const formUsers = await FormUser.findOne({ regId });
+//     res.json(formUsers);
+//   } catch (error) {
+//     console.error(error.message);
+//     res.status(500).send("Internal Server Error");
+//   }
+// });
 
 module.exports = router;

@@ -33,9 +33,12 @@ function Login() {
       // console.log(data);
       // localStorage.setItem("userInfo", JSON.stringify(data));
       localStorage.setItem("token", data.authtoken);
+      localStorage.setItem("regId", data.regId);
       console.log(localStorage.getItem("token"));
+      console.log(localStorage.getItem("regId"));
+
       setLoading(false);
-      window.location = "/";
+      // window.location = "/";
     } catch (error) {
       setError(error.response.data.message);
       setLoading(false);

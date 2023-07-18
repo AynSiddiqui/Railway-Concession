@@ -21,6 +21,7 @@ function Application() {
   const [class1, setClass1] = useState();
   const [stationfrom, setStationFrom] = useState("");
   const [stationto, setStationto] = useState();
+  const [regId, setregId] = useState("");
   const [ticketNo, setticketNo] = useState("");
   const [class2, setClass2] = useState();
   const [periodfrom, setPeriodFrom] = useState();
@@ -136,6 +137,7 @@ function Application() {
           class1: class1,
           stationfrom: stationfrom,
           stationto: stationto,
+          regId: regId,
           ticketNo: ticketNo,
           class2: class2,
           periodfrom: periodfrom,
@@ -383,6 +385,38 @@ function Application() {
                   </select>
                 </span>
               </div>
+              {/* ////////////////////// */}
+              {/* <div>
+                <label htmlFor="Address" className="ml-2 text-xl font-bold">
+                  Username:{" "}
+                </label>
+                <input
+                  type="text"
+                  name="Address"
+                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  onChange={(e) => setregId(e.target.value)}
+                  value={address}
+                ></input>
+              </div> */}
+
+              <div>
+                <label
+                  htmlFor="registrationid"
+                  className="text-xl text-purple-violent font-bold"
+                >
+                  Registration ID:{" "}
+                </label>
+                <input
+                  type="number"
+                  maxLength={9}
+                  name="registrationid"
+                  className="mx-2 shadow-lg appearance-none border rounded-2xl w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  onChange={(e) => setregId(e.target.value)}
+                  value={regId}
+                  minLength={10}
+                ></input>
+              </div>
+              {/* ///////////////////////////////////////// */}
             </div>
             {/* /////////////////// */}
             <div className="mt-2 flex space-x-10">
