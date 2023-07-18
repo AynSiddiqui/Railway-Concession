@@ -10,8 +10,10 @@ import Navigation from "./Navigation.js";
 import reportWebVitals from "./reportWebVitals";
 import ForgotPassword from "./ForgotPassword";
 import PasswordReset from "./ResetPassword";
+import Slip from "./Slip";
+import GenerateSlip from "./GenerateSlip";
 
-const isAuthenticated = true
+const isAuthenticated = true;
 const WebPages = () => {
   document.title = "Railway Concession";
   return (
@@ -31,6 +33,8 @@ const WebPages = () => {
             path="/password-reset/:id/:token"
             element={<PasswordReset />}
           />
+          <Route path="/slip" element={<Slip />} />
+          <Route path="/generateSlip" element={<GenerateSlip />} />
         </Routes>
       </BrowserRouter>
     </section>

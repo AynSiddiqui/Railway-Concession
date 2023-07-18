@@ -4,6 +4,9 @@ import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import ErrorMessage from "./ErrorMesssge";
+import Navigation from "./Navigation.js";
+import Footer from "./Footer.js";
+
 function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -43,7 +46,7 @@ function SignUp() {
 
         console.log(data);
         localStorage.setItem("userInfo", JSON.stringify(data));
-         window.location = "/login";
+        window.location = "/login";
       } catch (error) {
         setError(error.response.data.message);
       }
@@ -52,6 +55,7 @@ function SignUp() {
 
   return (
     <div>
+      <Navigation />
       <div className="h-screen bgimage flex justify-center items-center ">
         <div className="bg-white w-[1100px] h-[520px] rounded-3xl flex flex-col space-y-10 justifiy-center items-center">
           <h1 className="text-4xl text-black font-bold mt-8">Sign Up</h1>
@@ -173,12 +177,16 @@ function SignUp() {
           </form>
           <div className="my-1 text-white">
             <p className="text-xl text-black">Already have account?</p>
-            <Link to='/Login' className="text-2xl text-black text-center underline cursor-pointer hover:text-red-600">
+            <Link
+              to="/Login"
+              className="text-2xl text-black text-center underline cursor-pointer hover:text-red-600"
+            >
               Log In
             </Link>
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
