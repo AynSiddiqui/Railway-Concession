@@ -317,7 +317,7 @@ function Application() {
                   htmlFor="Selecttheoption"
                   className="ml-2 text-xl font-bold"
                 >
-                  Select the option:{" "}
+                  Duration:{" "}
                 </label>
                 <select
                   name="Selecttheoption"
@@ -384,62 +384,7 @@ function Application() {
                 </span>
               </div>
             </div>
-            <div className="flex bg-black h-16 pt-4 justify-center align-center">
-              <p className=" text-white font-bold text-2xl">
-                &#8594; Details of Previous Pass &#8592;
-              </p>
-            </div>
-            <div className="mt-2 flex space-x-10">
-              <div>
-                <label htmlFor="ticketno" className="text-xl font-bold">
-                  Ticket Number:{" "}
-                </label>
-                <input
-                  type="number"
-                  name="ticketno"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  onChange={(e) => setticketNo(e.target.value)}
-                  value={ticketNo}
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="Class" className="text-xl font-bold">
-                  Class:{" "}
-                </label>
-                <select
-                  name="Class"
-                  id="Class"
-                  onChange={(e) => setClass2(e.target.value)}
-                  value={class2}
-                >
-                  <option value="1st Class">1st Class</option>
-                  <option value="2nd Class">2nd Class</option>
-                </select>
-              </div>
-            </div>
-            <div>
-              <label htmlFor="datebeg" className="ml-2 text-xl font-bold">
-                Period of Pass:{" "}
-              </label>
-              <input
-                type="date"
-                name="ticketno"
-                className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                onChange={(e) => setPeriodFrom(e.target.value)}
-                value={periodfrom}
-              ></input>
-              <span>
-                <span className="text-lg mx-2">to</span>
-                <input
-                  type="date"
-                  name="ticketno"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  onChange={(e) => setPeriodTo(e.target.value)}
-                  value={periodTo}
-                ></input>
-              </span>
-            </div>
+            {/* /////////////////// */}
             <div className="mt-2 flex space-x-10">
               <div>
                 <label htmlFor="Category" className="ml-2 text-xl font-bold">
@@ -526,6 +471,64 @@ function Application() {
             >
               Submit
             </button>
+
+            {/* ////////////////////////// */}
+            <div className="flex bg-black h-16 pt-4 justify-center align-center">
+              <p className=" text-white font-bold text-2xl">
+                &#8594; Details of Previous Pass &#8592;
+              </p>
+            </div>
+            <div className="mt-2 flex space-x-10">
+              <div>
+                <label htmlFor="ticketno" className="text-xl font-bold">
+                  Ticket Number:{" "}
+                </label>
+                <input
+                  type="number"
+                  name="ticketno"
+                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  onChange={(e) => setticketNo(e.target.value)}
+                  value={ticketNo}
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="Class" className="text-xl font-bold">
+                  Class:{" "}
+                </label>
+                <select
+                  name="Class"
+                  id="Class"
+                  onChange={(e) => setClass2(e.target.value)}
+                  value={class2}
+                >
+                  <option value="1st Class">1st Class</option>
+                  <option value="2nd Class">2nd Class</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label htmlFor="datebeg" className="ml-2 text-xl font-bold">
+                Period of Pass:{" "}
+              </label>
+              <input
+                type="date"
+                name="ticketno"
+                className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                onChange={(e) => setPeriodFrom(e.target.value)}
+                value={periodfrom}
+              ></input>
+              <span>
+                <span className="text-lg mx-2">to</span>
+                <input
+                  type="date"
+                  name="ticketno"
+                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  onChange={(e) => setPeriodTo(e.target.value)}
+                  value={periodTo}
+                ></input>
+              </span>
+            </div>
           </form>
         </div>
       </div>
