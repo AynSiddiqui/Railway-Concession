@@ -7,7 +7,6 @@ import "./Navigation.css";
 function handleLogout() {
   // Remove the token from local storage
   localStorage.removeItem("token");
-  localStorage.removeItem("regId");
   // Redirect the user to the desired location
   window.location = "/";
 }
