@@ -6,17 +6,20 @@ import { Link } from "react-router-dom";
 import ErrorMessage from "./ErrorMesssge";
 import Navigation from "./Navigation.js";
 import Footer from "./Footer.js";
-
+import { useNavigate } from "react-router-dom";
 function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmPassword] = useState("");
-  const [fullname, setFullName] = useState("");
+  const [firstname, setFirstName] = useState("");
+  const [middlename, setmiddleName] = useState("");
+  const [surname, setsurName] = useState("");
   const [regId, setregId] = useState("");
   const [phnNumber, setphnNumber] = useState("");
   const [error, setError] = useState(false);
   // const[loading,setLoading] = useState(false)
   const [message, setMessage] = useState("");
+ const navigate = useNavigate();
   const submitHandler = async (e) => {
     e.preventDefault();
     if (password !== confirmpassword) {
@@ -35,7 +38,9 @@ function SignUp() {
           {
             email: email,
             regId: regId,
-            fullname: fullname,
+            firstname: firstname,
+            middlename: middlename,
+            surname: surname,
             phnNumber: phnNumber,
             password: password,
             confirmpassword: confirmpassword,
@@ -46,9 +51,17 @@ function SignUp() {
 
         console.log(data);
         localStorage.setItem("userInfo", JSON.stringify(data));
+        // Save the name to local storage or any other desired storage method
+        localStorage.setItem("firstname", firstname);
+        localStorage.setItem("middlename", middlename);
+        localStorage.setItem("surname", surname);
+        localStorage.setItem("regID", regId);
+        // Redirect the user to the other form page
+        // navigate("/Applicatioform");
         window.location = "/login";
       } catch (error) {
         setError(error.response.data.message);
+        console.log(error);
       }
     }
   };
@@ -102,14 +115,46 @@ function SignUp() {
                   htmlFor="name"
                   className="text-xl text-purple-violent font-bold"
                 >
-                  Full Name:{" "}
+                  First Name:{" "}
+                </label>
+                <input
+                  type="text"
+                  name="firstname"
+                  className="mx-2 shadow-lg appearance border rounded-2xl w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  onChange={(e) => setFirstName(e.target.value)}
+                  value={firstname}
+                  minLength={3}
+                ></input>
+              </div>
+              <div>
+                <label
+                  htmlFor="middlename"
+                  className="text-xl text-purple-violent font-bold"
+                >
+                  Middle Name:{" "}
                 </label>
                 <input
                   type="text"
                   name="name"
                   className="mx-2 shadow-lg appearance border rounded-2xl w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  onChange={(e) => setFullName(e.target.value)}
-                  value={fullname}
+                  onChange={(e) => setmiddleName(e.target.value)}
+                  value={middlename}
+                  minLength={3}
+                ></input>
+              </div>
+              <div>
+                <label
+                  htmlFor="name"
+                  className="text-xl text-purple-violent font-bold"
+                >
+                  Last Name:{" "}
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  className="mx-2 shadow-lg appearance border rounded-2xl w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  onChange={(e) => setsurName(e.target.value)}
+                  value={surname}
                   minLength={3}
                 ></input>
               </div>

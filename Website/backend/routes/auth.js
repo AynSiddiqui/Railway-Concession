@@ -10,61 +10,78 @@ const JWT_SECRET = 'Harryisagoodb$oy';
 
 // ROUTE 1: Create a User using: POST "/api/auth/createuser". No login required
 let success = false;
-router.post('/createUser', [
-  body('email', 'Enter a valid email').isEmail(),
-  body('regId', 'Enter a valid name').isLength({ max: 9,min:9 }),
+router.post(
+  "/createUser",
+  [
+    body("email", "Enter a valid email").isEmail(),
+    body("regId", "Enter a valid name").isLength({ max: 9, min: 9 }),
 
-  body('fullname', 'Enter a valid name').isLength({ min: 3 }),
- 
-  body('phnNumber', 'Enter a valid name').isLength({ max: 10,min:10 }),
-  body('password', 'Password must be atleast 5 characters').isLength({ min: 5 }),
-  body('confirmpassword', 'Password must be atleast 5 characters').isLength({ min: 5 }),
-], async (req, res) => {
-  // If there are errors, return Bad request and the errors
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-  try {
-    // Check whether the user with this email exists already
-    let user = await User.findOne({ email: req.body.email });
-    if (user) {
-      return res.status(400).json({ error: "Sorry a user with this email already exists" })
+    body("firstname", "Enter a valid name").isLength({ min: 3 }),
+    body('middlename', 'Enter a valid name').isLength({ min: 3 }),
+    body("surname", "Enter a valid name").isLength({ min: 3 }),
+
+    body("phnNumber", "Enter a valid name").isLength({ max: 10, min: 10 }),
+    body("password", "Password must be atleast 5 characters").isLength({
+      min: 5,
+    }),
+    body("confirmpassword", "Password must be atleast 5 characters").isLength({
+      min: 5,
+    }),
+  ],
+  async (req, res) => {
+    // If there are errors, return Bad request and the errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
     }
-    let user1 = await User.findOne({ phnNumber: req.body.phnNumber });
-    if (user) {
-      return res.status(400).json({ error: "Sorry a user with this phone number already exists" })
-    }
-    const salt = await bcrypt.genSalt(10);
-    const secPass = await bcrypt.hash(req.body.password, salt);
-    const secPass1 = await bcrypt.hash(req.body.confirmpassword,salt)
-    // Create a new user
-    user = await User.create({
-      email: req.body.email,
-      regId:req.body.regId,
-      fullname: req.body.fullname,
-      
-      phnNumber:req.body.phnNumber,
-      password: secPass,
-      confirmpassword:secPass1
-    });
-    const data = {
-      user: {
-        id: user.id
+    try {
+      // Check whether the user with this email exists already
+      let user = await User.findOne({ email: req.body.email });
+      if (user) {
+        return res
+          .status(400)
+          .json({ error: "Sorry a user with this email already exists" });
       }
+      let user1 = await User.findOne({ phnNumber: req.body.phnNumber });
+      if (user) {
+        return res
+          .status(400)
+          .json({
+            error: "Sorry a user with this phone number already exists",
+          });
+      }
+      const salt = await bcrypt.genSalt(10);
+      const secPass = await bcrypt.hash(req.body.password, salt);
+      const secPass1 = await bcrypt.hash(req.body.confirmpassword, salt);
+      // Create a new user
+      user = await User.create({
+        email: req.body.email,
+        regId: req.body.regId,
+        firstname: req.body.firstname,
+        middlename: req.body.middlename,
+        surname: req.body.surname,
+
+        phnNumber: req.body.phnNumber,
+        password: secPass,
+        confirmpassword: secPass1,
+      });
+      const data = {
+        user: {
+          id: user.id,
+        },
+      };
+      const authtoken = jwt.sign(data, JWT_SECRET);
+
+      // res.json(user)
+      success = true;
+      res.json({ success, authtoken });
+    } catch (error) {
+      console.error(error.message);
+      console.log(error);
+      res.status(500).send("Internal Server Error");
     }
-    const authtoken = jwt.sign(data, JWT_SECRET);
-
-
-    // res.json(user)
-    success = true
-    res.json({ success,authtoken })
-
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).send("Internal Server Error");
   }
-})
+);
 
 
 
@@ -117,8 +134,11 @@ router.post('/login', [
 router.post('/getuser', fetchuser,  async (req, res) => {
 
   try {
-    const userId = req.user.id;
-    const user = await User.findById(userId).select("-password")
+    const { firstname } = req.user.firstname;
+
+  // Send the user's name as a response
+  return res.json({ name });
+    // const user = await User.findById(userId).select("-password")
     return res.send(user)
   } catch (error) {
     console.error(error.message);

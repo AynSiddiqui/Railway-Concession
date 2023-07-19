@@ -6,7 +6,7 @@ import axios from "axios";
 import ErrorMessage from "./ErrorMesssge";
 import { supabase } from "./lib/supabase";
 import { v4 as uuidv4 } from "uuid";
-
+import SignUp from "./SignUp";
 function Application() {
   var filedata = "";
   const [firstname, setFirstName] = useState("");
@@ -21,6 +21,7 @@ function Application() {
   const [class1, setClass1] = useState();
   const [stationfrom, setStationFrom] = useState("");
   const [stationto, setStationto] = useState();
+  const [regID, setregId] = useState("");
   // const [ticketNo, setticketNo] = useState("");
   // const [class2, setClass2] = useState();
   // const [periodfrom, setPeriodFrom] = useState();
@@ -33,6 +34,26 @@ function Application() {
   // const[loading,setLoading] = useState(false)
   const [message, setMessage] = useState("");
   const [aadhar, setaadhar] = useState([]);
+    useEffect(() => {
+      // Retrieve the name from local storage or any other storage method
+      const storedName = localStorage.getItem("firstname");
+      if (storedName) {
+        setFirstName(storedName);
+      }
+      const storedName1 = localStorage.getItem("middlename");
+      if (storedName1) {
+        setmiddleName(storedName1);
+      }
+      const storedName2 = localStorage.getItem("surname");
+      if (storedName2) {
+        setsurName(storedName2);
+      }
+      const storedName3 = localStorage.getItem("regID");
+      if (storedName3) {
+        setregId(storedName3);
+      }
+      
+    }, []);
 
   useEffect(() => {
     if (!localStorage.getItem("token")) {
@@ -124,9 +145,9 @@ function Application() {
       const { data } = await axios.post(
         "http://localhost:5000/api/formAuth/fillForm",
         {
-          firstname: firstname,
-          middlename: middlename,
-          surname: surname,
+          // firstname: firstname,
+          // middlename: middlename,
+          // surname: surname,
           dob: dob,
           age: age,
           gender: gender,
@@ -136,6 +157,7 @@ function Application() {
           class1: class1,
           stationfrom: stationfrom,
           stationto: stationto,
+          // regId: regId,
           // ticketNo: ticketNo,
           // class2: class2,
           // periodfrom: periodfrom,
@@ -183,10 +205,11 @@ function Application() {
                   type="text"
                   name="firstname"
                   className="mx-2 shadow-lg appearance border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  onChange={(e) => setFirstName(e.target.value)}
+                  // onChange={(e) => setFirstName(e.target.value)}
                   value={firstname}
                   minLength={3}
                   required
+                  readOnly
                 />
               </div>
               <div>
@@ -197,10 +220,11 @@ function Application() {
                   type="text"
                   name="middlename"
                   className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  onChange={(e) => setmiddleName(e.target.value)}
+                  // onChange={(e) => setmiddleName(e.target.value)}
                   value={middlename}
                   minLength={3}
                   required
+                  readOnly
                 />
               </div>
               <div>
@@ -212,10 +236,11 @@ function Application() {
                     type="text"
                     name="surname"
                     className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                    onChange={(e) => setsurName(e.target.value)}
+                    // onChange={(e) => setsurName(e.target.value)}
                     value={surname}
                     minLength={3}
                     required
+                    readOnly
                   />
                 </span>
               </div>
@@ -383,7 +408,23 @@ function Application() {
                   </select>
                 </span>
               </div>
+              <div>
+                <label htmlFor="middlename" className="text-lg font-bold">
+                  Registration ID:{" "}
+                </label>
+                <input
+                  type="text"
+                  name="middlename"
+                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  // onChange={(e) => setmiddleName(e.target.value)}
+                  value={regID}
+                  minLength={3}
+                  required
+                  readOnly
+                />
+              </div>
             </div>
+
             {/* /////////////////// */}
             <div className="mt-2 flex space-x-10">
               <div>
@@ -493,10 +534,10 @@ function Application() {
                 />
               </div>
               <div> */}
-                {/* <label htmlFor="Class" className="text-xl font-bold">
+            {/* <label htmlFor="Class" className="text-xl font-bold">
                   Class:{" "}
                 </label> */}
-                {/* <select
+            {/* <select
                   name="Class"
                   id="Class"
                   onChange={(e) => setClass2(e.target.value)}
@@ -505,7 +546,7 @@ function Application() {
                   <option value="1st Class">1st Class</option>
                   <option value="2nd Class">2nd Class</option>
                 </select> */}
-              {/* </div>
+            {/* </div>
             </div> */}
             {/* <div>
               <label htmlFor="datebeg" className="ml-2 text-xl font-bold">

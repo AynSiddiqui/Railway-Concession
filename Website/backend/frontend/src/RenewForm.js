@@ -177,7 +177,7 @@ function RenewalApplication() {
               className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
               onChange={(e) => setPeriodTo(e.target.value)}
               value={periodTo}
-              ></input>
+              />
               </span>
             </div> 
             
