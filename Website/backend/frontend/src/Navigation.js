@@ -56,6 +56,12 @@ function Navigation() {
                 >
                   Application Form
                 </Link>
+                <Link
+                  to="/renewal"
+                  className="text-black p-2 font-semibold hover:bg-purple-500 hover:text-white rounded-lg hover:cursor-pointer"
+                >
+                  Renew Application
+                </Link>
                 <button
                   className="text-black p-2 font-semibold hover:bg-purple-500 hover:text-white rounded-lg"
                   onClick={handleLogout}

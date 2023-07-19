@@ -65,25 +65,7 @@ const FormUserSchema = new Schema({
        
     },
    
-    ticketNo:{
-        type: String,
-      
-       
-    },
-    class2:{
-        type: String,
-        
-       
-    },
-    periodFrom:{
-        type: String,
-        
-       
-    },
-    periodTo:{
-        type: String,
-        
-    },
+   
     category:{
         type: String,
         

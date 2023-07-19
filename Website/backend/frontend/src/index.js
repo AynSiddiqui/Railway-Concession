@@ -12,7 +12,7 @@ import ForgotPassword from "./ForgotPassword";
 import PasswordReset from "./ResetPassword";
 import Slip from "./Slip";
 import GenerateSlip from "./GenerateSlip";
-
+import RenewForm from "./RenewForm";
 const isAuthenticated = true;
 const WebPages = () => {
   document.title = "Railway Concession";
@@ -34,6 +34,7 @@ const WebPages = () => {
             element={<PasswordReset />}
           />
           <Route path="/slip" element={<Slip />} />
+          <Route path="/renewal" element={<RenewForm />} />
           <Route path="/generateSlip" element={<GenerateSlip />} />
         </Routes>
       </BrowserRouter>

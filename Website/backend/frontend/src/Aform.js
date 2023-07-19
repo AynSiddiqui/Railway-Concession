@@ -21,10 +21,10 @@ function Application() {
   const [class1, setClass1] = useState();
   const [stationfrom, setStationFrom] = useState("");
   const [stationto, setStationto] = useState();
-  const [ticketNo, setticketNo] = useState("");
-  const [class2, setClass2] = useState();
-  const [periodfrom, setPeriodFrom] = useState();
-  const [periodTo, setPeriodTo] = useState();
+  // const [ticketNo, setticketNo] = useState("");
+  // const [class2, setClass2] = useState();
+  // const [periodfrom, setPeriodFrom] = useState();
+  // const [periodTo, setPeriodTo] = useState();
   const [category, setCategory] = useState();
   const [address, setAddress] = useState("");
   const [phnNumber, setphnNumber] = useState("");
@@ -136,10 +136,10 @@ function Application() {
           class1: class1,
           stationfrom: stationfrom,
           stationto: stationto,
-          ticketNo: ticketNo,
-          class2: class2,
-          periodfrom: periodfrom,
-          periodTo: periodTo,
+          // ticketNo: ticketNo,
+          // class2: class2,
+          // periodfrom: periodfrom,
+          // periodTo: periodTo,
           category: category,
           address: address,
           phnNumber: phnNumber,
@@ -473,12 +473,12 @@ function Application() {
             </button>
 
             {/* ////////////////////////// */}
-            <div className="flex bg-black h-16 pt-4 justify-center align-center">
+            {/* <div className="flex bg-black h-16 pt-4 justify-center align-center">
               <p className=" text-white font-bold text-2xl">
                 &#8594; Details of Previous Pass &#8592;
               </p>
-            </div>
-            <div className="mt-2 flex space-x-10">
+            </div> */}
+            {/* <div className="mt-2 flex space-x-10">
               <div>
                 <label htmlFor="ticketno" className="text-xl font-bold">
                   Ticket Number:{" "}
@@ -492,11 +492,11 @@ function Application() {
                   required
                 />
               </div>
-              <div>
-                <label htmlFor="Class" className="text-xl font-bold">
+              <div> */}
+                {/* <label htmlFor="Class" className="text-xl font-bold">
                   Class:{" "}
-                </label>
-                <select
+                </label> */}
+                {/* <select
                   name="Class"
                   id="Class"
                   onChange={(e) => setClass2(e.target.value)}
@@ -504,10 +504,10 @@ function Application() {
                 >
                   <option value="1st Class">1st Class</option>
                   <option value="2nd Class">2nd Class</option>
-                </select>
-              </div>
-            </div>
-            <div>
+                </select> */}
+              {/* </div>
+            </div> */}
+            {/* <div>
               <label htmlFor="datebeg" className="ml-2 text-xl font-bold">
                 Period of Pass:{" "}
               </label>
@@ -528,7 +528,7 @@ function Application() {
                   value={periodTo}
                 ></input>
               </span>
-            </div>
+            </div> */}
           </form>
         </div>
       </div>
