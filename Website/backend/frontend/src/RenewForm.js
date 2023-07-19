@@ -120,11 +120,10 @@ function RenewalApplication() {
               </div>
             </div>
 
-            <div className="flex dark:bg-gray-900 h-16 pt-4 justify-center align-center">
-              <p className=" text-white font-bold text-2xl">
-                &#8594; Details of Previous Pass &#8592;
-              </p>
+            <div className="flex flex-row w-full h-9 text-2xl font-bond justify-center items-center dark:bg-gray-900 text-white">
+              Details of Previous Pass{" "}
             </div>
+
             <div className="mt-2 flex space-x-10">
               <div>
                 <label htmlFor="ticketno" className="text-xl font-bold">

@@ -104,17 +104,17 @@ function Footer() {
                 Website
               </h6>
               <p className="mb-4">
-                <a href="#!" className="text-gray-600">
+                <a href="/" className="text-gray-600">
                   Home
                 </a>
               </p>
               <p className="mb-4">
-                <a href="#!" className="text-gray-600">
+                <a href="/ApplicationForm" className="text-gray-600">
                   Application Form
                 </a>
               </p>
               <p className="mb-4">
-                <a href="#!" className="text-gray-600">
+                <a href="/SignUp" className="text-gray-600">
                   Sign Up
                 </a>
               </p>

@@ -62,7 +62,7 @@ function Home() {
         </p>
         <img
           src="https://erail.in/images/net-map/mumbai-local-trains.jpg"
-          className="rounded-2xl my-8 h-[900px] w-[850px] pb-3 transform hover:scale-105 transition-all duration-300"
+          className="rounded-2xl my-8 h-[600px] w-[600px] pb-3 "
           alt=""
         ></img>
       </div>
