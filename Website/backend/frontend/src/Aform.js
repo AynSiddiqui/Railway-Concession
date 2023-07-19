@@ -62,6 +62,36 @@ function Application() {
   //     const handleFileSelected = (e) => {
   //         setaadhar(e.target.aadhar[0]);
   //     }
+
+  const levenshteinDistance = (word1, word2) => {
+    const m = word1.length;
+    const n = word2.length;
+    const dp = [...Array(m + 1)].map(() => Array(n + 1).fill(0));
+
+    for (let i = 0; i <= m; i++) {
+      dp[i][0] = i;
+    }
+
+    for (let j = 0; j <= n; j++) {
+      dp[0][j] = j;
+    }
+
+    for (let i = 1; i <= m; i++) {
+      for (let j = 1; j <= n; j++) {
+        if (word1[i - 1] === word2[j - 1]) {
+          dp[i][j] = dp[i - 1][j - 1];
+        } else {
+          dp[i][j] = Math.min(
+            dp[i - 1][j - 1] + 1,
+            dp[i][j - 1] + 1,
+            dp[i - 1][j] + 1
+          );
+        }
+      }
+    }
+
+    return dp[m][n];
+  };
   const handleIDInputChange = async (files) => {
     const file = files[0];
     console.log(file);
@@ -74,6 +104,22 @@ function Application() {
     T.recognize(file, "eng").then((out) => {
       filedata = out.data.text.slice(14, out.data.text.indexOf("Hostelize"));
       console.log(filedata);
+
+      // Check if station is present in the filedata string
+      // const station = "candoa"; //66.67% similar to bandra so will give true for minimum accuracy <= 66.67%
+      // const station = "rajai oadr"; //trying with space
+
+      const station = "candoa"; //this will be what user enters
+      const percentage = 0.5; // Minimum accuracy needed out of 1 //not required as considering no. of char
+
+      const words = station.split(/\s+/);
+
+      const isPresent = words.reduce((result, word) => {
+        return result && checkPresence(filedata, word, percentage);
+      }, true);
+
+      //true if max 2 char differs and length, order is same
+      console.log(`Is ${station} present:`, isPresent);
     });
     if (error) {
       console.error(error);
@@ -82,6 +128,24 @@ function Application() {
       // Save the file path to your database or perform other actions
     }
   };
+
+  const checkPresence = (filedata, station, percentage) => {
+    const words = filedata
+      .toLowerCase()
+      .split(/\W+/)
+      .filter((word) => word !== "");
+    // const threshold = 1 - percentage; // Set the accuracy threshold
+    const threshold = 2.0 / station.length; //only 2 chars can be wrong
+    console.log(station, threshold, words);
+    station = station.toLowerCase();
+    const similarityThreshold = Math.floor(station.length * threshold);
+    const isPresent = words.some((word) => {
+      const distance = levenshteinDistance(station, word);
+      return distance <= similarityThreshold;
+    });
+    return isPresent;
+  };
+
   const handleSignatureInputChange = async (files) => {
     const file = files[0];
     const filename = `${uuidv4()}-${file.name}`;
@@ -493,10 +557,10 @@ function Application() {
                 />
               </div>
               <div> */}
-                {/* <label htmlFor="Class" className="text-xl font-bold">
+            {/* <label htmlFor="Class" className="text-xl font-bold">
                   Class:{" "}
                 </label> */}
-                {/* <select
+            {/* <select
                   name="Class"
                   id="Class"
                   onChange={(e) => setClass2(e.target.value)}
@@ -505,7 +569,7 @@ function Application() {
                   <option value="1st Class">1st Class</option>
                   <option value="2nd Class">2nd Class</option>
                 </select> */}
-              {/* </div>
+            {/* </div>
             </div> */}
             {/* <div>
               <label htmlFor="datebeg" className="ml-2 text-xl font-bold">
