@@ -2,7 +2,33 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
+const fetchFormUsers = async () => {
+  try {
+    const response = await axios.get(
+      // `http://localhost:5000/api/formAuth/formusers?regId=${regId}`
+      "http://localhost:5000/api/formAuth/formusers"
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
 function Slip() {
+  const [formUsers, setFormUsers] = useState([]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const users = await fetchFormUsers();
+      if (users) {
+        setFormUsers(users);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
   return (
     <div id="centerthis">
       <div className="container">
@@ -36,18 +62,26 @@ function Slip() {
         </div>
 
         <div className="mt-4 row justify-content-left">
-          <div className="border-right border-dark col-2">
-            <p>Name: </p>
-          </div>
-          <div className="col-2">
-            <p>
-              Valid from <span></span> to <span></span>
-            </p>
-          </div>
-          <div className="col-2">
-            <p>Duration:</p>
-          </div>
+          {formUsers.map((user) => (
+            <div key={user._id} className="mt-4 row justify-content-left">
+              <div className="border-right border-dark col-2">
+                <p>
+                  Name: {user.firstname} {user.middlename} {user.surname}
+                </p>
+              </div>
+              <div className="col-2">
+                <p>
+                  Valid from <span>{user.periodFrom}</span> to{" "}
+                  <span>{user.periodTo}</span>
+                </p>
+              </div>
+              <div className="col-2">
+                <p>Duration: {user.duration}</p>
+              </div>
+            </div>
+          ))}
         </div>
+
         <div className="mt-2 row justify-content-left">
           <div className="col-2">
             <p>Class type: </p>
