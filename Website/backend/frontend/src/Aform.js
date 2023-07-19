@@ -34,6 +34,15 @@ function Application() {
   const [message, setMessage] = useState("");
   const [aadhar, setaadhar] = useState([]);
 
+  const [isPageLoaded, setPageLoaded] = useState(false);
+
+  useEffect(() => {
+    // Set a delay of 100ms to show the page content after the fade-in effect
+    setTimeout(() => {
+      setPageLoaded(true);
+    }, 100);
+  }, []);
+
   useEffect(() => {
     if (!localStorage.getItem("token")) {
       window.location = "/Login";
@@ -224,14 +233,13 @@ function Application() {
   return (
     <>
       <Navigation />
-      <div className="flex">
-        <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTG0gy42OMlPttBKCMqeDCNM_qJ-uNUhxwsig&usqp=CAU"
-          className="w-[650px] h-full"
-          alt=""
-        ></img>
-        <div className="">
-          <div className="flex flex-row w-full h-16 text-2xl font-bond justify-center items-center bg-black text-white">
+      <div className="flex h-screen flex justify-center items-center bg-cover bg-center bg-no-repeat bg-picSignUp">
+        <div
+          className={`bg-white w-[1000px] h-[700px] flex flex-col space-y-10 justifiy-center items-center transition-opacity duration-1000 ${
+            isPageLoaded ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          <div className="flex flex-row w-full h-12 text-2xl font-bond justify-center items-center dark:bg-gray-900 text-white">
             Application Form{" "}
           </div>
           <form
@@ -246,7 +254,7 @@ function Application() {
                 <input
                   type="text"
                   name="firstname"
-                  className="mx-2 shadow-lg appearance border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  className="mx-2 shadow-lg appearance border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   onChange={(e) => setFirstName(e.target.value)}
                   value={firstname}
                   minLength={3}
@@ -260,7 +268,7 @@ function Application() {
                 <input
                   type="text"
                   name="middlename"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   onChange={(e) => setmiddleName(e.target.value)}
                   value={middlename}
                   minLength={3}
@@ -275,7 +283,7 @@ function Application() {
                   <input
                     type="text"
                     name="surname"
-                    className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                    className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                     onChange={(e) => setsurName(e.target.value)}
                     value={surname}
                     minLength={3}
@@ -292,7 +300,7 @@ function Application() {
                 <input
                   type="date"
                   name="dob"
-                  className="mx-2 shadow-lg appearance border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  className="mx-2 shadow-lg appearance border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   onChange={(e) => setdobName(e.target.value)}
                   value={dob}
                   required
@@ -306,7 +314,7 @@ function Application() {
                   type="number"
                   maxlength="2"
                   name="age"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   onChange={(e) => setAgeName(e.target.value)}
                   value={age}
                   minLength={1}
@@ -424,7 +432,7 @@ function Application() {
                 <input
                   type="text"
                   name="stationfrom"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  className="mx-2 shadow-lg appearance-none border w-50 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   onChange={(e) => setStationFrom(e.target.value)}
                   value={stationfrom}
                 ></input>
@@ -446,6 +454,19 @@ function Application() {
                     <option value="Vadala">Vadala</option>
                   </select>
                 </span>
+              </div>
+
+              <div>
+                <label htmlFor="MobileNo" className="text-xl font-bold">
+                  Mobile Number:{" "}
+                </label>
+                <input
+                  type="tel"
+                  name="MobileNo"
+                  className="mx-2 shadow-lg appearance-none border w-50 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  onChange={(e) => setphnNumber(e.target.value)}
+                  value={phnNumber}
+                ></input>
               </div>
             </div>
             {/* /////////////////// */}
@@ -470,7 +491,7 @@ function Application() {
                 <input
                   type="file"
                   name="Category"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   onChange={(e) => handleCasteInputChange(e.target.files)}
                 ></input>{" "}
               </div>
@@ -483,23 +504,37 @@ function Application() {
                 <input
                   type="text"
                   name="Address"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   onChange={(e) => setAddress(e.target.value)}
                   value={address}
                 ></input>
               </div>
-              <div>
+
+              <div className="mt-2 flex space-x-10">
+                <div>
+                  <label htmlFor="Sign" className="ml-2 text-xl font-bold">
+                    Upload Signature of Student:{" "}
+                  </label>
+                  <input
+                    type="file"
+                    name="Sign"
+                    className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                    onChange={(e) => handleSignatureInputChange(e.target.files)}
+                  ></input>
+                </div>
+              </div>
+              {/* <div>
                 <label htmlFor="MobileNo" className="text-xl font-bold">
                   Mobile Number:{" "}
                 </label>
                 <input
                   type="tel"
                   name="MobileNo"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   onChange={(e) => setphnNumber(e.target.value)}
                   value={phnNumber}
                 ></input>
-              </div>
+              </div> */}
             </div>
             <div className="mt-2 flex space-x-10">
               <div>
@@ -510,12 +545,12 @@ function Application() {
                   type="file"
                   accept="image/*"
                   name="AadharCard"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  className="mx-1 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   onChange={(e) => handleIDInputChange(e.target.files)}
                 ></input>
               </div>
             </div>
-            <div className="mt-2 flex space-x-10">
+            {/* <div className="mt-2 flex space-x-10">
               <div>
                 <label htmlFor="Sign" className="ml-2 text-xl font-bold">
                   Upload Signature of Student:{" "}
@@ -523,14 +558,15 @@ function Application() {
                 <input
                   type="file"
                   name="Sign"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   onChange={(e) => handleSignatureInputChange(e.target.files)}
                 ></input>
               </div>
-            </div>
+            </div> */}
             <button
               type="submit"
-              className="inline-block m-auto w-32 px-6 py-2.5 bg-blue text-pink font-medium text-lg leading-tight uppercase rounded-full shadow-md hover:bg-red-600 hover:text-white hover:shadow-lg focus:bg-pink-violent focus:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-violent active:text-white active:shadow-lg transition duration-150 ease-in-out"
+              className="inline-block m-auto w-32 px-4 py-2.5 font-medium text-lg leading-tight uppercase rounded-full shadow-md dark:bg-gray-900 text-white hover:bg-white hover:text-gray-900 hover:shadow-lg focus:bg-pink-violent focus:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-violent active:text-white active:shadow-lg transition duration-150 ease-in-out"
+              // className="inline-block m-auto w-32 px-4 py-2.5 bg-blue text-pink font-medium text-lg leading-tight uppercase rounded-full shadow-md hover:dark:bg-gray-900 hover:text-white hover:shadow-lg focus:bg-pink-violent focus:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-violent active:text-white active:shadow-lg transition duration-150 ease-in-out"
               onClick={submitHandler}
             >
               Submit

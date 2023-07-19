@@ -16,13 +16,13 @@ function Navigation() {
   const isAuthenticated = localStorage.getItem("token");
 
   return (
-    <div className="bg-gradient-to-bl from-purple-200 via-purple-400 to-purple-800">
+    <div className="dark:bg-gray-400">
       <nav className="flex flex-row items-center h-16 px-4">
         <img src={NavigationImage} className="h-16 animate-bounce" alt=""></img>
 
         <Link
           to="/slip"
-          className="ml-4 text-black font-semibold hover:bg-purple-500 hover:text-white rounded-lg px-4 py-2"
+          className="ml-4 text-black font-semibold hover:dark:bg-gray-900 hover:text-white rounded-lg px-4 py-2"
         >
           Slip
         </Link>
@@ -30,7 +30,7 @@ function Navigation() {
         <div className="flex ml-auto space-x-4">
           <Link
             to="/"
-            className="text-black font-semibold hover:bg-purple-500 hover:text-white rounded-lg px-4 py-2 animate-fadein"
+            className="text-black font-semibold hover:dark:bg-gray-900 hover:text-white rounded-lg px-4 py-2 animate-fadein"
           >
             Home
           </Link>
@@ -38,7 +38,7 @@ function Navigation() {
             href={Pdf}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-black font-semibold hover:bg-purple-500 hover:text-white rounded-lg px-4 py-2 animate-fadein"
+            className="text-black font-semibold hover:dark:bg-gray-900 hover:text-white rounded-lg px-4 py-2 animate-fadein"
             download
           >
             Documentation
@@ -48,18 +48,18 @@ function Navigation() {
             <>
               <Link
                 to="/ApplicationForm"
-                className="text-black font-semibold hover:bg-purple-500 hover:text-white rounded-lg px-4 py-2 animate-fadein"
+                className="text-black font-semibold hover:dark:bg-gray-900 hover:text-white rounded-lg px-4 py-2 animate-fadein"
               >
                 Application Form
               </Link>
               <Link
                 to="/renewal"
-                className="text-black font-semibold hover:bg-purple-500 hover:text-white rounded-lg px-4 py-2 animate-fadein"
+                className="text-black font-semibold hover:dark:bg-gray-900 hover:text-white rounded-lg px-4 py-2 animate-fadein"
               >
                 Renew Application
               </Link>
               <button
-                className="text-black font-semibold hover:bg-purple-500 hover:text-white rounded-lg px-4 py-2 animate-fadein"
+                className="text-black font-semibold hover:dark:bg-gray-900 hover:text-white rounded-lg px-4 py-2 animate-fadein"
                 onClick={handleLogout}
               >
                 Logout
@@ -69,13 +69,13 @@ function Navigation() {
             <>
               <Link
                 to="/SignUp"
-                className="text-black font-semibold hover:bg-purple-500 hover:text-white rounded-lg px-4 py-2 animate-fadein"
+                className="text-black font-semibold hover:dark:bg-gray-900 hover:text-white rounded-lg px-4 py-2 animate-fadein"
               >
                 Sign Up
               </Link>
               <Link
                 to="/Login"
-                className="text-black font-semibold hover:bg-purple-500 hover:text-white rounded-lg px-4 py-2 animate-fadein"
+                className="text-black font-semibold hover:dark:bg-gray-900 hover:text-white rounded-lg px-4 py-2 animate-fadein"
               >
                 Sign In
               </Link>
