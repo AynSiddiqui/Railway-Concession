@@ -37,47 +37,20 @@ function Application() {
   const [message, setMessage] = useState("");
   const [aadhar, setaadhar] = useState([]);
   const loggedInUserEmail = localStorage.getItem("userEmail");
-  // useEffect(() => {
-    //   // Retrieve the user's data from localStorage based on their email address
-    //   userEmail = localStorage.getItem("userEmail");
-    //   // Update the form fields with the user's data
-    //    setEmail(userEmail);
 
-
-    //    // Fetch the user's data based on their email from the backend
-    //    axios
-    //      .get(`http://localhost:5000/api/auth/getuser?email=${userEmail}`)
-    //      .then((res) => {
-    //        const userData = res.data; // Replace with the actual structure of the response
-    //      setFirstName(userData.firstname);
-    //        setmiddleName(userData.middlename);
-    //       setsurName(userData.surname);
-    //        setregId(userData.regId);
-    //        // Update other fields as needed based on your API response
-    //      })
-    //      .catch((error) => {
-    //        console.log(error);
-    //        // Handle error case
-    //      });
-    // }, []);
- useEffect(() => {
-   fetchUserDetails(loggedInUserEmail);
- }, [loggedInUserEmail]);
- const fetchUserDetails = async (email) => {
-   try {
-     const response = await axios.get(
-       `http://localhost:5000/api/auth/getuser?email=${email}`
-     );
-     setUserDetails(response.data);
-   } catch (error) {
-     console.log(error);
-   }
- };
-  // useEffect(() => {
-  //   if (!localStorage.getItem("token")) {
-  //     window.location = "/Login";
-  //   }
-  // }, []);
+  useEffect(() => {
+    fetchUserDetails(loggedInUserEmail);
+  }, [loggedInUserEmail]);
+  const fetchUserDetails = async (email) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/auth/getuser?email=${email}`
+      );
+      setUserDetails(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const [isPageLoaded, setPageLoaded] = useState(false);
 
@@ -86,12 +59,6 @@ function Application() {
     setTimeout(() => {
       setPageLoaded(true);
     }, 100);
-  }, []);
-
-  useEffect(() => {
-    if (!localStorage.getItem("token")) {
-      window.location = "/Login";
-    }
   }, []);
 
   //     const handleSubmit = async (e) =>{
@@ -243,9 +210,9 @@ function Application() {
       const { data } = await axios.post(
         "http://localhost:5000/api/formAuth/fillForm",
         {
-          // firstname: firstname,
-          // middlename: middlename,
-          // surname: surname,
+          firstname: userDetails.firstname,
+          middlename: userDetails.middlename,
+          surname: userDetails.surname,
           dob: dob,
           age: age,
           gender: gender,
@@ -255,7 +222,7 @@ function Application() {
           class1: class1,
           stationfrom: stationfrom,
           stationto: stationto,
-          // regId: regId,
+          regId: userDetails.regId,
           // ticketNo: ticketNo,
           // class2: class2,
           // periodfrom: periodfrom,
@@ -278,7 +245,7 @@ function Application() {
 
   const value = true;
   return (
-    <>
+    <div>
       <Navigation />
       <div className="flex h-screen flex justify-center items-center bg-cover bg-center bg-no-repeat bg-picSignUp">
         <div
@@ -301,15 +268,8 @@ function Application() {
                 <input
                   type="text"
                   name="firstname"
-
                   className="mx-2 shadow-lg appearance border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  // onChange={(e) => setFirstName(e.target.value)}
                   value={userDetails.firstname}
-
-                  className="mx-2 shadow-lg appearance border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  onChange={(e) => setFirstName(e.target.value)}
-                  value={firstname}
-
                   minLength={3}
                   required
                   readOnly
@@ -322,15 +282,8 @@ function Application() {
                 <input
                   type="text"
                   name="middlename"
-
                   className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  // onChange={(e) => setmiddleName(e.target.value)}
                   value={userDetails.middlename}
-
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  onChange={(e) => setmiddleName(e.target.value)}
-                  value={middlename}
-
                   minLength={3}
                   required
                   readOnly
@@ -344,15 +297,8 @@ function Application() {
                   <input
                     type="text"
                     name="surname"
-
                     className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                    // onChange={(e) => setsurName(e.target.value)}
                     value={userDetails.surname}
-
-                    className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                    onChange={(e) => setsurName(e.target.value)}
-                    value={surname}
-
                     minLength={3}
                     required
                     readOnly
@@ -523,6 +469,7 @@ function Application() {
                   </select>
                 </span>
               </div>
+
               <div>
                 <label htmlFor="middlename" className="text-lg font-bold">
                   Registration ID:{" "}
@@ -537,8 +484,7 @@ function Application() {
                   required
                   readOnly
                 />
-
-
+              </div>
               <div>
                 <label htmlFor="MobileNo" className="text-xl font-bold">
                   Mobile Number:{" "}
@@ -550,7 +496,6 @@ function Application() {
                   onChange={(e) => setphnNumber(e.target.value)}
                   value={phnNumber}
                 ></input>
-
               </div>
             </div>
 
@@ -656,69 +601,11 @@ function Application() {
             >
               Submit
             </button>
-
-            {/* ////////////////////////// */}
-            {/* <div className="flex bg-black h-16 pt-4 justify-center align-center">
-              <p className=" text-white font-bold text-2xl">
-                &#8594; Details of Previous Pass &#8592;
-              </p>
-            </div> */}
-            {/* <div className="mt-2 flex space-x-10">
-              <div>
-                <label htmlFor="ticketno" className="text-xl font-bold">
-                  Ticket Number:{" "}
-                </label>
-                <input
-                  type="number"
-                  name="ticketno"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  onChange={(e) => setticketNo(e.target.value)}
-                  value={ticketNo}
-                  required
-                />
-              </div>
-              <div> */}
-            {/* <label htmlFor="Class" className="text-xl font-bold">
-                  Class:{" "}
-                </label> */}
-            {/* <select
-                  name="Class"
-                  id="Class"
-                  onChange={(e) => setClass2(e.target.value)}
-                  value={class2}
-                >
-                  <option value="1st Class">1st Class</option>
-                  <option value="2nd Class">2nd Class</option>
-                </select> */}
-            {/* </div>
-            </div> */}
-            {/* <div>
-              <label htmlFor="datebeg" className="ml-2 text-xl font-bold">
-                Period of Pass:{" "}
-              </label>
-              <input
-                type="date"
-                name="ticketno"
-                className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                onChange={(e) => setPeriodFrom(e.target.value)}
-                value={periodfrom}
-              ></input>
-              <span>
-                <span className="text-lg mx-2">to</span>
-                <input
-                  type="date"
-                  name="ticketno"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  onChange={(e) => setPeriodTo(e.target.value)}
-                  value={periodTo}
-                ></input>
-              </span>
-            </div> */}
           </form>
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 }
 
