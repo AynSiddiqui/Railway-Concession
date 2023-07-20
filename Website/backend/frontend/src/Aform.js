@@ -43,6 +43,7 @@ function Application() {
     //   // Update the form fields with the user's data
     //    setEmail(userEmail);
 
+
     //    // Fetch the user's data based on their email from the backend
     //    axios
     //      .get(`http://localhost:5000/api/auth/getuser?email=${userEmail}`)
@@ -77,6 +78,22 @@ function Application() {
   //     window.location = "/Login";
   //   }
   // }, []);
+
+  const [isPageLoaded, setPageLoaded] = useState(false);
+
+  useEffect(() => {
+    // Set a delay of 100ms to show the page content after the fade-in effect
+    setTimeout(() => {
+      setPageLoaded(true);
+    }, 100);
+  }, []);
+
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      window.location = "/Login";
+    }
+  }, []);
+
   //     const handleSubmit = async (e) =>{
   //         try {
   //         e.preventDefault();
@@ -100,6 +117,36 @@ function Application() {
   //     const handleFileSelected = (e) => {
   //         setaadhar(e.target.aadhar[0]);
   //     }
+
+  const levenshteinDistance = (word1, word2) => {
+    const m = word1.length;
+    const n = word2.length;
+    const dp = [...Array(m + 1)].map(() => Array(n + 1).fill(0));
+
+    for (let i = 0; i <= m; i++) {
+      dp[i][0] = i;
+    }
+
+    for (let j = 0; j <= n; j++) {
+      dp[0][j] = j;
+    }
+
+    for (let i = 1; i <= m; i++) {
+      for (let j = 1; j <= n; j++) {
+        if (word1[i - 1] === word2[j - 1]) {
+          dp[i][j] = dp[i - 1][j - 1];
+        } else {
+          dp[i][j] = Math.min(
+            dp[i - 1][j - 1] + 1,
+            dp[i][j - 1] + 1,
+            dp[i - 1][j] + 1
+          );
+        }
+      }
+    }
+
+    return dp[m][n];
+  };
   const handleIDInputChange = async (files) => {
     const file = files[0];
     console.log(file);
@@ -112,6 +159,22 @@ function Application() {
     T.recognize(file, "eng").then((out) => {
       filedata = out.data.text.slice(14, out.data.text.indexOf("Hostelize"));
       console.log(filedata);
+
+      // Check if station is present in the filedata string
+      // const station = "candoa"; //66.67% similar to bandra so will give true for minimum accuracy <= 66.67%
+      // const station = "rajai oadr"; //trying with space
+
+      const station = "candoa"; //this will be what user enters
+      const percentage = 0.5; // Minimum accuracy needed out of 1 //not required as considering no. of char
+
+      const words = station.split(/\s+/);
+
+      const isPresent = words.reduce((result, word) => {
+        return result && checkPresence(filedata, word, percentage);
+      }, true);
+
+      //true if max 2 char differs and length, order is same
+      console.log(`Is ${station} present:`, isPresent);
     });
     if (error) {
       console.error(error);
@@ -120,6 +183,24 @@ function Application() {
       // Save the file path to your database or perform other actions
     }
   };
+
+  const checkPresence = (filedata, station, percentage) => {
+    const words = filedata
+      .toLowerCase()
+      .split(/\W+/)
+      .filter((word) => word !== "");
+    // const threshold = 1 - percentage; // Set the accuracy threshold
+    const threshold = 2.0 / station.length; //only 2 chars can be wrong
+    console.log(station, threshold, words);
+    station = station.toLowerCase();
+    const similarityThreshold = Math.floor(station.length * threshold);
+    const isPresent = words.some((word) => {
+      const distance = levenshteinDistance(station, word);
+      return distance <= similarityThreshold;
+    });
+    return isPresent;
+  };
+
   const handleSignatureInputChange = async (files) => {
     const file = files[0];
     const filename = `${uuidv4()}-${file.name}`;
@@ -199,14 +280,13 @@ function Application() {
   return (
     <>
       <Navigation />
-      <div className="flex">
-        <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTG0gy42OMlPttBKCMqeDCNM_qJ-uNUhxwsig&usqp=CAU"
-          className="w-[650px] h-full"
-          alt=""
-        ></img>
-        <div className="">
-          <div className="flex flex-row w-full h-16 text-2xl font-bond justify-center items-center bg-black text-white">
+      <div className="flex h-screen flex justify-center items-center bg-cover bg-center bg-no-repeat bg-picSignUp">
+        <div
+          className={`bg-white w-[1000px] h-[700px] flex flex-col space-y-10 justifiy-center items-center transition-opacity duration-1000 ${
+            isPageLoaded ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          <div className="flex flex-row w-full h-12 text-2xl font-bond justify-center items-center dark:bg-gray-900 text-white">
             Application Form{" "}
           </div>
           <form
@@ -221,9 +301,15 @@ function Application() {
                 <input
                   type="text"
                   name="firstname"
+
                   className="mx-2 shadow-lg appearance border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   // onChange={(e) => setFirstName(e.target.value)}
                   value={userDetails.firstname}
+
+                  className="mx-2 shadow-lg appearance border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  onChange={(e) => setFirstName(e.target.value)}
+                  value={firstname}
+
                   minLength={3}
                   required
                   readOnly
@@ -236,9 +322,15 @@ function Application() {
                 <input
                   type="text"
                   name="middlename"
+
                   className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   // onChange={(e) => setmiddleName(e.target.value)}
                   value={userDetails.middlename}
+
+                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  onChange={(e) => setmiddleName(e.target.value)}
+                  value={middlename}
+
                   minLength={3}
                   required
                   readOnly
@@ -252,9 +344,15 @@ function Application() {
                   <input
                     type="text"
                     name="surname"
+
                     className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                     // onChange={(e) => setsurName(e.target.value)}
                     value={userDetails.surname}
+
+                    className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                    onChange={(e) => setsurName(e.target.value)}
+                    value={surname}
+
                     minLength={3}
                     required
                     readOnly
@@ -270,7 +368,7 @@ function Application() {
                 <input
                   type="date"
                   name="dob"
-                  className="mx-2 shadow-lg appearance border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  className="mx-2 shadow-lg appearance border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   onChange={(e) => setdobName(e.target.value)}
                   value={dob}
                   required
@@ -284,7 +382,7 @@ function Application() {
                   type="number"
                   maxlength="2"
                   name="age"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   onChange={(e) => setAgeName(e.target.value)}
                   value={age}
                   minLength={1}
@@ -402,7 +500,7 @@ function Application() {
                 <input
                   type="text"
                   name="stationfrom"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  className="mx-2 shadow-lg appearance-none border w-50 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   onChange={(e) => setStationFrom(e.target.value)}
                   value={stationfrom}
                 ></input>
@@ -439,6 +537,20 @@ function Application() {
                   required
                   readOnly
                 />
+
+
+              <div>
+                <label htmlFor="MobileNo" className="text-xl font-bold">
+                  Mobile Number:{" "}
+                </label>
+                <input
+                  type="tel"
+                  name="MobileNo"
+                  className="mx-2 shadow-lg appearance-none border w-50 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  onChange={(e) => setphnNumber(e.target.value)}
+                  value={phnNumber}
+                ></input>
+
               </div>
             </div>
 
@@ -464,7 +576,7 @@ function Application() {
                 <input
                   type="file"
                   name="Category"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   onChange={(e) => handleCasteInputChange(e.target.files)}
                 ></input>{" "}
               </div>
@@ -477,23 +589,37 @@ function Application() {
                 <input
                   type="text"
                   name="Address"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   onChange={(e) => setAddress(e.target.value)}
                   value={address}
                 ></input>
               </div>
-              <div>
+
+              <div className="mt-2 flex space-x-10">
+                <div>
+                  <label htmlFor="Sign" className="ml-2 text-xl font-bold">
+                    Upload Signature of Student:{" "}
+                  </label>
+                  <input
+                    type="file"
+                    name="Sign"
+                    className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                    onChange={(e) => handleSignatureInputChange(e.target.files)}
+                  ></input>
+                </div>
+              </div>
+              {/* <div>
                 <label htmlFor="MobileNo" className="text-xl font-bold">
                   Mobile Number:{" "}
                 </label>
                 <input
                   type="tel"
                   name="MobileNo"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   onChange={(e) => setphnNumber(e.target.value)}
                   value={phnNumber}
                 ></input>
-              </div>
+              </div> */}
             </div>
             <div className="mt-2 flex space-x-10">
               <div>
@@ -504,12 +630,12 @@ function Application() {
                   type="file"
                   accept="image/*"
                   name="AadharCard"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  className="mx-1 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   onChange={(e) => handleIDInputChange(e.target.files)}
                 ></input>
               </div>
             </div>
-            <div className="mt-2 flex space-x-10">
+            {/* <div className="mt-2 flex space-x-10">
               <div>
                 <label htmlFor="Sign" className="ml-2 text-xl font-bold">
                   Upload Signature of Student:{" "}
@@ -517,14 +643,15 @@ function Application() {
                 <input
                   type="file"
                   name="Sign"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   onChange={(e) => handleSignatureInputChange(e.target.files)}
                 ></input>
               </div>
-            </div>
+            </div> */}
             <button
               type="submit"
-              className="inline-block m-auto w-32 px-6 py-2.5 bg-blue text-pink font-medium text-lg leading-tight uppercase rounded-full shadow-md hover:bg-red-600 hover:text-white hover:shadow-lg focus:bg-pink-violent focus:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-violent active:text-white active:shadow-lg transition duration-150 ease-in-out"
+              className="inline-block m-auto w-32 px-4 py-2.5 font-medium text-lg leading-tight uppercase rounded-full shadow-md dark:bg-gray-900 text-white hover:bg-white hover:text-gray-900 hover:shadow-lg focus:bg-pink-violent focus:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-violent active:text-white active:shadow-lg transition duration-150 ease-in-out"
+              // className="inline-block m-auto w-32 px-4 py-2.5 bg-blue text-pink font-medium text-lg leading-tight uppercase rounded-full shadow-md hover:dark:bg-gray-900 hover:text-white hover:shadow-lg focus:bg-pink-violent focus:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-violent active:text-white active:shadow-lg transition duration-150 ease-in-out"
               onClick={submitHandler}
             >
               Submit

@@ -1,6 +1,6 @@
 import React from "react";
 import "./SignUp.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import ErrorMessage from "./ErrorMesssge";
@@ -19,7 +19,19 @@ function SignUp() {
   const [error, setError] = useState(false);
   // const[loading,setLoading] = useState(false)
   const [message, setMessage] = useState("");
+
  const navigate = useNavigate();
+
+  const [isPageLoaded, setPageLoaded] = useState(false);
+
+  useEffect(() => {
+    // Set a delay of 100ms to show the page content after the fade-in effect
+    setTimeout(() => {
+      setPageLoaded(true);
+    }, 100);
+  }, []);
+
+
   const submitHandler = async (e) => {
     e.preventDefault();
     if (password !== confirmpassword) {
@@ -69,8 +81,13 @@ function SignUp() {
   return (
     <div>
       <Navigation />
-      <div className="h-screen bgimage flex justify-center items-center ">
-        <div className="bg-white w-[1100px] h-[520px] rounded-3xl flex flex-col space-y-10 justifiy-center items-center">
+      <div className="h-screen flex justify-center items-center bg-cover bg-center bg-no-repeat bg-picSignUp">
+        {/* <div className="h-screen flex justify-center items-center bgimage"> */}
+        <div
+          className={`bg-white w-[900px] h-[520px] rounded-3xl flex flex-col space-y-10 justifiy-center items-center transition-opacity duration-1000 ${
+            isPageLoaded ? "opacity-100" : "opacity-0"
+          }`}
+        >
           <h1 className="text-4xl text-black font-bold mt-8">Sign Up</h1>
           <form className="flex flex-col space-y-10 justify-center items-center">
             <div className="my-1 flex space-x-10">
@@ -85,7 +102,7 @@ function SignUp() {
                   type="email"
                   pattern=".+@[A-Za-z0-9.-]+\.vjti.ac.in"
                   name="title"
-                  className="mx-2 shadow-lg appearance border rounded-2xl w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  className="mx-2 shadow-lg appearance border rounded-2xl w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   onChange={(e) => setEmail(e.target.value)}
                   value={email}
                   required
@@ -102,7 +119,7 @@ function SignUp() {
                   type="number"
                   maxLength={9}
                   name="registrationid"
-                  className="mx-2 shadow-lg appearance-none border rounded-2xl w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  className="mx-2 shadow-lg appearance-none border rounded-2xl w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   onChange={(e) => setregId(e.target.value)}
                   value={regId}
                   minLength={10}
@@ -136,6 +153,7 @@ function SignUp() {
                 <input
                   type="text"
                   name="name"
+
                   className="mx-2 shadow-lg appearance border rounded-2xl w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   onChange={(e) => setmiddleName(e.target.value)}
                   value={middlename}
@@ -155,6 +173,9 @@ function SignUp() {
                   className="mx-2 shadow-lg appearance border rounded-2xl w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   onChange={(e) => setsurName(e.target.value)}
                   value={surname}
+
+                 
+
                   minLength={3}
                 ></input>
               </div>
@@ -168,7 +189,7 @@ function SignUp() {
                 <input
                   type="tel"
                   name="phonenumber"
-                  className="mx-2 shadow-lg appearance-none border rounded-2xl w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  className="mx-2 shadow-lg appearance-none border rounded-2xl w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   onChange={(e) => setphnNumber(e.target.value)}
                   value={phnNumber}
                   minLength={10}
@@ -187,7 +208,7 @@ function SignUp() {
                 <input
                   type="password"
                   name="password"
-                  className="mx-2 shadow-lg appearance border rounded-2xl w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  className="mx-2 shadow-lg appearance border rounded-2xl w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   onChange={(e) => setPassword(e.target.value)}
                   value={password}
                   minLength={5}
@@ -204,7 +225,7 @@ function SignUp() {
                 <input
                   type="password"
                   name="confirmpassword"
-                  className="mx-2 shadow-lg appearance-none border rounded-2xl w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  className="mx-2 shadow-lg appearance-none border rounded-2xl w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   value={confirmpassword}
                   minLength={5}
@@ -214,7 +235,7 @@ function SignUp() {
             </div>
             <button
               type="submit"
-              className="inline-block w-32 px-6 py-2.5 bg-white text-pink-violent font-medium text-lg leading-tight uppercase rounded-full shadow-md hover:bg-red-600 hover:text-white hover:shadow-lg focus:bg-pink-violent focus:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-violent active:text-white active:shadow-lg transition duration-150 ease-in-out"
+              className="inline-block w-32 px-6 py-2.5 bg-white text-pink-violent font-medium text-lg leading-tight uppercase rounded-full shadow-md hover:dark:bg-gray-900 hover:text-white hover:shadow-lg focus:bg-pink-violent focus:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-violent active:text-white active:shadow-lg transition duration-150 ease-in-out"
               onClick={submitHandler}
             >
               Submit
@@ -224,7 +245,7 @@ function SignUp() {
             <p className="text-xl text-black">Already have account?</p>
             <Link
               to="/Login"
-              className="text-2xl text-black text-center underline cursor-pointer hover:text-red-600"
+              className="text-2xl text-black text-center underline cursor-pointer hover:dark:bg-gray-900 hover:text-white"
             >
               Log In
             </Link>
