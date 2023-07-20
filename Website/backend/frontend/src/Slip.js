@@ -3,32 +3,70 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Slip.css";
 
-const fetchFormUsers = async () => {
-  try {
-    const response = await axios.get(
-      // `http://localhost:5000/api/formAuth/formusers?regId=${regId}`
-      "http://localhost:5000/api/formAuth/formusers"
-    );
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
-};
+// const fetchFormUsers = async () => {
+//   try {
+//     const response = await axios.get(
+//       // `http://localhost:5000/api/formAuth/formusers?regId=${regId}`
+//       "http://localhost:5000/api/formAuth/formusers"
+//     );
+//     return response.data;
+//   } catch (error) {
+//     console.error(error);
+//     return null;
+//   }
+// };
 
 function Slip() {
-  const [formUsers, setFormUsers] = useState([]);
+  // const [formUsers, setFormUsers] = useState([]);
+
+  // useEffect(() => {
+  //   const fetchUsers = async () => {
+  //     const users = await fetchFormUsers();
+  //     if (users) {
+  //       setFormUsers(users);
+  //     }
+  //   };
+
+  //   fetchUsers();
+  // }, []);
+  // const [userDetails, setUserDetails] = useState("");
+  const [FormUser, setFormUsers] = useState("");
+  console.log(localStorage.getItem("userRegId"));
+  const loggedInUserRegId = localStorage.getItem("userRegId");
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      const users = await fetchFormUsers();
-      if (users) {
-        setFormUsers(users);
-      }
-    };
+    fetchUserDetails(loggedInUserRegId);
+  }, [loggedInUserRegId]);
+  const fetchUserDetails = async (regId) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/formAuth/getformuser?regId=${regId}`
+      );
+      setFormUsers(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-    fetchUsers();
-  }, []);
+  function numberToAlphanumericHash(number) {
+    const alphanumericChars = "abcdefghijklmnopqrstuvwxyz0123456789";
+    let hash = "";
+
+    // Loop through each digit of the number and convert it to a character from the alphanumericChars
+    while (number > 0) {
+      const remainder = number % alphanumericChars.length;
+      hash = alphanumericChars[remainder] + hash;
+      number = Math.floor(number / alphanumericChars.length);
+    }
+
+    return hash;
+  }
+  const ticket = numberToAlphanumericHash(FormUser.regId);
+  // Example usage:
+  // const number = 123456789;
+  // const hash = numberToAlphanumericHash(number);
+  // console.log(hash); // Output: "21i3V9"
 
   return (
     <div className="h-screen flex justify-center items-center ">
@@ -68,41 +106,56 @@ function Slip() {
               </div>
               <div className="center-table">
                 <div className="mt-4 row justify-content-left">
-                  {formUsers.map((user) => (
-                    <div
-                      key={user._id}
-                      className="mt-4 row justify-content-left"
-                    >
-                      <div className="border-right border-dark col-2">
-                        <p>
-                          Name: {user.firstname} {user.middlename}{" "}
-                          {user.surname}
-                        </p>
-                      </div>
-                      <div className="col-2">
-                        <p>
-                          Valid from <span>{user.periodFrom}</span> to{" "}
-                          <span>{user.periodTo}</span>
-                        </p>
-                      </div>
-                      <div className="col-2">
-                        <p>Duration: {user.duration}</p>
-                      </div>
+                  <div
+                    key={FormUser._id}
+                    className="mt-4 row justify-content-left"
+                  >
+                    <div className="border-right border-dark col-2">
+                      <p>
+                        <b>Name :</b> {FormUser.firstname} {FormUser.middlename}{" "}
+                        {FormUser.surname}
+                      </p>
                     </div>
-                  ))}
+                    <div className="col-2">
+                      <p>
+                        <b>Validity :</b> <span>{FormUser.startdate}</span>{" "}
+                        <b>-</b> <span>{FormUser.enddate}</span>
+                      </p>
+                    </div>
+                    <div className="col-2">
+                      <p>
+                        {" "}
+                        <b> Duration :</b> {FormUser.duration}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
 
               <div className="center-table">
                 <div className="mt-2 row justify-content-left">
                   <div className="col-2">
-                    <p>Class type: </p>
+                    <p>
+                      {" "}
+                      <b> Class type : </b>
+                      {FormUser.class1}{" "}
+                    </p>
                   </div>
-                  <div className="col-2">
+                  {/* <div className="col-2">
                     <p>Type: </p>
+                  </div> */}
+                  <div className="col-2">
+                    <p>
+                      <b>Station :</b> <span>{FormUser.stationfrom}</span>{" "}
+                      <b>-</b> <span>{FormUser.stationto}</span>
+                    </p>
                   </div>
                   <div className="col-2">
-                    <p>Category:</p>
+                    <p>
+                      {" "}
+                      <b>Category : </b>
+                      {FormUser.category}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -110,7 +163,9 @@ function Slip() {
               <div className="center-table">
                 <div className="mt-2 row justify-content-left">
                   <div className="col-3">
-                    <p>Ticket Number: </p>
+                    <p>
+                      <b>Ticket ID : </b> {ticket}
+                    </p>
                   </div>
                   <div className="col-2">
                     {/* <img

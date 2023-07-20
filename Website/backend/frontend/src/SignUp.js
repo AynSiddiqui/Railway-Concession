@@ -20,7 +20,7 @@ function SignUp() {
   // const[loading,setLoading] = useState(false)
   const [message, setMessage] = useState("");
 
- const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [isPageLoaded, setPageLoaded] = useState(false);
 
@@ -30,7 +30,6 @@ function SignUp() {
       setPageLoaded(true);
     }, 100);
   }, []);
-
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -84,7 +83,7 @@ function SignUp() {
       <div className="h-screen flex justify-center items-center bg-cover bg-center bg-no-repeat bg-picSignUp">
         {/* <div className="h-screen flex justify-center items-center bgimage"> */}
         <div
-          className={`bg-white w-[900px] h-[520px] rounded-3xl flex flex-col space-y-10 justifiy-center items-center transition-opacity duration-1000 ${
+          className={`bg-white w-[950px] h-[570px] rounded-3xl flex flex-col space-y-10 justifiy-center items-center transition-opacity duration-1000 ${
             isPageLoaded ? "opacity-100" : "opacity-0"
           }`}
         >
@@ -125,6 +124,23 @@ function SignUp() {
                   minLength={10}
                 ></input>
               </div>
+              <div>
+                <label
+                  htmlFor="phonenumber"
+                  className="text-xl text-purple-violent font-bold"
+                >
+                  Phone Number:{" "}
+                </label>
+                <input
+                  type="tel"
+                  name="phonenumber"
+                  className="mx-2 shadow-lg appearance-none border rounded-2xl w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  onChange={(e) => setphnNumber(e.target.value)}
+                  value={phnNumber}
+                  minLength={10}
+                  maxLength={10}
+                ></input>
+              </div>
             </div>
             <div className="my-1 flex space-x-10">
               <div>
@@ -153,7 +169,6 @@ function SignUp() {
                 <input
                   type="text"
                   name="name"
-
                   className="mx-2 shadow-lg appearance border rounded-2xl w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   onChange={(e) => setmiddleName(e.target.value)}
                   value={middlename}
@@ -173,27 +188,7 @@ function SignUp() {
                   className="mx-2 shadow-lg appearance border rounded-2xl w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   onChange={(e) => setsurName(e.target.value)}
                   value={surname}
-
-                 
-
                   minLength={3}
-                ></input>
-              </div>
-              <div>
-                <label
-                  htmlFor="phonenumber"
-                  className="text-xl text-purple-violent font-bold"
-                >
-                  Phone Number:{" "}
-                </label>
-                <input
-                  type="tel"
-                  name="phonenumber"
-                  className="mx-2 shadow-lg appearance-none border rounded-2xl w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  onChange={(e) => setphnNumber(e.target.value)}
-                  value={phnNumber}
-                  minLength={10}
-                  maxLength={10}
                 ></input>
               </div>
             </div>

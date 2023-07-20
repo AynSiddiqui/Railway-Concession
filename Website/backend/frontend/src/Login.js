@@ -36,14 +36,18 @@ function Login() {
         {
           email,
           password,
+          // regId,
         },
         config
       );
       console.log(data);
+
       localStorage.setItem("userInfo", JSON.stringify(data));
       localStorage.setItem("token", data.authtoken);
-      localStorage.setItem("userEmail", email); 
+      localStorage.setItem("userEmail", email);
+      localStorage.setItem("userRegId", data.regId);
       console.log(localStorage.getItem("token"));
+      console.log(localStorage.getItem("userRegId"));
       setLoading(false);
       window.location = "/";
     } catch (error) {

@@ -249,7 +249,7 @@ function Application() {
       <Navigation />
       <div className="flex h-screen flex justify-center items-center bg-cover bg-center bg-no-repeat bg-picSignUp">
         <div
-          className={`bg-white w-[1000px] h-[700px] flex flex-col space-y-10 justifiy-center items-center transition-opacity duration-1000 ${
+          className={`bg-white w-[1000px] h-[720px] flex flex-col space-y-10 justifiy-center items-center transition-opacity duration-1000 ${
             isPageLoaded ? "opacity-100" : "opacity-0"
           }`}
         >
@@ -470,7 +470,7 @@ function Application() {
                 </span>
               </div>
 
-              <div>
+              {/* <div>
                 <label htmlFor="middlename" className="text-lg font-bold">
                   Registration ID:{" "}
                 </label>
@@ -484,7 +484,7 @@ function Application() {
                   required
                   readOnly
                 />
-              </div>
+              </div> */}
               <div>
                 <label htmlFor="MobileNo" className="text-xl font-bold">
                   Mobile Number:{" "}
@@ -511,6 +511,9 @@ function Application() {
                   onChange={(e) => setCategory(e.target.value)}
                   value={category}
                 >
+                  <option value={"default"} disabled>
+                    Choose
+                  </option>
                   <option value="General">General</option>
                   <option value="S.C.">S.C.</option>
                   <option value="S.T.">S.T.</option>
@@ -578,6 +581,22 @@ function Application() {
                   className="mx-1 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   onChange={(e) => handleIDInputChange(e.target.files)}
                 ></input>
+              </div>
+
+              <div>
+                <label htmlFor="middlename" className="text-lg font-bold">
+                  Registration ID:{" "}
+                </label>
+                <input
+                  type="text"
+                  name="middlename"
+                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  // onChange={(e) => setmiddleName(e.target.value)}
+                  value={userDetails.regId}
+                  minLength={3}
+                  required
+                  readOnly
+                />
               </div>
             </div>
             {/* <div className="mt-2 flex space-x-10">
