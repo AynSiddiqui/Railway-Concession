@@ -128,21 +128,57 @@ router.post('/login', [
 
 
 });
+// const authenticateToken = (req, res, next) => {
+//   const token = req.header("Authorization")?.split(" ")[1];
 
+//   if (!token) {
+//     return res.status(401).json({ message: "Authorization token missing" });
+//   }
+
+//   jwt.verify(token, JWT_SECRET_KEY, (err, user) => {
+//     if (err) {
+//       return res.status(403).json({ message: "Invalid token" });
+//     }
+
+//     req.user = user;
+//     next();
+//   });
+// };
 
 // ROUTE 3: Get loggedin User Details using: POST "/api/auth/getuser". Login required
-router.post('/getuser', fetchuser,  async (req, res) => {
+// router.post('/getuser', fetchuser,  async (req, res) => {
 
-  try {
-    const { firstname } = req.user.firstname;
+//     const { email } = req.query;
 
-  // Send the user's name as a response
-  return res.json({ name });
-    // const user = await User.findById(userId).select("-password")
-    return res.send(user)
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).send("Internal Server Error");
+//     try {
+//       const user = await User.findOne({ email });
+//       if (!user) {
+//         return res.status(404).json({ message: "User not found" });
+//       }
+
+//       return res.status(200).json(user);
+//     } catch (error) {
+//       console.error(error);
+//       return res.status(500).json({ message: "Internal server error" });
+//     }
+// })
+router.get("/getuser",async (req, res) => {
+  // Assuming you have the user's email from the decoded token
+  const userEmail = req.query.email;
+
+  if (!userEmail) {
+    return res.status(400).json({ message: "Email is required" });
   }
-})
+
+  // Find the user in the example data
+  const user = await User.findOne({ email: userEmail });
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  // Return the user details
+  res.json(user);
+});
+
 module.exports = router

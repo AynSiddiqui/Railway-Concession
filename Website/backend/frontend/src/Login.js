@@ -30,9 +30,10 @@ function Login() {
         },
         config
       );
-      // console.log(data);
-      // localStorage.setItem("userInfo", JSON.stringify(data));
+      console.log(data);
+      localStorage.setItem("userInfo", JSON.stringify(data));
       localStorage.setItem("token", data.authtoken);
+      localStorage.setItem("userEmail", email); 
       console.log(localStorage.getItem("token"));
       setLoading(false);
       window.location = "/";

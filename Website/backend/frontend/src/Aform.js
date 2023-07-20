@@ -9,9 +9,10 @@ import { v4 as uuidv4 } from "uuid";
 import SignUp from "./SignUp";
 function Application() {
   var filedata = "";
-  const [firstname, setFirstName] = useState("");
-  const [middlename, setmiddleName] = useState("");
-  const [surname, setsurName] = useState("");
+  // const [firstname, setFirstName] = useState("");
+  // const [middlename, setmiddleName] = useState("");
+  // const [userEmail, setEmail] = useState("");
+  // const [surname, setsurName] = useState("");
   const [dob, setdobName] = useState();
   const [age, setAgeName] = useState("");
   const [gender, setgender] = useState();
@@ -21,7 +22,8 @@ function Application() {
   const [class1, setClass1] = useState();
   const [stationfrom, setStationFrom] = useState("");
   const [stationto, setStationto] = useState();
-  const [regID, setregId] = useState("");
+  // const [regID, setregId] = useState("");
+  const [userDetails, setUserDetails] = useState("");
   // const [ticketNo, setticketNo] = useState("");
   // const [class2, setClass2] = useState();
   // const [periodfrom, setPeriodFrom] = useState();
@@ -34,32 +36,47 @@ function Application() {
   // const[loading,setLoading] = useState(false)
   const [message, setMessage] = useState("");
   const [aadhar, setaadhar] = useState([]);
-    useEffect(() => {
-      // Retrieve the name from local storage or any other storage method
-      const storedName = localStorage.getItem("firstname");
-      if (storedName) {
-        setFirstName(storedName);
-      }
-      const storedName1 = localStorage.getItem("middlename");
-      if (storedName1) {
-        setmiddleName(storedName1);
-      }
-      const storedName2 = localStorage.getItem("surname");
-      if (storedName2) {
-        setsurName(storedName2);
-      }
-      const storedName3 = localStorage.getItem("regID");
-      if (storedName3) {
-        setregId(storedName3);
-      }
-      
-    }, []);
+  const loggedInUserEmail = localStorage.getItem("userEmail");
+  // useEffect(() => {
+    //   // Retrieve the user's data from localStorage based on their email address
+    //   userEmail = localStorage.getItem("userEmail");
+    //   // Update the form fields with the user's data
+    //    setEmail(userEmail);
 
-  useEffect(() => {
-    if (!localStorage.getItem("token")) {
-      window.location = "/Login";
-    }
-  }, []);
+    //    // Fetch the user's data based on their email from the backend
+    //    axios
+    //      .get(`http://localhost:5000/api/auth/getuser?email=${userEmail}`)
+    //      .then((res) => {
+    //        const userData = res.data; // Replace with the actual structure of the response
+    //      setFirstName(userData.firstname);
+    //        setmiddleName(userData.middlename);
+    //       setsurName(userData.surname);
+    //        setregId(userData.regId);
+    //        // Update other fields as needed based on your API response
+    //      })
+    //      .catch((error) => {
+    //        console.log(error);
+    //        // Handle error case
+    //      });
+    // }, []);
+ useEffect(() => {
+   fetchUserDetails(loggedInUserEmail);
+ }, [loggedInUserEmail]);
+ const fetchUserDetails = async (email) => {
+   try {
+     const response = await axios.get(
+       `http://localhost:5000/api/auth/getuser?email=${email}`
+     );
+     setUserDetails(response.data);
+   } catch (error) {
+     console.log(error);
+   }
+ };
+  // useEffect(() => {
+  //   if (!localStorage.getItem("token")) {
+  //     window.location = "/Login";
+  //   }
+  // }, []);
   //     const handleSubmit = async (e) =>{
   //         try {
   //         e.preventDefault();
@@ -206,7 +223,7 @@ function Application() {
                   name="firstname"
                   className="mx-2 shadow-lg appearance border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   // onChange={(e) => setFirstName(e.target.value)}
-                  value={firstname}
+                  value={userDetails.firstname}
                   minLength={3}
                   required
                   readOnly
@@ -221,7 +238,7 @@ function Application() {
                   name="middlename"
                   className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   // onChange={(e) => setmiddleName(e.target.value)}
-                  value={middlename}
+                  value={userDetails.middlename}
                   minLength={3}
                   required
                   readOnly
@@ -237,7 +254,7 @@ function Application() {
                     name="surname"
                     className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                     // onChange={(e) => setsurName(e.target.value)}
-                    value={surname}
+                    value={userDetails.surname}
                     minLength={3}
                     required
                     readOnly
@@ -417,7 +434,7 @@ function Application() {
                   name="middlename"
                   className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   // onChange={(e) => setmiddleName(e.target.value)}
-                  value={regID}
+                  value={userDetails.regId}
                   minLength={3}
                   required
                   readOnly

@@ -50,12 +50,12 @@ function SignUp() {
         //    setLoading(false)
 
         console.log(data);
-        localStorage.setItem("userInfo", JSON.stringify(data));
+        localStorage.setItem("email", JSON.stringify(data));
         // Save the name to local storage or any other desired storage method
-        localStorage.setItem("firstname", firstname);
-        localStorage.setItem("middlename", middlename);
-        localStorage.setItem("surname", surname);
-        localStorage.setItem("regID", regId);
+        // localStorage.setItem("firstname", firstname);
+        // localStorage.setItem("middlename", middlename);
+        // localStorage.setItem("surname", surname);
+        // localStorage.setItem("regID", regId);
         // Redirect the user to the other form page
         // navigate("/Applicatioform");
         window.location = "/login";
