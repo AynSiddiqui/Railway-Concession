@@ -470,21 +470,6 @@ function Application() {
                 </span>
               </div>
 
-              {/* <div>
-                <label htmlFor="middlename" className="text-lg font-bold">
-                  Registration ID:{" "}
-                </label>
-                <input
-                  type="text"
-                  name="middlename"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  // onChange={(e) => setmiddleName(e.target.value)}
-                  value={userDetails.regId}
-                  minLength={3}
-                  required
-                  readOnly
-                />
-              </div> */}
               <div>
                 <label htmlFor="MobileNo" className="text-xl font-bold">
                   Mobile Number:{" "}
@@ -509,6 +494,7 @@ function Application() {
                   name="Category"
                   id="Category"
                   onChange={(e) => setCategory(e.target.value)}
+                  defaultValue={"default"}
                   value={category}
                 >
                   <option value={"default"} disabled>
