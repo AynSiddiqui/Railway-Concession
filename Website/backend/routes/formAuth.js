@@ -175,4 +175,196 @@ router.get("/getformuser", async (req, res) => {
   res.json(user);
 });
 
+// ROUTE 4: Update a user's info when editing
+router.post(
+  "/updateForm/:regId", // Use a route parameter (e.g., :id) to specify the user ID to update
+  [
+    // ... Validation middleware ...
+    body("firstname", "Enter a valid name").isLength({ min: 3 }),
+    body("middlename", "Enter a valid name").isLength({ min: 3 }),
+    body("surname", "Enter a valid name").isLength({ min: 3 }),
+    body("course", "Enter a valid dob").isLength(),
+    body("year", "Enter a valid dob").isLength(),
+    body("duration", "Enter a valid dob").isLength(),
+    body("class1", "Enter a valid dob").isLength(),
+    body("stationfrom", "Enter a valid dob").isLength(),
+    body("stationto", "Enter a valid dob").isLength(),
+    body("passduration", "Enter a valid dob").isLength(),
+    body("ticketNo", "Enter a ticket Number").isLength(),
+    body("address", "Enter a valid address").isLength(),
+    body("regId", "Enter a valid username").isLength(),
+    body("startdate", "Enter start date").isLength(),
+    body("enddate", "Enter end date").isLength(),
+    body("isPresent", "True if address matches").isLength(),
+  ],
+  async (req, res) => {
+    // If there are errors, return Bad request and the errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      // const regId = req.body.regId; // Get the user ID from the route parameter
+      const regId = req.params.regId;
+      // let user = await FormUser.findById(regId);
+      let user = await FormUser.findOne({ regId: regId }); // Find the user based on the registration ID
+      console.log("userhehehe", user);
+
+      if (!user) {
+        return res.status(400).json({
+          error: "User not found with the given ID.",
+        });
+      }
+
+      const currentDate = new Date();
+
+      // Function to format date to dd-mm-yyyy
+      const formatDate = (date) => {
+        const day = date.getDate().toString().padStart(2, "0");
+        const month = (date.getMonth() + 1).toString().padStart(2, "0");
+        const year = date.getFullYear();
+        return `${day}-${month}-${year}`;
+      };
+
+      // Get the date after 1 month
+      const dateAfterOneMonth = new Date(currentDate);
+      dateAfterOneMonth.setMonth(dateAfterOneMonth.getMonth() + 1);
+
+      // Get the date after 4 months
+      const dateAfterFourMonths = new Date(currentDate);
+      dateAfterFourMonths.setMonth(dateAfterFourMonths.getMonth() + 4);
+
+      // Set the duration based on your condition (e.g., "monthly" or "quarterly")
+      const duration = req.body.duration; // Change this value as needed
+
+      let enddate;
+
+      if (duration === "Monthly") {
+        enddate = formatDate(dateAfterOneMonth);
+      } else if (duration === "Quarterly") {
+        enddate = formatDate(dateAfterFourMonths);
+      }
+
+      const startdate = formatDate(currentDate);
+
+      console.log("Start Date:", startdate);
+      console.log("End Date:", enddate);
+
+      // Update the user's fields based on the request body
+      user.firstname = req.body.firstname;
+      user.middlename = req.body.middlename;
+      user.surname = req.body.surname;
+      (user.year = req.body.year),
+        (user.duration = req.body.duration),
+        (user.class1 = req.body.class1),
+        (user.stationfrom = req.body.stationfrom),
+        (user.stationto = req.body.stationto),
+        (user.passduration = req.body.passduration),
+        (user.address = req.body.address),
+        (user.phnNumber = req.body.phnNumber),
+        (user.regId = req.body.regId),
+        (user.startdate = startdate),
+        (user.enddate = enddate),
+        (user.course = req.body.course),
+        // Save the updated user document
+        await user.save();
+
+      // Send the response
+      res.json({
+        success: true,
+        message: "User information updated successfully.",
+      });
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send("Internal Server Error");
+    }
+  }
+);
+
+// ROUTE 5: Renew user's info
+router.post(
+  "/renewForm/:regId", // Use a route parameter (e.g., :id) to specify the user ID to update
+  [
+    // ... Validation middleware ...
+
+    body("duration", "Enter a valid dob").isLength(),
+    body("class1", "Enter a valid class").isLength(),
+    body("regId", "Enter a valid username").isLength(),
+  ],
+  async (req, res) => {
+    // If there are errors, return Bad request and the errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      // const regId = req.body.regId; // Get the user ID from the route parameter
+      const regId = req.params.regId;
+      // let user = await FormUser.findById(regId);
+      let user = await FormUser.findOne({ regId: regId }); // Find the user based on the registration ID
+      console.log("userhehehe", user);
+
+      if (!user) {
+        return res.status(400).json({
+          error: "User not found with the given ID.",
+        });
+      }
+
+      const currentDate = new Date();
+
+      // Function to format date to dd-mm-yyyy
+      const formatDate = (date) => {
+        const day = date.getDate().toString().padStart(2, "0");
+        const month = (date.getMonth() + 1).toString().padStart(2, "0");
+        const year = date.getFullYear();
+        return `${day}-${month}-${year}`;
+      };
+
+      // Get the date after 1 month
+      const dateAfterOneMonth = new Date(currentDate);
+      dateAfterOneMonth.setMonth(dateAfterOneMonth.getMonth() + 1);
+
+      // Get the date after 4 months
+      const dateAfterFourMonths = new Date(currentDate);
+      dateAfterFourMonths.setMonth(dateAfterFourMonths.getMonth() + 4);
+
+      // Set the duration based on your condition (e.g., "monthly" or "quarterly")
+      const duration = req.body.duration; // Change this value as needed
+
+      let enddate;
+
+      if (duration === "Monthly") {
+        enddate = formatDate(dateAfterOneMonth);
+      } else if (duration === "Quarterly") {
+        enddate = formatDate(dateAfterFourMonths);
+      }
+
+      const startdate = formatDate(currentDate);
+
+      console.log("Start Date:", startdate);
+      console.log("End Date:", enddate);
+
+      // Renew the user's fields based on the request body
+
+      (user.duration = req.body.duration),
+        (user.class1 = req.body.class1),
+        (user.startdate = startdate),
+        (user.enddate = enddate),
+        // Save the updated user document
+        await user.save();
+
+      // Send the response
+      res.json({
+        success: true,
+        message: "User information renewed successfully.",
+      });
+    } catch (error) {
+      console.error(error.message);
+      res.status(700).send("Internal Server Error");
+    }
+  }
+);
+
 module.exports = router;

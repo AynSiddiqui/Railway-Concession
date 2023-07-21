@@ -13,6 +13,7 @@ import PasswordReset from "./ResetPassword";
 import Slip from "./Slip";
 import GenerateSlip from "./GenerateSlip";
 import RenewForm from "./RenewForm";
+import ApplicationEdit from "./AformEdit";
 const isAuthenticated = true;
 // const isAuthenticated = localStorage.getItem("token");
 const WebPages = () => {
@@ -26,6 +27,11 @@ const WebPages = () => {
           <Route path="Login" element={<Login />} />
           {isAuthenticated ? (
             <Route path="ApplicationForm" element={<Application />} />
+          ) : (
+            <Navigate to="/Login" replace />
+          )}
+          {isAuthenticated ? (
+            <Route path="ApplicationFormEdit" element={<ApplicationEdit />} />
           ) : (
             <Navigate to="/Login" replace />
           )}

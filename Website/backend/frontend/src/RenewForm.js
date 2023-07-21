@@ -4,7 +4,7 @@ import Navigation from "./Navigation.js";
 import Footer from "./Footer.js";
 import axios from "axios";
 import ErrorMessage from "./ErrorMesssge";
-  
+
 import { v4 as uuidv4 } from "uuid";
 
 function RenewalApplication() {
@@ -12,7 +12,9 @@ function RenewalApplication() {
   const [class2, setClass2] = useState();
   const [periodfrom, setPeriodFrom] = useState();
   const [periodto, setPeriodto] = useState();
+  const [duration, setDuration] = useState();
   const [phnNumber, setphnNumber] = useState("");
+  const [class1, setClass1] = useState("");
   const [selectedImage, setSelectImage] = useState(null);
   const [error, setError] = useState(false);
   // const[loading,setLoading] = useState(false)
@@ -46,29 +48,6 @@ function RenewalApplication() {
       window.location = "/Login";
     }
   }, []);
-  //     const handleSubmit = async (e) =>{
-  //         try {
-  //         e.preventDefault();
-  //         const filename = `${uuidv4()}-${e.name}`;
-
-  // const { data, error } = await supabase.storage
-  // .from("aadhar-card-images")
-  // .upload(filename,aadhar, {
-  // cacheControl: "3600",
-  // upsert: false,
-  // });
-
-  // const filepath = data.path;
-  //         }
-  //      catch(error)
-  //             {
-  //                 setError(error.response.data.message)
-
-  //             }
-  //     }
-  //     const handleFileSelected = (e) => {
-  //         setaadhar(e.target.aadhar[0]);
-  //     }
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -81,13 +60,11 @@ function RenewalApplication() {
       };
       //setLoading(true)
       const { data } = await axios.post(
-        "http://localhost:5000/api/renewAuth/renewForm",
+        `http://localhost:5000/api/formAuth/renewForm/${userDetails.regId}`, // Replace userId with the appropriate user ID you want to update
         {
-          phnNumber: phnNumber,
-          ticketNo: userDetails.ticketNo,
-          class2: class2,
-          periodfrom: userDetails.startdate,
-          periodto: userDetails.enddate,
+          duration: duration,
+          class1: class1,
+          regId: userDetails.regId,
         },
         config
       );
@@ -107,7 +84,7 @@ function RenewalApplication() {
       <Navigation />
       <div className="flex h-screen flex justify-center items-center bg-cover bg-center bg-no-repeat bg-picSignUp">
         <div
-          className={`bg-white w-[1000px] h-[450px] flex flex-col space-y-10 justifiy-center items-center transition-opacity duration-1000 ${
+          className={`bg-white w-[850px] h-[270px] flex flex-col space-y-10 justifiy-center items-center transition-opacity duration-1000 ${
             isPageLoaded ? "opacity-100" : "opacity-0"
           }`}
         >
@@ -118,27 +95,6 @@ function RenewalApplication() {
             autoComplete="on"
             className="grid grid-col-3 space-y-10 content-center"
           >
-            {/* /////////////////// */}
-
-            <div className="mt-2 flex space-x-10">
-              <div>
-                <label htmlFor="MobileNo" className="text-xl font-bold">
-                  Mobile Number:{" "}
-                </label>
-                <input
-                  type="tel"
-                  name="MobileNo"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  onChange={(e) => setphnNumber(e.target.value)}
-                  value={phnNumber}
-                ></input>
-              </div>
-            </div>
-
-            <div className="flex flex-row w-full h-9 text-2xl font-bond justify-center items-center dark:bg-gray-900 text-white">
-              Details of Previous Pass{" "}
-            </div>
-
             <div className="mt-2 flex space-x-10">
               <div>
                 <label htmlFor="ticketno" className="text-xl font-bold">
@@ -147,8 +103,7 @@ function RenewalApplication() {
                 <input
                   type="text"
                   name="ticketno"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                 
+                  className="mx-2 shadow-lg appearance-none border w-22 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   value={userDetails.ticketNo}
                   minLength={10}
                   maxLength={10}
@@ -163,15 +118,37 @@ function RenewalApplication() {
                 <select
                   name="Class"
                   id="Class"
-                  onChange={(e) => setClass2(e.target.value)}
+                  onChange={(e) => setClass1(e.target.value)}
                   defaultValue={"default"}
-                  value={class2}
+                  value={class1}
                 >
                   <option value={"default"} disabled>
                     Choose
                   </option>
                   <option value="1st Class">1st Class</option>
                   <option value="2nd Class">2nd Class</option>
+                </select>
+              </div>
+
+              <div>
+                <label
+                  htmlFor="Selecttheoption"
+                  className="ml-2 text-xl font-bold"
+                >
+                  Duration:{" "}
+                </label>
+                <select
+                  name="Selecttheoption"
+                  id="Selecttheoption"
+                  onChange={(e) => setDuration(e.target.value)}
+                  defaultValue={"default"}
+                  value={duration}
+                >
+                  <option value={"default"} disabled>
+                    Choose
+                  </option>
+                  <option value="Monthly">Monthly</option>
+                  <option value="Quarterly">Quarterly</option>
                 </select>
               </div>
             </div>
@@ -185,7 +162,6 @@ function RenewalApplication() {
                   type="text"
                   name="setPeriodFrom"
                   className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  
                   value={userDetails.startdate}
                   readOnly
                 ></input>
@@ -196,7 +172,6 @@ function RenewalApplication() {
                   type="text"
                   name="setPeriodTo"
                   className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                 
                   value={userDetails.enddate}
                   readOnly
                 />

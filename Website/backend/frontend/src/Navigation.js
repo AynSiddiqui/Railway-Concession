@@ -67,6 +67,12 @@ function Navigation() {
                 Application Form
               </Link>
               <Link
+                to="/ApplicationFormEdit"
+                className="text-black font-semibold hover:dark:bg-gray-900 hover:text-white rounded-lg px-4 py-2 animate-fadein"
+              >
+                Edit Form
+              </Link>
+              <Link
                 to="/renewal"
                 className="text-black font-semibold hover:dark:bg-gray-900 hover:text-white rounded-lg px-4 py-2 animate-fadein"
               >
