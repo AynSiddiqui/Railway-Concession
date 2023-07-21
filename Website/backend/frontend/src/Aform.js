@@ -24,7 +24,7 @@ function Application() {
   const [stationto, setStationto] = useState();
   // const [regID, setregId] = useState("");
   const [userDetails, setUserDetails] = useState("");
-  
+
   // const [ticketNo, setticketNo] = useState("");isPresent
   // const [class2, setClass2] = useState();
   // const [periodfrom, setPeriodFrom] = useState();
@@ -275,7 +275,7 @@ function Application() {
 
       console.log(data);
       localStorage.setItem("userInfo", JSON.stringify(data));
-      window.location = "/GenerateSlip";
+      window.location = "/Slip";
     } catch (error) {
       setError(error.response.data.message);
     }

@@ -26,6 +26,15 @@ function Slip({ isButtonClick }) {
     }
   };
 
+  const [isPageLoaded, setPageLoaded] = useState(false);
+
+  useEffect(() => {
+    // Set a delay of 100ms to show the page content after the fade-in effect
+    setTimeout(() => {
+      setPageLoaded(true);
+    }, 100);
+  }, []);
+
   const downloadAsPDF = () => {
     const contentDiv = document.getElementById("pdf-content");
 
@@ -44,7 +53,12 @@ function Slip({ isButtonClick }) {
     // <div className="h-screen flex justify-center items-center ">
     <>
       <Navigation />
-      <div className="hey">
+      {/* <div className="hey"> */}
+      <div
+        className={`hey transition-opacity duration-1000 ${
+          isPageLoaded ? "opacity-100" : "opacity-0"
+        }`}
+      >
         <div
           className="button flex justify-center items-center "
           style={{ marginTop: "10vh" }}
@@ -55,6 +69,7 @@ function Slip({ isButtonClick }) {
         </div>
 
         {/* <div className="bg-cover bg-center bg-no-repeat bg-picSignUp"> */}
+
         <div className=" flex justify-center items-center  ">
           <div id="pdf-content" className="center-rectangle">
             {/* <div className="center-rectangle"> */}
