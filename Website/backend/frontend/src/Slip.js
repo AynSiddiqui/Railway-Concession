@@ -49,25 +49,6 @@ function Slip() {
     }
   };
 
-  function numberToAlphanumericHash(number) {
-    const alphanumericChars = "abcdefghijklmnopqrstuvwxyz0123456789";
-    let hash = "";
-
-    // Loop through each digit of the number and convert it to a character from the alphanumericChars
-    while (number > 0) {
-      const remainder = number % alphanumericChars.length;
-      hash = alphanumericChars[remainder] + hash;
-      number = Math.floor(number / alphanumericChars.length);
-    }
-
-    return hash;
-  }
-  const ticket = numberToAlphanumericHash(FormUser.regId);
-  // Example usage:
-  // const number = 123456789;
-  // const hash = numberToAlphanumericHash(number);
-  // console.log(hash); // Output: "21i3V9"
-
   return (
     <div className="h-screen flex justify-center items-center ">
       <div className="center-rectangle">
@@ -164,7 +145,7 @@ function Slip() {
                 <div className="mt-2 row justify-content-left">
                   <div className="col-3">
                     <p>
-                      <b>Ticket ID : </b> {ticket}
+                      <b>Ticket ID : </b> {FormUser.ticketNo}
                     </p>
                   </div>
                   <div className="col-2">

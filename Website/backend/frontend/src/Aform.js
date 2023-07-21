@@ -52,6 +52,39 @@ function Application() {
     }
   };
 
+  function generateAlphanumericHash(regId) {
+    const alphanumericChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let hash = "";
+
+    // Helper function to generate random number between 0 and max (exclusive) using a seed
+    function generateRandomNumber(max, seed) {
+      let x = Math.sin(seed) * 10000;
+      return Math.floor((x - Math.floor(x)) * max);
+    }
+
+    // Generate 3 capital letters
+    for (let i = 0; i < 3; i++) {
+      const randomIndex = generateRandomNumber(26, regId + i); // Use regId as seed
+      hash += alphanumericChars[randomIndex];
+    }
+
+    // Generate 5 numbers
+    for (let i = 0; i < 5; i++) {
+      const randomIndex = generateRandomNumber(10, regId + i + 3); // Use regId as seed
+      hash += alphanumericChars[randomIndex + 26]; // Start numbers after letters
+    }
+
+    // Generate 2 letters
+    for (let i = 0; i < 2; i++) {
+      const randomIndex = generateRandomNumber(26, regId + i + 7); // Use regId as seed
+      hash += alphanumericChars[randomIndex];
+    }
+
+    return hash;
+  }
+
+  const ticketNo = generateAlphanumericHash(userDetails.regId);
+
   const [isPageLoaded, setPageLoaded] = useState(false);
 
   useEffect(() => {
@@ -223,7 +256,7 @@ function Application() {
           stationfrom: stationfrom,
           stationto: stationto,
           regId: userDetails.regId,
-          // ticketNo: ticketNo,
+          ticketNo: ticketNo,
           // class2: class2,
           // periodfrom: periodfrom,
           // periodTo: periodTo,

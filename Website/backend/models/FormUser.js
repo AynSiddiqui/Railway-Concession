@@ -79,6 +79,9 @@ const FormUserSchema = new Schema({
     required: true,
     unique: true,
   },
+  ticketNo: {
+    type: String,
+  },
 });
 const FormUser = mongoose.model("FormUser", FormUserSchema);
 module.exports = FormUser;
