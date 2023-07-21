@@ -4,7 +4,7 @@ import Navigation from "./Navigation.js";
 import Footer from "./Footer.js";
 import axios from "axios";
 import ErrorMessage from "./ErrorMesssge";
-
+  
 import { v4 as uuidv4 } from "uuid";
 
 function RenewalApplication() {
@@ -18,7 +18,22 @@ function RenewalApplication() {
   // const[loading,setLoading] = useState(false)
   const [message, setMessage] = useState("");
   const [isPageLoaded, setPageLoaded] = useState(false);
-
+  const loggedInUserRegId = localStorage.getItem("userRegId");
+  const [userDetails, setUserDetails] = useState("");
+  useEffect(() => {
+    fetchUserDetails(loggedInUserRegId);
+  }, [loggedInUserRegId]);
+  const fetchUserDetails = async (regId) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/formAuth/getformuser?regId=${regId}`
+      );
+      setUserDetails(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     // Set a delay of 100ms to show the page content after the fade-in effect
     setTimeout(() => {
@@ -69,10 +84,10 @@ function RenewalApplication() {
         "http://localhost:5000/api/renewAuth/renewForm",
         {
           phnNumber: phnNumber,
-          ticketNo: ticketNo,
+          ticketNo: userDetails.ticketNo,
           class2: class2,
-          periodfrom: periodfrom,
-          periodto: periodto,
+          periodfrom: userDetails.startdate,
+          periodto: userDetails.enddate,
         },
         config
       );
@@ -133,11 +148,12 @@ function RenewalApplication() {
                   type="text"
                   name="ticketno"
                   className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  onChange={(e) => setticketNo(e.target.value)}
-                  value={ticketNo}
+                 
+                  value={userDetails.ticketNo}
                   minLength={10}
                   maxLength={10}
                   required
+                  readOnly
                 />
               </div>
               <div>
@@ -166,21 +182,23 @@ function RenewalApplication() {
               <span>
                 <span className="text-lg mx-2">From</span>
                 <input
-                  type="date"
+                  type="text"
                   name="setPeriodFrom"
                   className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  onChange={(e) => setPeriodFrom(e.target.value)}
-                  value={periodfrom}
+                  
+                  value={userDetails.startdate}
+                  readOnly
                 ></input>
               </span>
               <span>
                 <span className="text-lg mx-2">to</span>
                 <input
-                  type="date"
+                  type="text"
                   name="setPeriodTo"
                   className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  onChange={(e) => setPeriodto(e.target.value)}
-                  value={periodto}
+                 
+                  value={userDetails.enddate}
+                  readOnly
                 />
               </span>
             </div>

@@ -59,15 +59,7 @@ router.post(
   }
 );
 
-// // ROUTE 2: Retrieve form user data using: GET "/api/auth/formusers". No login required
-// router.get("/formusers", async (req, res) => {
-//   try {
-//     const formUsers = await FormUser.find();
-//     res.json(formUsers);
-//   } catch (error) {
-//     console.error(error.message);
-//     res.status(500).send("Internal Server Error");
-//   }
-// });
+
+
 
 module.exports = router;
