@@ -14,7 +14,7 @@ router.post(
   "/renewForm",
   [
    
-    body('ticketNo', 'Enter a ticket Number').isLength({ max: 4,min:4 }),
+    body('ticketNo', 'Enter a ticket Number').isLength({ max: 10,min:10 }),
     // body('class2', 'Enter a valid dob').isLength(),
     // body('periodfrom', 'Enter a valid dob').isLength(),
     // body('periodto', 'Enter a valid dob').isLength(),

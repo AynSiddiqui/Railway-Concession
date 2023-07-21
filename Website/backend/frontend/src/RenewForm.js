@@ -135,6 +135,8 @@ function RenewalApplication() {
                   className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   onChange={(e) => setticketNo(e.target.value)}
                   value={ticketNo}
+                  minLength={10}
+                  maxLength={10}
                   required
                 />
               </div>
