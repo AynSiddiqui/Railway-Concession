@@ -11,7 +11,7 @@ function RenewalApplication() {
   const [ticketNo, setticketNo] = useState("");
   const [class2, setClass2] = useState();
   const [periodfrom, setPeriodFrom] = useState();
-  const [periodTo, setPeriodTo] = useState();
+  const [periodto, setPeriodto] = useState();
   const [phnNumber, setphnNumber] = useState("");
   const [selectedImage, setSelectImage] = useState(null);
   const [error, setError] = useState(false);
@@ -72,7 +72,7 @@ function RenewalApplication() {
           ticketNo: ticketNo,
           class2: class2,
           periodfrom: periodfrom,
-          periodTo: periodTo,
+          periodto: periodto,
         },
         config
       );
@@ -146,8 +146,12 @@ function RenewalApplication() {
                   name="Class"
                   id="Class"
                   onChange={(e) => setClass2(e.target.value)}
+                  defaultValue={"default"}
                   value={class2}
                 >
+                  <option value={"default"} disabled>
+                    Choose
+                  </option>
                   <option value="1st Class">1st Class</option>
                   <option value="2nd Class">2nd Class</option>
                 </select>
@@ -161,32 +165,21 @@ function RenewalApplication() {
                 <span className="text-lg mx-2">From</span>
                 <input
                   type="date"
-                  name="ticketno"
+                  name="setPeriodFrom"
                   className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   onChange={(e) => setPeriodFrom(e.target.value)}
                   value={periodfrom}
                 ></input>
               </span>
               <span>
-
-              <span className="text-lg mx-2">to</span>
-              <input
-              type="date"
-              name="ticketno"
-              className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-              onChange={(e) => setPeriodTo(e.target.value)}
-              value={periodTo}
-              />
-
                 <span className="text-lg mx-2">to</span>
                 <input
                   type="date"
-                  name="ticketno"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  onChange={(e) => setPeriodTo(e.target.value)}
-                  value={periodTo}
-                ></input>
-
+                  name="setPeriodTo"
+                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  onChange={(e) => setPeriodto(e.target.value)}
+                  value={periodto}
+                />
               </span>
             </div>
 

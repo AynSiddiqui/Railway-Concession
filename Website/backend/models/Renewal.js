@@ -14,10 +14,10 @@ const RenewalSchema = new Schema({
   class2: {
     type: String,
   },
-  periodFrom: {
+  periodfrom: {
     type: String,
   },
-  periodTo: {
+  periodto: {
     type: String,
   },
 });
