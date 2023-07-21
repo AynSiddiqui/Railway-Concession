@@ -38,6 +38,7 @@ router.post(
     body("regId", "Enter a valid username").isLength(),
     body("startdate", "Enter start date").isLength(),
     body("enddate", "Enter end date").isLength(),
+    body("isPresent", "True if address matches").isLength(),
     // mo
   ],
   async (req, res) => {
@@ -47,6 +48,16 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
     try {
+      if (req.body.isPresent == false) {
+        console.log(
+          req.body.isPresent,
+          "ID card address not matching to station from"
+        );
+        return res.status(400).json({
+          error:
+            "Sorry the entered station does not match with your ID card address",
+        });
+      }
       let user1 = await FormUser.findOne({ phnNumber: req.body.phnNumber });
       if (user1) {
         return res.status(400).json({

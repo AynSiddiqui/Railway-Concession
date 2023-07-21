@@ -24,7 +24,7 @@ function Application() {
   const [stationto, setStationto] = useState();
   // const [regID, setregId] = useState("");
   const [userDetails, setUserDetails] = useState("");
-  // const [ticketNo, setticketNo] = useState("");
+  // const [ticketNo, setticketNo] = useState("");isPresent
   // const [class2, setClass2] = useState();
   // const [periodfrom, setPeriodFrom] = useState();
   // const [periodTo, setPeriodTo] = useState();
@@ -37,6 +37,7 @@ function Application() {
   const [message, setMessage] = useState("");
   const [aadhar, setaadhar] = useState([]);
   const loggedInUserEmail = localStorage.getItem("userEmail");
+  let isPresent;
 
   useEffect(() => {
     fetchUserDetails(loggedInUserEmail);
@@ -164,12 +165,13 @@ function Application() {
       // const station = "candoa"; //66.67% similar to bandra so will give true for minimum accuracy <= 66.67%
       // const station = "rajai oadr"; //trying with space
 
-      const station = "candoa"; //this will be what user enters
+      const station = stationfrom; //this will be what user enters
+      // const station = "candoa"; //this will be what user enters
       const percentage = 0.5; // Minimum accuracy needed out of 1 //not required as considering no. of char
 
       const words = station.split(/\s+/);
 
-      const isPresent = words.reduce((result, word) => {
+      isPresent = words.reduce((result, word) => {
         return result && checkPresence(filedata, word, percentage);
       }, true);
 
@@ -240,6 +242,7 @@ function Application() {
         },
       };
       //setLoading(true)
+      console.log(isPresent);
       const { data } = await axios.post(
         "http://localhost:5000/api/formAuth/fillForm",
         {
@@ -263,6 +266,7 @@ function Application() {
           category: category,
           address: address,
           phnNumber: phnNumber,
+          isPresent: isPresent,
         },
         config
       );
