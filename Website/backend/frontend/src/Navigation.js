@@ -19,14 +19,27 @@ function Navigation() {
   return (
     <div className="dark:bg-gray-400">
       <nav className="flex flex-row items-center h-16 px-4">
-        <img src={NavigationImage} className="h-16 animate-bounce" alt=""></img>
-
-        <Link
-          to="/slip"
-          className="ml-4 text-black font-semibold hover:dark:bg-gray-900 hover:text-white rounded-lg px-4 py-2"
-        >
-          Slip
-        </Link>
+        {isAuthenticated ? (
+          <>
+            <img
+              src={NavigationImage}
+              className="h-16 animate-bounce"
+              alt=""
+            ></img>
+            <Link
+              to="/slip"
+              className="ml-4 text-black font-semibold hover:dark:bg-gray-900 hover:text-white rounded-lg px-4 py-2"
+            >
+              Slip
+            </Link>
+          </>
+        ) : (
+          <img
+            src={NavigationImage}
+            className="h-16 animate-bounce"
+            alt=""
+          ></img>
+        )}
 
         <div className="flex ml-auto space-x-4">
           <Link

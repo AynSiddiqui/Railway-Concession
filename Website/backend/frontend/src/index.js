@@ -14,6 +14,7 @@ import Slip from "./Slip";
 import GenerateSlip from "./GenerateSlip";
 import RenewForm from "./RenewForm";
 const isAuthenticated = true;
+// const isAuthenticated = localStorage.getItem("token");
 const WebPages = () => {
   document.title = "Railway Concession";
   return (
@@ -33,7 +34,12 @@ const WebPages = () => {
             path="/password-reset/:id/:token"
             element={<PasswordReset />}
           />
-          <Route path="/slip" element={<Slip />} />
+          {isAuthenticated ? (
+            <Route path="/slip" element={<Slip />} />
+          ) : (
+            <Navigate to="/Login" replace />
+          )}
+
           <Route path="/renewal" element={<RenewForm />} />
           <Route path="/generateSlip" element={<GenerateSlip />} />
         </Routes>
