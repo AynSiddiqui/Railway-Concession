@@ -7,6 +7,8 @@ import ErrorMessage from "./ErrorMesssge";
 import Navigation from "./Navigation.js";
 import Footer from "./Footer.js";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,7 +32,12 @@ function SignUp() {
       setPageLoaded(true);
     }, 100);
   }, []);
-
+const diffToast = (message, type) => {
+  toast[type](message, {
+    position: "top-center",
+    theme: "dark",
+  });
+};
   const submitHandler = async (e) => {
     e.preventDefault();
     if (password !== confirmpassword) {
@@ -70,8 +77,10 @@ function SignUp() {
         // Redirect the user to the other form page
         // navigate("/Applicatioform");
         window.location = "/login";
+        diffToast("Registered Successfully", "success");
       } catch (error) {
         setError(error.response.data.message);
+        diffToast("User already exists", "error");
         console.log(error);
       }
     }
@@ -235,6 +244,7 @@ function SignUp() {
             >
               Submit
             </button>
+            <ToastContainer />
           </form>
           <div className="my-1 text-white">
             <p className="text-xl text-black">Already have account?</p>

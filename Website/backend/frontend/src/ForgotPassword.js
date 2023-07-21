@@ -6,18 +6,25 @@ import ErrorMessage from "./ErrorMesssge";
 import { json } from "react-router-dom";
 import Navigation from "./Navigation.js";
 import Footer from "./Footer.js";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [msg, setMsg] = useState("");
   const [error, setError] = useState("");
-
+const diffToast = (message, type) => {
+  toast[type](message, {
+    position: "top-center",
+    theme: "dark",
+  });
+};
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const url = "http://localhost:5000/api/passwordReset/reset";
       const { data } = await axios.post(url, { email });
       setMsg(data.message);
+       diffToast("Email sent Successfully", "success");
       setError("");
     } catch (error) {
       if (
@@ -65,6 +72,7 @@ function ForgotPassword() {
             >
               Submit
             </button>
+            <ToastContainer />
           </form>
         </div>
       </div>

@@ -6,7 +6,8 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import ErrorMessage from "./ErrorMesssge";
 import { json } from "react-router-dom";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,7 +21,12 @@ function Login() {
       setPageLoaded(true);
     }, 100);
   }, []);
-
+const diffToast = (message, type) => {
+  toast[type](message, {
+    position: "top-center",
+    theme: "dark",
+  });
+};
   const submitHandler = async (e) => {
     e.preventDefault();
 
@@ -48,12 +54,13 @@ function Login() {
       localStorage.setItem("userRegId", data.regId);
       console.log(localStorage.getItem("token"));
       console.log(localStorage.getItem("userRegId"));
+      diffToast("Login Successful", "success");
       setLoading(false);
       window.location = "/";
     } catch (error) {
       setError(error.response.data.message);
       setLoading(false);
-      alert("Invalid credentials");
+      diffToast("Invalid Credentials", "error");
     }
   };
 
@@ -113,6 +120,7 @@ function Login() {
             >
               Submit
             </button>
+            <ToastContainer />
           </form>
           <div className="my-2 text-white">
             <p className="text-xl text-black">Don't have an account?</p>

@@ -7,6 +7,8 @@ import ErrorMessage from "./ErrorMesssge";
 import { supabase } from "./lib/supabase";
 import { v4 as uuidv4 } from "uuid";
 import SignUp from "./SignUp";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function Application() {
   var filedata = "";
   // const [firstname, setFirstName] = useState("");
@@ -39,7 +41,12 @@ function Application() {
   const [aadhar, setaadhar] = useState([]);
   const loggedInUserEmail = localStorage.getItem("userEmail");
   let isPresent;
-
+const diffToast = (message, type) => {
+  toast[type](message, {
+    position: "top-center",
+    theme: "dark",
+  });
+};
   useEffect(() => {
     fetchUserDetails(loggedInUserEmail);
   }, [loggedInUserEmail]);
@@ -275,9 +282,11 @@ function Application() {
 
       console.log(data);
       localStorage.setItem("userInfo", JSON.stringify(data));
+       diffToast("Application submitted successfully", "success");
       window.location = "/Slip";
     } catch (error) {
       setError(error.response.data.message);
+      diffToast("Provide valid Details", "error");
     }
   };
 
@@ -644,6 +653,7 @@ function Application() {
             >
               Submit
             </button>
+            <ToastContainer />
           </form>
         </div>
       </div>
