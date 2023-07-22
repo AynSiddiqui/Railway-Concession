@@ -32,12 +32,12 @@ function SignUp() {
       setPageLoaded(true);
     }, 100);
   }, []);
-const diffToast = (message, type) => {
-  toast[type](message, {
-    position: "top-center",
-    theme: "dark",
-  });
-};
+  const diffToast = (message, type) => {
+    toast[type](message, {
+      position: "top-center",
+      theme: "dark",
+    });
+  };
   const submitHandler = async (e) => {
     e.preventDefault();
     if (password !== confirmpassword) {
@@ -70,9 +70,7 @@ const diffToast = (message, type) => {
         console.log(data);
         localStorage.setItem("email", JSON.stringify(data));
         // Save the name to local storage or any other desired storage method
-        // localStorage.setItem("firstname", firstname);
-        // localStorage.setItem("middlename", middlename);
-        // localStorage.setItem("surname", surname);
+
         // localStorage.setItem("regID", regId);
         // Redirect the user to the other form page
         // navigate("/Applicatioform");

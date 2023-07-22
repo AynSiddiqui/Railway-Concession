@@ -41,12 +41,12 @@ function Application() {
   const [aadhar, setaadhar] = useState([]);
   const loggedInUserEmail = localStorage.getItem("userEmail");
   let isPresent;
-const diffToast = (message, type) => {
-  toast[type](message, {
-    position: "top-center",
-    theme: "dark",
-  });
-};
+  const diffToast = (message, type) => {
+    toast[type](message, {
+      position: "top-center",
+      theme: "dark",
+    });
+  };
   useEffect(() => {
     fetchUserDetails(loggedInUserEmail);
   }, [loggedInUserEmail]);
@@ -102,30 +102,6 @@ const diffToast = (message, type) => {
       setPageLoaded(true);
     }, 100);
   }, []);
-
-  //     const handleSubmit = async (e) =>{
-  //         try {
-  //         e.preventDefault();
-  //         const filename = `${uuidv4()}-${e.name}`;
-
-  // const { data, error } = await supabase.storage
-  // .from("aadhar-card-images")
-  // .upload(filename,aadhar, {
-  // cacheControl: "3600",
-  // upsert: false,
-  // });
-
-  // const filepath = data.path;
-  //         }
-  //      catch(error)
-  //             {
-  //                 setError(error.response.data.message)
-
-  //             }
-  //     }
-  //     const handleFileSelected = (e) => {
-  //         setaadhar(e.target.aadhar[0]);
-  //     }
 
   const levenshteinDistance = (word1, word2) => {
     const m = word1.length;
@@ -282,7 +258,7 @@ const diffToast = (message, type) => {
 
       console.log(data);
       localStorage.setItem("userInfo", JSON.stringify(data));
-       diffToast("Application submitted successfully", "success");
+      diffToast("Application submitted successfully", "success");
       window.location = "/Slip";
     } catch (error) {
       setError(error.response.data.message);
@@ -589,18 +565,6 @@ const diffToast = (message, type) => {
                   ></input>
                 </div>
               </div>
-              {/* <div>
-                <label htmlFor="MobileNo" className="text-xl font-bold">
-                  Mobile Number:{" "}
-                </label>
-                <input
-                  type="tel"
-                  name="MobileNo"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  onChange={(e) => setphnNumber(e.target.value)}
-                  value={phnNumber}
-                ></input>
-              </div> */}
             </div>
             <div className="mt-2 flex space-x-10">
               <div>
@@ -632,19 +596,6 @@ const diffToast = (message, type) => {
                 />
               </div>
             </div>
-            {/* <div className="mt-2 flex space-x-10">
-              <div>
-                <label htmlFor="Sign" className="ml-2 text-xl font-bold">
-                  Upload Signature of Student:{" "}
-                </label>
-                <input
-                  type="file"
-                  name="Sign"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  onChange={(e) => handleSignatureInputChange(e.target.files)}
-                ></input>
-              </div>
-            </div> */}
             <button
               type="submit"
               className="inline-block m-auto w-32 px-4 py-2.5 font-medium text-lg leading-tight uppercase rounded-full shadow-md dark:bg-gray-900 text-white hover:bg-white hover:text-gray-900 hover:shadow-lg focus:bg-pink-violent focus:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-violent active:text-white active:shadow-lg transition duration-150 ease-in-out"

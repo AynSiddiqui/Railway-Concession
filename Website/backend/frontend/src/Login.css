@@ -1,12 +1,5 @@
 @tailwind base;
 @tailwind components;
-.bgimage
-{
-    background-image: url("loginImage.png");
-    background-repeat: no-repeat;
-    background-size:cover;
-    opacity: 0.9;
-}
 
 .bg-picSignUp {
     background-image: url("picSignUp2.jpg");

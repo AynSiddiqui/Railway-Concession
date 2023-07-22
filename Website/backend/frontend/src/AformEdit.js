@@ -11,32 +11,19 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 function ApplicationEdit() {
   var filedata = "";
-  // const [firstname, setFirstName] = useState("");
-  // const [middlename, setmiddleName] = useState("");
-  // const [userEmail, setEmail] = useState("");
-  // const [surname, setsurName] = useState("");
   const [dob, setdobName] = useState();
   const [age, setAgeName] = useState("");
   const [gender, setgender] = useState();
   const [course, setCourse] = useState();
   const [year, setYear] = useState();
-  // const [duration, setDuration] = useState();
-  // const [class1, setClass1] = useState();
   const [stationfrom, setStationFrom] = useState("");
   const [stationto, setStationto] = useState();
-  // const [regID, setregId] = useState("");
   const [userDetails, setUserDetails] = useState("");
-
-  // const [ticketNo, setticketNo] = useState("");isPresent
-  // const [class2, setClass2] = useState();
-  // const [periodfrom, setPeriodFrom] = useState();
-  // const [periodTo, setPeriodTo] = useState();
   const [category, setCategory] = useState();
   const [address, setAddress] = useState("");
   const [phnNumber, setphnNumber] = useState("");
   const [selectedImage, setSelectImage] = useState(null);
   const [error, setError] = useState(false);
-  // const[loading,setLoading] = useState(false)
   const [message, setMessage] = useState("");
   const [aadhar, setaadhar] = useState([]);
   const loggedInUserEmail = localStorage.getItem("userEmail");
@@ -112,12 +99,8 @@ function ApplicationEdit() {
       filedata = out.data.text.slice(14, out.data.text.indexOf("Hostelize"));
       console.log(filedata);
 
-      // Check if station is present in the filedata string
-      // const station = "candoa"; //66.67% similar to bandra so will give true for minimum accuracy <= 66.67%
-      // const station = "rajai oadr"; //trying with space
-
       const station = stationfrom; //this will be what user enters
-      // const station = "candoa"; //this will be what user enters
+
       const percentage = 0.5; // Minimum accuracy needed out of 1 //not required as considering no. of char
 
       const words = station.split(/\s+/);
@@ -176,15 +159,9 @@ function ApplicationEdit() {
           gender: gender,
           course: course,
           year: year,
-          // duration: duration,
-          // class1: class1,
           stationfrom: stationfrom,
           stationto: stationto,
           regId: userDetails.regId,
-          //   ticketNo: ticketNo,
-          // class2: class2,
-          // periodfrom: periodfrom,
-          // periodTo: periodTo,
           category: category,
           address: address,
           phnNumber: phnNumber,
@@ -308,45 +285,6 @@ function ApplicationEdit() {
                   <option value="Final YR">Final YR</option>
                 </select>
               </div>
-              {/* <div>
-                <label
-                  htmlFor="Selecttheoption"
-                  className="ml-2 text-xl font-bold"
-                >
-                  Duration:{" "}
-                </label>
-                <select
-                  name="Selecttheoption"
-                  id="Selecttheoption"
-                  onChange={(e) => setDuration(e.target.value)}
-                  defaultValue={"default"}
-                  value={userDetails.duration}
-                >
-                  <option value={"default"} disabled>
-                    Choose
-                  </option>
-                  <option value="Monthly">Monthly</option>
-                  <option value="Quarterly">Quarterly</option>
-                </select>
-              </div> */}
-              {/* <div>
-                <label htmlFor="Class" className="text-xl font-bold">
-                  Class:{" "}
-                </label>
-                <select
-                  name="Class"
-                  id="Class"
-                  onChange={(e) => setClass1(e.target.value)}
-                  defaultValue={"default"}
-                  value={userDetails.class1}
-                >
-                  <option value={"default"} disabled>
-                    Choose
-                  </option>
-                  <option value="1st Class">1st Class</option>
-                  <option value="2nd Class">2nd Class</option>
-                </select>
-              </div> */}
             </div>
             <div className="mt-2 flex space-x-10">
               <div>

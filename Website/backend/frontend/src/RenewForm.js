@@ -17,7 +17,6 @@ function RenewalApplication() {
   const [class1, setClass1] = useState("");
   const [selectedImage, setSelectImage] = useState(null);
   const [error, setError] = useState(false);
-  // const[loading,setLoading] = useState(false)
   const [message, setMessage] = useState("");
   const [isPageLoaded, setPageLoaded] = useState(false);
   const loggedInUserRegId = localStorage.getItem("userRegId");
@@ -62,7 +61,7 @@ function RenewalApplication() {
       const { data } = await axios.post(
         `http://localhost:5000/api/formAuth/renewForm/${userDetails.regId}`, // Replace userId with the appropriate user ID you want to update
         {
-          phnNumber:userDetails.phnNumber,
+          phnNumber: userDetails.phnNumber,
           duration: duration,
           class2: class2,
           regId: userDetails.regId,
@@ -73,7 +72,7 @@ function RenewalApplication() {
 
       console.log(data);
       localStorage.setItem("userInfo", JSON.stringify(data));
-      //   window.location = "/GenerateSlip";
+      window.location = "/Slip";
     } catch (error) {
       setError(error.response.data.message);
     }
@@ -105,7 +104,6 @@ function RenewalApplication() {
                   type="tel"
                   name="MobileNo"
                   className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  
                   value={userDetails.phnNumber}
                   minLength={10}
                   maxLength={10}
@@ -129,7 +127,7 @@ function RenewalApplication() {
                   readOnly
                 />
               </div>
-              
+
               <div>
                 <label htmlFor="Class" className="text-xl font-bold">
                   Class:{" "}
