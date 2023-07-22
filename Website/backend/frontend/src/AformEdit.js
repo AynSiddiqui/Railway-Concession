@@ -20,8 +20,8 @@ function ApplicationEdit() {
   const [gender, setgender] = useState();
   const [course, setCourse] = useState();
   const [year, setYear] = useState();
-  const [duration, setDuration] = useState();
-  const [class1, setClass1] = useState();
+  // const [duration, setDuration] = useState();
+  // const [class1, setClass1] = useState();
   const [stationfrom, setStationFrom] = useState("");
   const [stationto, setStationto] = useState();
   // const [regID, setregId] = useState("");
@@ -176,8 +176,8 @@ function ApplicationEdit() {
           gender: gender,
           course: course,
           year: year,
-          duration: duration,
-          class1: class1,
+          // duration: duration,
+          // class1: class1,
           stationfrom: stationfrom,
           stationto: stationto,
           regId: userDetails.regId,
@@ -308,7 +308,7 @@ function ApplicationEdit() {
                   <option value="Final YR">Final YR</option>
                 </select>
               </div>
-              <div>
+              {/* <div>
                 <label
                   htmlFor="Selecttheoption"
                   className="ml-2 text-xl font-bold"
@@ -328,8 +328,8 @@ function ApplicationEdit() {
                   <option value="Monthly">Monthly</option>
                   <option value="Quarterly">Quarterly</option>
                 </select>
-              </div>
-              <div>
+              </div> */}
+              {/* <div>
                 <label htmlFor="Class" className="text-xl font-bold">
                   Class:{" "}
                 </label>
@@ -346,7 +346,7 @@ function ApplicationEdit() {
                   <option value="1st Class">1st Class</option>
                   <option value="2nd Class">2nd Class</option>
                 </select>
-              </div>
+              </div> */}
             </div>
             <div className="mt-2 flex space-x-10">
               <div>

@@ -2,16 +2,17 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const RenewalSchema = new Schema({
-  
   phnNumber: {
     type: String,
     required: true,
-    unique: true,
   },
   ticketNo: {
     type: String,
   },
   class2: {
+    type: String,
+  },
+  duration: {
     type: String,
   },
   periodfrom: {

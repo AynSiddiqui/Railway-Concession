@@ -185,8 +185,8 @@ router.post(
     body("surname", "Enter a valid name").isLength({ min: 3 }),
     body("course", "Enter a valid dob").isLength(),
     body("year", "Enter a valid dob").isLength(),
-    body("duration", "Enter a valid dob").isLength(),
-    body("class1", "Enter a valid dob").isLength(),
+    // body("duration", "Enter a valid dob").isLength(),
+    // body("class1", "Enter a valid dob").isLength(),
     body("stationfrom", "Enter a valid dob").isLength(),
     body("stationto", "Enter a valid dob").isLength(),
     body("passduration", "Enter a valid dob").isLength(),
@@ -256,16 +256,16 @@ router.post(
       user.middlename = req.body.middlename;
       user.surname = req.body.surname;
       (user.year = req.body.year),
-        (user.duration = req.body.duration),
-        (user.class1 = req.body.class1),
+        // (user.duration = req.body.duration),
+        // (user.class1 = req.body.class1),
         (user.stationfrom = req.body.stationfrom),
         (user.stationto = req.body.stationto),
-        (user.passduration = req.body.passduration),
+        // (user.passduration = req.body.passduration),
         (user.address = req.body.address),
         (user.phnNumber = req.body.phnNumber),
         (user.regId = req.body.regId),
-        (user.startdate = startdate),
-        (user.enddate = enddate),
+        // (user.startdate = startdate),
+        // (user.enddate = enddate),
         (user.course = req.body.course),
         // Save the updated user document
         await user.save();
@@ -349,7 +349,7 @@ router.post(
       // Renew the user's fields based on the request body
 
       (user.duration = req.body.duration),
-        (user.class1 = req.body.class1),
+        (user.class1 = req.body.class2),
         (user.startdate = startdate),
         (user.enddate = enddate),
         // Save the updated user document

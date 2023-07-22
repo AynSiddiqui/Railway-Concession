@@ -36,11 +36,12 @@ router.post(
 
       
       user = await RenewUser.create({
+        phnNumber: req.body.phnNumber,
         ticketNo: req.body.ticketNo,
         class2: req.body.class2,
+        duration:req.body.duration,
         periodfrom: req.body.periodfrom,
         periodto: req.body.periodto,
-        phnNumber: req.body.phnNumber,
       });
       const data = {
         user: {

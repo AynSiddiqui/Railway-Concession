@@ -62,8 +62,9 @@ function RenewalApplication() {
       const { data } = await axios.post(
         `http://localhost:5000/api/formAuth/renewForm/${userDetails.regId}`, // Replace userId with the appropriate user ID you want to update
         {
+          phnNumber:userDetails.phnNumber,
           duration: duration,
-          class1: class1,
+          class2: class2,
           regId: userDetails.regId,
         },
         config
@@ -97,6 +98,23 @@ function RenewalApplication() {
           >
             <div className="mt-2 flex space-x-10">
               <div>
+                <label htmlFor="MobileNo" className="text-xl font-bold">
+                  Mobile Number:{" "}
+                </label>
+                <input
+                  type="tel"
+                  name="MobileNo"
+                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  
+                  value={userDetails.phnNumber}
+                  minLength={10}
+                  maxLength={10}
+                  required
+                />
+              </div>
+            </div>
+            <div className="mt-2 flex space-x-10">
+              <div>
                 <label htmlFor="ticketno" className="text-xl font-bold">
                   Ticket Number:{" "}
                 </label>
@@ -111,6 +129,7 @@ function RenewalApplication() {
                   readOnly
                 />
               </div>
+              
               <div>
                 <label htmlFor="Class" className="text-xl font-bold">
                   Class:{" "}
@@ -118,9 +137,9 @@ function RenewalApplication() {
                 <select
                   name="Class"
                   id="Class"
-                  onChange={(e) => setClass1(e.target.value)}
+                  onChange={(e) => setClass2(e.target.value)}
                   defaultValue={"default"}
-                  value={class1}
+                  value={class2}
                 >
                   <option value={"default"} disabled>
                     Choose
@@ -129,7 +148,6 @@ function RenewalApplication() {
                   <option value="2nd Class">2nd Class</option>
                 </select>
               </div>
-
               <div>
                 <label
                   htmlFor="Selecttheoption"
