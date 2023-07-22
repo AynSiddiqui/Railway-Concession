@@ -15,8 +15,8 @@ function Application() {
   // const [middlename, setmiddleName] = useState("");
   // const [userEmail, setEmail] = useState("");
   // const [surname, setsurName] = useState("");
-  const [dob, setdobName] = useState();
-  const [age, setAgeName] = useState("");
+  // const [dob, setdobName] = useState();
+  // const [age, setAgeName] = useState("");
   const [gender, setgender] = useState();
   const [course, setCourse] = useState();
   const [year, setYear] = useState();
@@ -40,6 +40,8 @@ function Application() {
   const [message, setMessage] = useState("");
   const [aadhar, setaadhar] = useState([]);
   const loggedInUserEmail = localStorage.getItem("userEmail");
+  const [dob, setDob] = useState("");
+  const [age, setAge] = useState("");
   let isPresent;
   const diffToast = (message, type) => {
     toast[type](message, {
@@ -59,6 +61,28 @@ function Application() {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  function calculateAge(dateOfBirth) {
+    const dob = new Date(dateOfBirth);
+    const currentDate = new Date();
+
+    let age = currentDate.getFullYear() - dob.getFullYear();
+    const monthDiff = currentDate.getMonth() - dob.getMonth();
+
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && currentDate.getDate() < dob.getDate())
+    ) {
+      age--;
+    }
+
+    return age;
+  }
+
+  const handleDobChange = (e) => {
+    setDob(e.target.value);
+    setAge(calculateAge(e.target.value));
   };
 
   function generateAlphanumericHash(regId) {
@@ -283,7 +307,10 @@ function Application() {
             autoComplete="on"
             className="grid grid-col-3 space-x-3 space-y-10 content-center"
           >
-            <div className="mt-2 ml flex space-x-5"  style={{marginLeft:"80px"}}>
+            <div
+              className="mt-2 ml flex space-x-5"
+              style={{ marginLeft: "80px" }}
+            >
               <div>
                 <label htmlFor="firstname" className="ml-2 text-lg font-bold">
                   First Name:{" "}
@@ -329,7 +356,7 @@ function Application() {
                 </span>
               </div>
             </div>
-            <div className="my-1 flex space-x-1"  style={{marginLeft:"80px"}}>
+            <div className="my-1 flex space-x-1" style={{ marginLeft: "80px" }}>
               <div>
                 <label htmlFor="dob" className="ml-2 text-xl font-bold">
                   D.O.B:{" "}
@@ -338,7 +365,7 @@ function Application() {
                   type="date"
                   name="dob"
                   className="mx-2 shadow-lg appearance border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  onChange={(e) => setdobName(e.target.value)}
+                  onChange={handleDobChange}
                   value={dob}
                   required
                 />
@@ -349,10 +376,11 @@ function Application() {
                 </label>
                 <input
                   type="number"
-                  maxlength="2"
+                  maxLength="2"
                   name="age"
-                  className="mx-2 shadow-lg appearance-none border w-36 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  onChange={(e) => setAgeName(e.target.value)}
+                  disabled
+                  className="mx-2 shadow-lg appearance-none border w-36 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  onChange={(e) => setAge(e.target.value)}
                   value={age}
                   minLength={1}
                   maxLength={2}
@@ -379,7 +407,10 @@ function Application() {
                 </select>
               </div>
             </div>
-            <div className="my-1 flex space-x-20"  style={{marginLeft:"50px"}}>
+            <div
+              className="my-1 flex space-x-20"
+              style={{ marginLeft: "50px" }}
+            >
               <div>
                 <label htmlFor="course" className="ml-2 text-xl font-bold">
                   Courses:{" "}
@@ -461,7 +492,10 @@ function Application() {
                 </select>
               </div>
             </div>
-            <div className="mt-2 flex space-x-10"  style={{marginLeft:"42px"}}>
+            <div
+              className="mt-2 flex space-x-10"
+              style={{ marginLeft: "42px" }}
+            >
               <div>
                 <label htmlFor="stationfrom" className="text-xl font-bold">
                   Station From:{" "}
@@ -510,7 +544,10 @@ function Application() {
             </div>
 
             {/* /////////////////// */}
-            <div className="mt-2 flex space-x-10"  style={{marginLeft:"30px"}}>
+            <div
+              className="mt-2 flex space-x-10"
+              style={{ marginLeft: "30px" }}
+            >
               <div>
                 <label htmlFor="Category" className="ml-2 text-xl font-bold">
                   Category:{" "}
@@ -540,7 +577,10 @@ function Application() {
                 ></input>{" "}
               </div>
             </div>
-            <div className="mt-2 flex space-x-10" style={{marginLeft:"30px"}}>
+            <div
+              className="mt-2 flex space-x-10"
+              style={{ marginLeft: "30px" }}
+            >
               <div>
                 <label htmlFor="Address" className="ml-2 text-xl font-bold">
                   Address:{" "}
@@ -568,7 +608,10 @@ function Application() {
                 </div>
               </div>
             </div>
-            <div className="mt-2 flex space-x-10" style={{marginLeft:"30px"}}>
+            <div
+              className="mt-2 flex space-x-10"
+              style={{ marginLeft: "30px" }}
+            >
               <div>
                 <label htmlFor="AadharCard" className="ml-2 text-xl font-bold">
                   Student ID Card(having address):{" "}
@@ -597,11 +640,10 @@ function Application() {
             </div>
             <button
               type="submit"
-              
               className="inline-block m-auto w-32 px-4 py-2.5 font-medium text-lg leading-tight uppercase rounded-full shadow-md dark:bg-gray-900 text-white hover:bg-white hover:text-gray-900 hover:shadow-lg focus:bg-pink-violent focus:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-violent active:text-white active:shadow-lg transition duration-150 ease-in-out"
               // className="inline-block m-auto w-32 px-4 py-2.5 bg-blue text-pink font-medium text-lg leading-tight uppercase rounded-full shadow-md hover:dark:bg-gray-900 hover:text-white hover:shadow-lg focus:bg-pink-violent focus:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-violent active:text-white active:shadow-lg transition duration-150 ease-in-out"
               onClick={submitHandler}
-              style={{marginLeft:"43%"}}
+              style={{ marginLeft: "43%" }}
             >
               Submit
             </button>
