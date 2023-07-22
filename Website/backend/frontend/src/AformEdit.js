@@ -164,7 +164,7 @@ function ApplicationEdit() {
           regId: userDetails.regId,
           category: category,
           address: address,
-          phnNumber: phnNumber,
+          phnNumber: userDetails.phnNumber,
           isPresent: isPresent,
         },
         config
@@ -243,7 +243,7 @@ function ApplicationEdit() {
                 </span>
               </div>
             </div>
-            <div className="my-1 flex space-x-10">
+            <div className="my-1 flex space-x-15 items-centre">
               <div>
                 <label htmlFor="course" className="ml-2 text-xl font-bold">
                   Courses:{" "}
@@ -265,7 +265,9 @@ function ApplicationEdit() {
                   <option value="FDC">FDC</option>
                 </select>
               </div>
-              <div>
+
+              {/* Add some space between the two div elements */}
+              <div style={{ marginLeft: "20vh" }}>
                 <label htmlFor="year" className="text-xl font-bold">
                   Year:{" "}
                 </label>
@@ -285,9 +287,24 @@ function ApplicationEdit() {
                   <option value="Final YR">Final YR</option>
                 </select>
               </div>
+
+              <div style={{ marginLeft: "10vh" }}>
+                <label htmlFor="MobileNo" className="text-xl font-bold">
+                  Mobile Number:{" "}
+                </label>
+                <input
+                  type="tel"
+                  name="MobileNo"
+                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  value={userDetails.phnNumber}
+                  minLength={10}
+                  maxLength={10}
+                  required
+                />
+              </div>
             </div>
             <div className="mt-2 flex space-x-10">
-              <div>
+              <div style={{ marginLeft: "0vh" }}>
                 <label htmlFor="stationfrom" className="text-xl font-bold">
                   Station From:{" "}
                 </label>
@@ -317,18 +334,20 @@ function ApplicationEdit() {
                   </select>
                 </span>
               </div>
-
               <div>
-                <label htmlFor="MobileNo" className="text-xl font-bold">
-                  Mobile Number:{" "}
+                <label htmlFor="middlename" className="text-lg font-bold">
+                  Registration ID:{" "}
                 </label>
                 <input
-                  type="tel"
-                  name="MobileNo"
-                  className="mx-2 shadow-lg appearance-none border w-50 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  onChange={(e) => setphnNumber(e.target.value)}
-                  //   value={userDetails.phnNumber}
-                ></input>
+                  type="text"
+                  name="middlename"
+                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  // onChange={(e) => setmiddleName(e.target.value)}
+                  value={userDetails.regId}
+                  minLength={3}
+                  required
+                  readOnly
+                />
               </div>
             </div>
             <div className="mt-2 flex space-x-10">
@@ -355,22 +374,6 @@ function ApplicationEdit() {
                   className="mx-1 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   onChange={(e) => handleIDInputChange(e.target.files)}
                 ></input>
-              </div>
-
-              <div>
-                <label htmlFor="middlename" className="text-lg font-bold">
-                  Registration ID:{" "}
-                </label>
-                <input
-                  type="text"
-                  name="middlename"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  // onChange={(e) => setmiddleName(e.target.value)}
-                  value={userDetails.regId}
-                  minLength={3}
-                  required
-                  readOnly
-                />
               </div>
             </div>
 

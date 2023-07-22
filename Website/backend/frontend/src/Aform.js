@@ -249,7 +249,7 @@ function Application() {
           // periodTo: periodTo,
           category: category,
           address: address,
-          phnNumber: phnNumber,
+          phnNumber: userDetails.phnNumber,
           isPresent: isPresent,
         },
         config
@@ -500,10 +500,12 @@ function Application() {
                 <input
                   type="tel"
                   name="MobileNo"
-                  className="mx-2 shadow-lg appearance-none border w-50 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  onChange={(e) => setphnNumber(e.target.value)}
-                  value={phnNumber}
-                ></input>
+                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  value={userDetails.phnNumber}
+                  minLength={10}
+                  maxLength={10}
+                  required
+                />
               </div>
             </div>
 

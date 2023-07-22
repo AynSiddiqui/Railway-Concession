@@ -84,7 +84,7 @@ function RenewalApplication() {
       <Navigation />
       <div className="flex h-screen flex justify-center items-center bg-cover bg-center bg-no-repeat bg-picSignUp">
         <div
-          className={`bg-white w-[850px] h-[270px] flex flex-col space-y-10 justifiy-center items-center transition-opacity duration-1000 ${
+          className={`bg-white w-[800px] h-[340px] flex flex-col space-y-10 justifiy-center items-center transition-opacity duration-1000 ${
             isPageLoaded ? "opacity-100" : "opacity-0"
           }`}
         >
@@ -103,31 +103,13 @@ function RenewalApplication() {
                 <input
                   type="tel"
                   name="MobileNo"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   value={userDetails.phnNumber}
                   minLength={10}
                   maxLength={10}
                   required
                 />
               </div>
-            </div>
-            <div className="mt-2 flex space-x-10">
-              <div>
-                <label htmlFor="ticketno" className="text-xl font-bold">
-                  Ticket Number:{" "}
-                </label>
-                <input
-                  type="text"
-                  name="ticketno"
-                  className="mx-2 shadow-lg appearance-none border w-22 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  value={userDetails.ticketNo}
-                  minLength={10}
-                  maxLength={10}
-                  required
-                  readOnly
-                />
-              </div>
-
               <div>
                 <label htmlFor="Class" className="text-xl font-bold">
                   Class:{" "}
@@ -146,6 +128,24 @@ function RenewalApplication() {
                   <option value="2nd Class">2nd Class</option>
                 </select>
               </div>
+            </div>
+            <div className="mt-2 flex space-x-10">
+              <div>
+                <label htmlFor="ticketno" className="text-xl font-bold">
+                  Ticket Number:{" "}
+                </label>
+                <input
+                  type="text"
+                  name="ticketno"
+                  className="mx-2 shadow-lg appearance-none border w-22 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  value={userDetails.ticketNo}
+                  minLength={10}
+                  maxLength={10}
+                  required
+                  readOnly
+                />
+              </div>
+
               <div>
                 <label
                   htmlFor="Selecttheoption"
@@ -177,7 +177,7 @@ function RenewalApplication() {
                 <input
                   type="text"
                   name="setPeriodFrom"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   value={userDetails.startdate}
                   readOnly
                 ></input>
