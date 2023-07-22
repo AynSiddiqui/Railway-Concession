@@ -1,8 +1,9 @@
 import React from "react";
 import Pdf from "./Documentation.pdf";
 import "./Footer.css";
-
+import { Link } from "react-router-dom";
 function Footer() {
+  const isAuthenticated = localStorage.getItem("token");
   return (
     <>
       <footer className="text-center lg:text-left bg-gray-400 text-black">
@@ -108,11 +109,18 @@ function Footer() {
                   Home
                 </a>
               </p>
+              {isAuthenticated ? (
+                <>
               <p className="mb-4">
                 <a href="/ApplicationForm" className="text-gray-600">
                   Application Form
                 </a>
               </p>
+              </>
+                ) : (
+                  <>
+              </>
+                )}
               <p className="mb-4">
                 <a href="/SignUp" className="text-gray-600">
                   Sign Up
