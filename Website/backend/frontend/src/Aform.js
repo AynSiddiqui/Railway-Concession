@@ -281,9 +281,9 @@ function Application() {
           </div>
           <form
             autoComplete="on"
-            className="grid grid-col-3 space-y-10 content-center"
+            className="grid grid-col-3 space-x-3 space-y-10 content-center"
           >
-            <div className="mt-2 flex space-x-5">
+            <div className="mt-2 ml flex space-x-5"  style={{marginLeft:"80px"}}>
               <div>
                 <label htmlFor="firstname" className="ml-2 text-lg font-bold">
                   First Name:{" "}
@@ -329,7 +329,7 @@ function Application() {
                 </span>
               </div>
             </div>
-            <div className="my-1 flex space-x-5">
+            <div className="my-1 flex space-x-1"  style={{marginLeft:"80px"}}>
               <div>
                 <label htmlFor="dob" className="ml-2 text-xl font-bold">
                   D.O.B:{" "}
@@ -351,7 +351,7 @@ function Application() {
                   type="number"
                   maxlength="2"
                   name="age"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  className="mx-2 shadow-lg appearance-none border w-36 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   onChange={(e) => setAgeName(e.target.value)}
                   value={age}
                   minLength={1}
@@ -379,7 +379,7 @@ function Application() {
                 </select>
               </div>
             </div>
-            <div className="my-1 flex space-x-10">
+            <div className="my-1 flex space-x-20"  style={{marginLeft:"50px"}}>
               <div>
                 <label htmlFor="course" className="ml-2 text-xl font-bold">
                   Courses:{" "}
@@ -461,7 +461,7 @@ function Application() {
                 </select>
               </div>
             </div>
-            <div className="mt-2 flex space-x-10">
+            <div className="mt-2 flex space-x-10"  style={{marginLeft:"42px"}}>
               <div>
                 <label htmlFor="stationfrom" className="text-xl font-bold">
                   Station From:{" "}
@@ -510,7 +510,7 @@ function Application() {
             </div>
 
             {/* /////////////////// */}
-            <div className="mt-2 flex space-x-10">
+            <div className="mt-2 flex space-x-10"  style={{marginLeft:"30px"}}>
               <div>
                 <label htmlFor="Category" className="ml-2 text-xl font-bold">
                   Category:{" "}
@@ -540,7 +540,7 @@ function Application() {
                 ></input>{" "}
               </div>
             </div>
-            <div className="mt-2 flex space-x-10">
+            <div className="mt-2 flex space-x-10" style={{marginLeft:"30px"}}>
               <div>
                 <label htmlFor="Address" className="ml-2 text-xl font-bold">
                   Address:{" "}
@@ -568,10 +568,10 @@ function Application() {
                 </div>
               </div>
             </div>
-            <div className="mt-2 flex space-x-10">
+            <div className="mt-2 flex space-x-10" style={{marginLeft:"30px"}}>
               <div>
                 <label htmlFor="AadharCard" className="ml-2 text-xl font-bold">
-                  ID Card of Student(having address):{" "}
+                  Student ID Card(having address):{" "}
                 </label>
                 <input
                   type="file"
@@ -580,16 +580,13 @@ function Application() {
                   className="mx-1 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   onChange={(e) => handleIDInputChange(e.target.files)}
                 ></input>
-              </div>
-
-              <div>
                 <label htmlFor="middlename" className="text-lg font-bold">
                   Registration ID:{" "}
                 </label>
                 <input
                   type="text"
                   name="middlename"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                  className="mx-2 shadow-lg appearance-none border w-48 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
                   // onChange={(e) => setmiddleName(e.target.value)}
                   value={userDetails.regId}
                   minLength={3}
@@ -600,9 +597,11 @@ function Application() {
             </div>
             <button
               type="submit"
+              
               className="inline-block m-auto w-32 px-4 py-2.5 font-medium text-lg leading-tight uppercase rounded-full shadow-md dark:bg-gray-900 text-white hover:bg-white hover:text-gray-900 hover:shadow-lg focus:bg-pink-violent focus:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-violent active:text-white active:shadow-lg transition duration-150 ease-in-out"
               // className="inline-block m-auto w-32 px-4 py-2.5 bg-blue text-pink font-medium text-lg leading-tight uppercase rounded-full shadow-md hover:dark:bg-gray-900 hover:text-white hover:shadow-lg focus:bg-pink-violent focus:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-violent active:text-white active:shadow-lg transition duration-150 ease-in-out"
               onClick={submitHandler}
+              style={{marginLeft:"43%"}}
             >
               Submit
             </button>

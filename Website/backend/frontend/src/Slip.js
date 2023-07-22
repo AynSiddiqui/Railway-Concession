@@ -37,13 +37,13 @@ function Slip({ isButtonClick }) {
 
   const downloadAsPDF = () => {
     const contentDiv = document.getElementById("pdf-content");
-
     const opt = {
-      margin: 10,
+      margin: 50,
+      width:500,
       filename: "slip.pdf",
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: { scale: 2 },
-      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+      jsPDF: { unit: "mm", format: "a4", orientation: "landscape" },
     };
 
     html2pdf().from(contentDiv).set(opt).save();

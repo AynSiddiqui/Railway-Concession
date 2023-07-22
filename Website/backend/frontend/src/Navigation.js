@@ -41,7 +41,7 @@ function Navigation() {
           ></img>
         )}
 
-        <div className="flex ml-auto space-x-4">
+        <div className="flex ml-auto items-center space-x-4">
           <Link
             to="/"
             className="text-black font-semibold hover:dark:bg-gray-900 hover:text-white rounded-lg px-4 py-2 animate-fadein"
