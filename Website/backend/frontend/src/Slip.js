@@ -1,11 +1,11 @@
-// import "./Slip.css";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import html2pdf from "html2pdf.js";
 import "./Slip.css";
 import Navigation from "./Navigation.js";
 import Footer from "./Footer.js";
-
+import Logo from "./Logo.png";
+import Approved from "./Approved.png";
 function Slip({ isButtonClick }) {
   const [FormUser, setFormUsers] = useState("");
   console.log(localStorage.getItem("userRegId"));
@@ -87,7 +87,7 @@ function Slip({ isButtonClick }) {
                             bgcolor="#ffe77b"
                           >
                             <img
-                              src="https://img.collegepravesh.com/2016/01/VJTI-Mumbai-Logo.png"
+                              src={Logo}
                               style={{
                                 height: "100%",
                                 width: "100%",
@@ -176,7 +176,7 @@ function Slip({ isButtonClick }) {
                         <div className="col-2 flex">
                           <img
                             // src="https://www.onlygfx.com/wp-content/uploads/2016/09/green-approved-stamp-3.png"
-                            src="https://www.pngplay.com/wp-content/uploads/6/Green-Approved-Vector-Transparent-PNG.png"
+                            src={Approved}
                             style={{
                               height: "30%",
                               width: "25%",
