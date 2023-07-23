@@ -48,6 +48,32 @@ function RenewalApplication() {
     }
   }, []);
 
+  //CHECKING IF TICKET ALREADY EXISTS
+  const [loading, setLoading] = useState(true);
+  const [ticket, setTicket] = useState("");
+  useEffect(() => {
+    fetchTicket(loggedInUserRegId);
+  }, [loggedInUserRegId]);
+  const fetchTicket = async (regId) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/formAuth/getformuser?regId=${regId}`
+      );
+      setTicket(response.data?.ticketNo);
+      setLoading(false);
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+      console.log('Ticket does not exist yet!');
+      setLoading(false);
+    } else {
+      console.log(error);
+      setLoading(false);
+    }
+    }
+  };
+
+
+
   const submitHandler = async (e) => {
     e.preventDefault();
 
@@ -82,6 +108,11 @@ function RenewalApplication() {
   return (
     <>
       <Navigation />
+      {loading?(
+        <>Loading</>//initial loading
+      ):
+      (<>
+      {ticket?(<>
       <div className="flex h-screen flex justify-center items-center bg-cover bg-center bg-no-repeat bg-picSignUp">
         <div
           className={`bg-white w-[800px] h-[340px] flex flex-col space-y-10 justifiy-center items-center transition-opacity duration-1000 ${
@@ -205,6 +236,15 @@ function RenewalApplication() {
           </form>
         </div>
       </div>
+      </>)
+      :
+      (
+        <>
+        Application form must be filled for a new user first or ticket validity smust be expired
+        </>
+      )}
+      </>
+      )}
       <Footer />
     </>
   );

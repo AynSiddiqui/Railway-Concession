@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import NavigationImage from "./NavigationImage.png";
 import Pdf from "./Documentation.pdf";
 import "./Navigation.css";
+import axios from "axios";  
 
 function handleLogout() {
   // Remove the token from local storage
@@ -13,25 +14,64 @@ function handleLogout() {
 }
 
 function Navigation() {
+  
   // Check if the user is authenticated
   const isAuthenticated = localStorage.getItem("token");
 
+  //CHECKING IF TICKET ALREADY EXISTS  
+  useEffect(() => {
+    if(isAuthenticated){
+      fetchTicket(loggedInUserRegId);
+    }
+    else{
+      setLoading(false)
+    }
+  }, []);
+  const [loading, setLoading] = useState(true);
+  const [ticket, setTicket] = useState("");
+  const loggedInUserRegId = localStorage.getItem("userRegId");
+  const fetchTicket = async (regId) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/formAuth/getformuser?regId=${regId}`
+      );
+      setTicket(response.data?.ticketNo);
+      localStorage.setItem('ticket', ticket);
+      setLoading(false);
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+      console.log('Ticket does not exist yet!yo');
+      setLoading(false);
+    } else {
+      console.log(error);
+      setLoading(false);
+    }
+    }
+  };
+  
   return (
     <div className="dark:bg-gray-400">
+      
       <nav className="flex flex-row items-center h-16 px-4">
+      {loading?(<></>
+):
+      (
+        <>
         {isAuthenticated ? (
           <>
             <img
               src={NavigationImage}
               className="h-16 animate-bounce"
               alt=""
+              style={{marginTop:"15px"}}
             ></img>
+            {ticket?(<>
             <Link
               to="/slip"
               className="ml-4 text-black font-semibold hover:dark:bg-gray-900 hover:text-white rounded-lg px-4 py-2"
             >
               Slip
-            </Link>
+            </Link></>):(<></>)}
           </>
         ) : (
           <img
@@ -66,7 +106,9 @@ function Navigation() {
               >
                 Application Form
               </Link>
-              <Link
+              {ticket ? 
+              (<>
+                <Link
                 to="/ApplicationFormEdit"
                 className="text-black font-semibold hover:dark:bg-gray-900 hover:text-white rounded-lg px-4 py-2 animate-fadein"
               >
@@ -78,6 +120,7 @@ function Navigation() {
               >
                 Renew Application
               </Link>
+              </>):(<></>)}
               <button
                 className="text-black font-semibold hover:dark:bg-gray-900 hover:text-white rounded-lg px-4 py-2 animate-fadein"
                 onClick={handleLogout}
@@ -101,7 +144,8 @@ function Navigation() {
               </Link>
             </>
           )}
-        </div>
+        </div></>
+      )}
       </nav>
     </div>
   );
