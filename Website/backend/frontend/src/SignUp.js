@@ -34,38 +34,20 @@ function SignUp() {
       setPageLoaded(true);
     }, 100);
   }, []);
-  
+
   const diffToast = (message, type) => {
-    if (type === "error") {
-      // Update the latest error message
-      setLatestError(message);
-      // Check if there's already an active toast with error type, and update it
-      const existingErrorToast = toast.isActive("errorToast");
-      if (existingErrorToast) {
-        toast.update(existingErrorToast, {
-          render: message,
-          type: "error",
-        });
-      } else {
-        // If there's no active toast with error type, create a new one
-        toast.error(message, {
-          position: "top-center",
-          theme: "dark",
-          toastId: "errorToast",
-        });
-      }
-    } else {
-      // For success message, use default toast function
-      toast[type](message, {
-        position: "top-center",
-        theme: "dark",
-      });
-    }
+    toast.dismiss();
+
+    // For success message, use default toast function
+    toast[type](message, {
+      position: "top-center",
+      theme: "dark",
+    });
   };
   const submitHandler = async (e) => {
     e.preventDefault();
     if (password !== confirmpassword) {
-      diffToast("Passwords Do not match","error");
+      diffToast("Passwords Do not match", "error");
     } else {
       setMessage(null);
       try {
@@ -101,7 +83,6 @@ function SignUp() {
         window.location = "/login";
         diffToast("Registered Successfully", "success");
       } catch (error) {
-       
         if (
           email === "" ||
           regId === "" ||
@@ -110,20 +91,11 @@ function SignUp() {
           surname === "" ||
           phnNumber === "" ||
           password === ""
-        )
-        {
-           
-             diffToast("Invalid Input", "error");
-           
+        ) {
+          diffToast("Invalid Input", "error");
+        } else {
+          diffToast("User already exists", "error");
         }
-       
-          
-       else
-       {
-      
-            diffToast("User already exists", "error");
-          
-       }
       }
     }
   };
@@ -287,13 +259,14 @@ function SignUp() {
               Submit
             </button>
           </form>
-            <ToastContainer limit = {1}/>
+          <ToastContainer />
           <div className="my-1 text-white">
             <div className="text-xl text-black">Already have account?</div>
             <Link
               to="/Login"
               className="text-2xl text-black text-center underline cursor-pointer hover:dark:bg-gray-900 hover:text-white"
-            >Log In
+            >
+              Log In
             </Link>
           </div>
         </div>
