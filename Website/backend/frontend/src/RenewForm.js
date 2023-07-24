@@ -63,20 +63,65 @@ function RenewalApplication() {
       setLoading(false);
     } catch (error) {
       if (error.response && error.response.status === 404) {
-      console.log('Ticket does not exist yet!');
-      setLoading(false);
-    } else {
-      console.log(error);
-      setLoading(false);
-    }
+        console.log("Ticket does not exist yet!");
+        setLoading(false);
+      } else {
+        console.log(error);
+        setLoading(false);
+      }
     }
   };
+  // Function to parse date in the format "dd-mm-yyyy" and create a Date object
+  const parseDate = (dateString) => {
+    const parts = dateString.split("-");
+    return new Date(parts[2], parts[1] - 1, parts[0]);
+  };
+  //  Function to calculate days left until enddate
+  const calculateDaysLeft = () => {
+    const currentDate = new Date();
 
+    // Function to parse date in the format "dd-mm-yyyy" and create a Date object
+    const parseDate = (dateString) => {
+      const parts = dateString.split("-");
+      return new Date(parts[2], parts[1] - 1, parts[0]);
+    };
 
+    const enddate = parseDate(userDetails.enddate);
+    console.log("bleh", currentDate, enddate);
+    const timeDiff = enddate.getTime() - currentDate.getTime();
+    return Math.ceil(timeDiff / (1000 * 3600 * 24));
+  };
+
+  // Function to calculate remaining time in days, hours, minutes, and seconds
+  // const calculateTimeLeft = () => {
+  //   const currentDate = new Date();
+
+  //   // Function to parse date in the format "dd-mm-yyyy" and create a Date object
+  //   const parseDate = (dateString) => {
+  //     const parts = dateString.split("-");
+  //     return new Date(parts[2], parts[1] - 1, parts[0]);
+  //   };
+
+  //   const enddate = parseDate(userDetails.enddate);
+  //   const timeDiff = enddate.getTime() - currentDate.getTime();
+
+  //   // Convert timeDiff to days, hours, minutes, and seconds
+  //   const seconds = Math.floor(timeDiff / 1000);
+  //   const minutes = Math.floor(seconds / 60);
+  //   const hours = Math.floor(minutes / 60);
+  //   const days = Math.floor(hours / 24);
+
+  //   return {
+  //     days,
+  //     hours: hours % 24,
+  //     minutes: minutes % 60,
+  //     seconds: seconds % 60,
+  //   };
+  // };
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
+    // calculateDaysLeft();
     try {
       const config = {
         headers: {
@@ -108,142 +153,161 @@ function RenewalApplication() {
   return (
     <>
       <Navigation />
-      {loading?(
-        <>Loading</>//initial loading
-      ):
-      (<>
-      {ticket?(<>
-      <div className="flex h-screen flex justify-center items-center bg-cover bg-center bg-no-repeat bg-picSignUp">
-        <div
-          className={`bg-white w-[800px] h-[340px] flex flex-col space-y-10 justifiy-center items-center transition-opacity duration-1000 ${
-            isPageLoaded ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          <div className="flex flex-row w-full h-16 text-2xl font-bond justify-center items-center dark:bg-gray-900 text-white">
-            Renewal Application Form{" "}
-          </div>
-          <form
-            autoComplete="on"
-            className="grid grid-col-3 space-y-10 content-center"
-          >
-            <div className="mt-2 flex space-x-10">
-              <div>
-                <label htmlFor="MobileNo" className="text-xl font-bold">
-                  Mobile Number:{" "}
-                </label>
-                <input
-                  type="tel"
-                  name="MobileNo"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  value={userDetails.phnNumber}
-                  minLength={10}
-                  maxLength={10}
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="Class" className="text-xl font-bold">
-                  Class:{" "}
-                </label>
-                <select
-                  name="Class"
-                  id="Class"
-                  onChange={(e) => setClass2(e.target.value)}
-                  defaultValue={"default"}
-                  value={class2}
-                >
-                  <option value={"default"} disabled>
-                    Choose
-                  </option>
-                  <option value="1st Class">1st Class</option>
-                  <option value="2nd Class">2nd Class</option>
-                </select>
-              </div>
-            </div>
-            <div className="mt-2 flex space-x-10">
-              <div>
-                <label htmlFor="ticketno" className="text-xl font-bold">
-                  Ticket Number:{" "}
-                </label>
-                <input
-                  type="text"
-                  name="ticketno"
-                  className="mx-2 shadow-lg appearance-none border w-22 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  value={userDetails.ticketNo}
-                  minLength={10}
-                  maxLength={10}
-                  required
-                  readOnly
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="Selecttheoption"
-                  className="ml-2 text-xl font-bold"
-                >
-                  Duration:{" "}
-                </label>
-                <select
-                  name="Selecttheoption"
-                  id="Selecttheoption"
-                  onChange={(e) => setDuration(e.target.value)}
-                  defaultValue={"default"}
-                  value={duration}
-                >
-                  <option value={"default"} disabled>
-                    Choose
-                  </option>
-                  <option value="Monthly">Monthly</option>
-                  <option value="Quarterly">Quarterly</option>
-                </select>
-              </div>
-            </div>
-            <div>
-              <label htmlFor="datebeg" className="ml-2 text-xl font-bold">
-                Period of Pass:{" "}
-              </label>
-              <span>
-                <span className="text-lg mx-2">From</span>
-                <input
-                  type="text"
-                  name="setPeriodFrom"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  value={userDetails.startdate}
-                  readOnly
-                ></input>
-              </span>
-              <span>
-                <span className="text-lg mx-2">to</span>
-                <input
-                  type="text"
-                  name="setPeriodTo"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  value={userDetails.enddate}
-                  readOnly
-                />
-              </span>
-            </div>
-
-            <button
-              type="submit"
-              className="inline-block m-auto w-32 px-4 py-2.5 font-medium text-lg leading-tight uppercase rounded-full shadow-md dark:bg-gray-900 text-white hover:bg-white hover:text-gray-900 hover:shadow-lg focus:bg-pink-violent focus:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-violent active:text-white active:shadow-lg transition duration-150 ease-in-out"
-              // className="inline-block m-auto w-32 px-6 py-2.5 bg-blue text-pink font-medium text-lg leading-tight uppercase rounded-full shadow-md hover:dark:bg-gray-900 hover:text-white hover:shadow-lg focus:bg-pink-violent focus:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-violent active:text-white active:shadow-lg transition duration-150 ease-in-out"
-              onClick={submitHandler}
-            >
-              Submit
-            </button>
-          </form>
-        </div>
-      </div>
-      </>)
-      :
-      (
+      {loading ? (
+        <>Loading</> // initial loading
+      ) : (
         <>
-        Application form must be filled for a new user first or ticket validity smust be expired
+          {ticket ? (
+            userDetails.enddate &&
+            new Date() < new Date(parseDate(userDetails.enddate)) ? (
+              // Show the timer if the enddate is not reached yet
+              <div className="days-left">
+                Renewal form is not available yet. Days left:{" "}
+                {calculateDaysLeft()}
+              </div>
+            ) : (
+              // <div className="days-left">
+              //   Renewal form is not available yet. Days left:{" "}
+              //   {calculateTimeLeft().days} days, {calculateTimeLeft().hours}{" "}
+              //   hours, {calculateTimeLeft().minutes} minutes,{" "}
+              //   {calculateTimeLeft().seconds} seconds
+              // </div>
+              // Show the renewal form if the enddate is reached or not available
+              <div className="flex h-screen flex justify-center items-center bg-cover bg-center bg-no-repeat bg-picSignUp">
+                <div
+                  className={`bg-white w-[800px] h-[340px] flex flex-col space-y-10 justifiy-center items-center transition-opacity duration-1000 ${
+                    isPageLoaded ? "opacity-100" : "opacity-0"
+                  }`}
+                >
+                  <div className="flex flex-row w-full h-16 text-2xl font-bond justify-center items-center dark:bg-gray-900 text-white">
+                    Renewal Application Form{" "}
+                  </div>
+                  <form
+                    autoComplete="on"
+                    className="grid grid-col-3 space-y-10 content-center"
+                  >
+                    <div className="mt-2 flex space-x-10">
+                      <div>
+                        <label htmlFor="MobileNo" className="text-xl font-bold">
+                          Mobile Number:{" "}
+                        </label>
+                        <input
+                          type="tel"
+                          name="MobileNo"
+                          className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                          value={userDetails.phnNumber}
+                          minLength={10}
+                          maxLength={10}
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="Class" className="text-xl font-bold">
+                          Class:{" "}
+                        </label>
+                        <select
+                          name="Class"
+                          id="Class"
+                          onChange={(e) => setClass2(e.target.value)}
+                          defaultValue={"default"}
+                          value={class2}
+                        >
+                          <option value={"default"} disabled>
+                            Choose
+                          </option>
+                          <option value="1st Class">1st Class</option>
+                          <option value="2nd Class">2nd Class</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="mt-2 flex space-x-10">
+                      <div>
+                        <label htmlFor="ticketno" className="text-xl font-bold">
+                          Ticket Number:{" "}
+                        </label>
+                        <input
+                          type="text"
+                          name="ticketno"
+                          className="mx-2 shadow-lg appearance-none border w-22 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                          value={userDetails.ticketNo}
+                          minLength={10}
+                          maxLength={10}
+                          required
+                          readOnly
+                        />
+                      </div>
+
+                      <div>
+                        <label
+                          htmlFor="Selecttheoption"
+                          className="ml-2 text-xl font-bold"
+                        >
+                          Duration:{" "}
+                        </label>
+                        <select
+                          name="Selecttheoption"
+                          id="Selecttheoption"
+                          onChange={(e) => setDuration(e.target.value)}
+                          defaultValue={"default"}
+                          value={duration}
+                        >
+                          <option value={"default"} disabled>
+                            Choose
+                          </option>
+                          <option value="Monthly">Monthly</option>
+                          <option value="Quarterly">Quarterly</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="datebeg"
+                        className="ml-2 text-xl font-bold"
+                      >
+                        Period of Pass:{" "}
+                      </label>
+                      <span>
+                        <span className="text-lg mx-2">From</span>
+                        <input
+                          type="text"
+                          name="setPeriodFrom"
+                          className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                          value={userDetails.startdate}
+                          readOnly
+                        ></input>
+                      </span>
+                      <span>
+                        <span className="text-lg mx-2">to</span>
+                        <input
+                          type="text"
+                          name="setPeriodTo"
+                          className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                          value={userDetails.enddate}
+                          readOnly
+                        />
+                      </span>
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="inline-block m-auto w-32 px-4 py-2.5 font-medium text-lg leading-tight uppercase rounded-full shadow-md dark:bg-gray-900 text-white hover:bg-white hover:text-gray-900 hover:shadow-lg focus:bg-pink-violent focus:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-violent active:text-white active:shadow-lg transition duration-150 ease-in-out"
+                      // className="inline-block m-auto w-32 px-6 py-2.5 bg-blue text-pink font-medium text-lg leading-tight uppercase rounded-full shadow-md hover:dark:bg-gray-900 hover:text-white hover:shadow-lg focus:bg-pink-violent focus:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-violent active:text-white active:shadow-lg transition duration-150 ease-in-out"
+                      onClick={submitHandler}
+                    >
+                      Submit
+                    </button>
+                  </form>
+                </div>
+                ;
+              </div>
+            )
+          ) : (
+            <>
+              Application form must be filled for a new user first or ticket
+              validity must be expired
+            </>
+          )}
         </>
-      )}
-      </>
       )}
       <Footer />
     </>

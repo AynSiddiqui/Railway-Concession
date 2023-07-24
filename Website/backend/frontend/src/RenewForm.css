@@ -14,4 +14,20 @@
     opacity: 0.7;
 }
 
+/* Add this CSS to make the days-left div look nice */
+.days-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  background-color: #f7f7f7;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+}
+
+
 @tailwind utilities;
