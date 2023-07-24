@@ -11,6 +11,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 function ApplicationEdit() {
   var filedata = "";
+  
   const [dob, setdobName] = useState();
   const [age, setAgeName] = useState("");
   const [gender, setgender] = useState();
@@ -35,6 +36,12 @@ function ApplicationEdit() {
     });
   };
   useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      window.location = "/Login";
+    }
+  }, []);
+  useEffect(() => {
+    fetchTicket(loggedInUserRegId);
     fetchUserDetails(loggedInUserEmail);
   }, [loggedInUserEmail]);
   const fetchUserDetails = async (email) => {
@@ -56,6 +63,28 @@ function ApplicationEdit() {
       setPageLoaded(true);
     }, 100);
   }, []);
+
+  //CHECKING IF TICKET ALREADY EXISTS
+  const [loading, setLoading] = useState(true);
+  const [ticket, setTicket] = useState("");
+  const loggedInUserRegId = localStorage.getItem("userRegId");
+  const fetchTicket = async (regId) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/formAuth/getformuser?regId=${regId}`
+      );
+      setTicket(response.data?.ticketNo);
+      setLoading(false);
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+      console.log('Ticket does not exist yet!');
+      setLoading(false);
+    } else {
+      console.log(error);
+      setLoading(false);
+    }
+    }
+  };
 
   const levenshteinDistance = (word1, word2) => {
     const m = word1.length;
@@ -184,6 +213,11 @@ function ApplicationEdit() {
   return (
     <div>
       <Navigation />
+      {loading?(
+        <>Loading</>//initial loading
+      ):
+      (<>
+      {ticket?(<>
       <div className="flex h-screen flex justify-center items-center bg-cover bg-center bg-no-repeat bg-picSignUp">
         <div
           className={`bg-white w-[1000px] h-[470px] flex flex-col space-y-10 justifiy-center items-center transition-opacity duration-1000 ${
@@ -387,7 +421,17 @@ function ApplicationEdit() {
             <ToastContainer />
           </form>
         </div>
-      </div>
+      </div>      
+      </>)
+      :
+      (
+        <>
+        Please fill application
+        </>
+      )}
+      </>
+      )}
+      
       <Footer />
     </div>
   );

@@ -10,7 +10,11 @@ function Slip({ isButtonClick }) {
   const [FormUser, setFormUsers] = useState("");
   console.log(localStorage.getItem("userRegId"));
   const loggedInUserRegId = localStorage.getItem("userRegId");
-
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      window.location = "/Login";
+    }
+  }, []);
   useEffect(() => {
     fetchUserDetails(loggedInUserRegId);
   }, [loggedInUserRegId]);
@@ -35,6 +39,32 @@ function Slip({ isButtonClick }) {
     }, 100);
   }, []);
 
+   //CHECKING IF TICKET ALREADY EXISTS
+   const [loading, setLoading] = useState(true);
+   const [ticket, setTicket] = useState("");
+   useEffect(() => {
+     fetchTicket(loggedInUserRegId);
+   }, [loggedInUserRegId]);
+   const fetchTicket = async (regId) => {
+     try {
+       const response = await axios.get(
+         `http://localhost:5000/api/formAuth/getformuser?regId=${regId}`
+       );
+       setTicket(response.data?.ticketNo);
+       setLoading(false);
+     } catch (error) {
+       if (error.response && error.response.status === 404) {
+       console.log('Ticket does not exist yet!');
+       setLoading(false);
+     } else {
+       console.log(error);
+       setLoading(false);
+     }
+     }
+   };
+
+   
+
   const downloadAsPDF = () => {
     const contentDiv = document.getElementById("pdf-content");
     const opt = {
@@ -53,8 +83,14 @@ function Slip({ isButtonClick }) {
     // <div className="h-screen flex justify-center items-center ">
     <>
       <Navigation />
-      {/* <div className="hey"> */}
-      <div
+      {loading?(
+        <>Loading</>//initial loading
+      ):(
+        <>
+      {ticket ?
+      (
+        <>
+        <div
         className={`hey transition-opacity duration-1000 ${
           isPageLoaded ? "opacity-100" : "opacity-0"
         }`}
@@ -215,6 +251,15 @@ function Slip({ isButtonClick }) {
         </div>
         {/* </div> */}
       </div>
+        </>
+      ) 
+      : 
+      (
+        <>No ticket available</>
+      )}
+        </>
+      )}
+      
       <Footer />
     </>
   );

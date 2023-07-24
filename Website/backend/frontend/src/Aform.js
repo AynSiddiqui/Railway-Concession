@@ -36,7 +36,7 @@ function Application() {
   const [phnNumber, setphnNumber] = useState("");
   const [selectedImage, setSelectImage] = useState(null);
   const [error, setError] = useState(false);
-  // const[loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
   const [aadhar, setaadhar] = useState([]);
   const loggedInUserEmail = localStorage.getItem("userEmail");
@@ -50,6 +50,11 @@ function Application() {
     });
   };
   useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      window.location = "/Login";
+    }
+  }, []);
+  useEffect(() => {
     fetchUserDetails(loggedInUserEmail);
   }, [loggedInUserEmail]);
   const fetchUserDetails = async (email) => {
@@ -60,6 +65,31 @@ function Application() {
       setUserDetails(response.data);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  //CHECKING IF TICKET ALREADY EXISTS
+  const [ticket, setTicket] = useState("");
+  const loggedInUserRegId = localStorage.getItem("userRegId");
+
+  useEffect(() => {
+    fetchTicket(loggedInUserRegId);
+  }, [loggedInUserRegId]);
+  const fetchTicket = async (regId) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/formAuth/getformuser?regId=${regId}`
+      );
+      setTicket(response.data?.ticketNo);
+      setLoading(false);
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        console.log("Ticket does not exist yet!");
+        setLoading(false);
+      } else {
+        console.log(error);
+        setLoading(false);
+      }
     }
   };
 
@@ -278,7 +308,6 @@ function Application() {
         },
         config
       );
-      //    setLoading(false)
 
       console.log(data);
       localStorage.setItem("userInfo", JSON.stringify(data));
@@ -294,363 +323,429 @@ function Application() {
   return (
     <div>
       <Navigation />
-      <div className="flex h-screen flex justify-center items-center bg-cover bg-center bg-no-repeat bg-picSignUp">
-        <div
-          className={`bg-white w-[1000px] h-[720px] flex flex-col space-y-10 justifiy-center items-center transition-opacity duration-1000 ${
-            isPageLoaded ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          <div className="flex flex-row w-full h-12 text-2xl font-bond justify-center items-center dark:bg-gray-900 text-white">
-            Application Form{" "}
-          </div>
-          <form
-            autoComplete="on"
-            className="grid grid-col-3 space-x-3 space-y-10 content-center"
-          >
-            <div
-              className="mt-2 ml flex space-x-5"
-              style={{ marginLeft: "80px" }}
-            >
-              <div>
-                <label htmlFor="firstname" className="ml-2 text-lg font-bold">
-                  First Name:{" "}
-                </label>
-                <input
-                  type="text"
-                  name="firstname"
-                  className="mx-2 shadow-lg appearance border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  value={userDetails.firstname}
-                  minLength={3}
-                  required
-                  readOnly
-                />
-              </div>
-              <div>
-                <label htmlFor="middlename" className="text-lg font-bold">
-                  Middle Name:{" "}
-                </label>
-                <input
-                  type="text"
-                  name="middlename"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  value={userDetails.middlename}
-                  minLength={3}
-                  required
-                  readOnly
-                />
-              </div>
-              <div>
-                <label htmlFor="surname" className="text-lg font-bold">
-                  Surname:{" "}
-                </label>
-                <span>
-                  <input
-                    type="text"
-                    name="surname"
-                    className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                    value={userDetails.surname}
-                    minLength={3}
-                    required
-                    readOnly
-                  />
-                </span>
-              </div>
-            </div>
-            <div className="my-1 flex space-x-1" style={{ marginLeft: "80px" }}>
-              <div>
-                <label htmlFor="dob" className="ml-2 text-xl font-bold">
-                  D.O.B:{" "}
-                </label>
-                <input
-                  type="date"
-                  name="dob"
-                  className="mx-2 shadow-lg appearance border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  onChange={handleDobChange}
-                  value={dob}
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="age" className="text-xl font-bold">
-                  Age:{" "}
-                </label>
-                <input
-                  type="number"
-                  maxLength="2"
-                  name="age"
-                  disabled
-                  className="mx-2 shadow-lg appearance-none border w-36 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  onChange={(e) => setAge(e.target.value)}
-                  value={age}
-                  minLength={1}
-                  maxLength={2}
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="gender" className="text-xl font-bold ml-16">
-                  Gender:{" "}
-                </label>
-                <select
-                  name="gender"
-                  id="cars"
-                  onChange={(e) => setgender(e.target.value)}
-                  defaultValue={"default"}
-                  value={gender}
+      {loading ? (
+        <>Loading</> //initial loading
+      ) : (
+        <>
+          {ticket ? (
+            <>
+              <div className="flex  flex justify-center items-center bg-cover bg-center bg-no-repeat bg-picSignUp">
+                <div
+                  className={`w-[800px] h-[340px] flex flex-col space-y-10 justifiy-center items-center transition-opacity duration-1000 ${
+                    isPageLoaded ? "opacity-100" : "opacity-0"
+                  }`}
                 >
-                  <option value={"default"} disabled>
-                    Choose
-                  </option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
-            </div>
-            <div
-              className="my-1 flex space-x-20"
-              style={{ marginLeft: "50px" }}
-            >
-              <div>
-                <label htmlFor="course" className="ml-2 text-xl font-bold">
-                  Courses:{" "}
-                </label>
-                <select
-                  name="course"
-                  id="course"
-                  onChange={(e) => setCourse(e.target.value)}
-                  defaultValue={"default"}
-                  value={course}
-                >
-                  <option value={"default"} disabled>
-                    Choose
-                  </option>
-                  <option value="M.Tech">M.Tech</option>
-                  <option value="B.Tech">B.Tech</option>
-                  <option value="MCA">MCA</option>
-                  <option value="Diploma">Diploma</option>
-                  <option value="FDC">FDC</option>
-                </select>
-              </div>
-              <div>
-                <label htmlFor="year" className="text-xl font-bold">
-                  Year:{" "}
-                </label>
-                <select
-                  name="year"
-                  id="year"
-                  onChange={(e) => setYear(e.target.value)}
-                  defaultValue={"default"}
-                  value={year}
-                >
-                  <option value={"default"} disabled>
-                    Choose
-                  </option>
-                  <option value="FY">FY</option>
-                  <option value="SY">SY</option>
-                  <option value="TY">TY</option>
-                  <option value="Final YR">Final YR</option>
-                </select>
-              </div>
-              <div>
-                <label
-                  htmlFor="Selecttheoption"
-                  className="ml-2 text-xl font-bold"
-                >
-                  Duration:{" "}
-                </label>
-                <select
-                  name="Selecttheoption"
-                  id="Selecttheoption"
-                  onChange={(e) => setDuration(e.target.value)}
-                  defaultValue={"default"}
-                  value={duration}
-                >
-                  <option value={"default"} disabled>
-                    Choose
-                  </option>
-                  <option value="Monthly">Monthly</option>
-                  <option value="Quarterly">Quarterly</option>
-                </select>
-              </div>
-              <div>
-                <label htmlFor="Class" className="text-xl font-bold">
-                  Class:{" "}
-                </label>
-                <select
-                  name="Class"
-                  id="Class"
-                  onChange={(e) => setClass1(e.target.value)}
-                  defaultValue={"default"}
-                  value={class1}
-                >
-                  <option value={"default"} disabled>
-                    Choose
-                  </option>
-                  <option value="1st Class">1st Class</option>
-                  <option value="2nd Class">2nd Class</option>
-                </select>
-              </div>
-            </div>
-            <div
-              className="mt-2 flex space-x-10"
-              style={{ marginLeft: "42px" }}
-            >
-              <div>
-                <label htmlFor="stationfrom" className="text-xl font-bold">
-                  Station From:{" "}
-                </label>
-                <input
-                  type="text"
-                  name="stationfrom"
-                  className="mx-2 shadow-lg appearance-none border w-50 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  onChange={(e) => setStationFrom(e.target.value)}
-                  value={stationfrom}
-                ></input>
-                <span>
-                  <span className="text-lg mx-2">to</span>
-                  <select
-                    name="Stationto"
-                    id="Stationto"
-                    onChange={(e) => setStationto(e.target.value)}
-                    defaultValue={"default"}
-                    value={stationto}
-                  >
-                    <option value={"default"} disabled>
-                      Choose
-                    </option>
-                    <option value="Dadar">Dadar</option>
-                    <option value="Matunga">Matunga</option>
-                    <option value="King Circle">King Circle</option>
-                    <option value="Vadala">Vadala</option>
-                  </select>
-                </span>
-              </div>
-
-              <div>
-                <label htmlFor="MobileNo" className="text-xl font-bold">
-                  Mobile Number:{" "}
-                </label>
-                <input
-                  type="tel"
-                  name="MobileNo"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  value={userDetails.phnNumber}
-                  minLength={10}
-                  maxLength={10}
-                  required
-                />
-              </div>
-            </div>
-
-            {/* /////////////////// */}
-            <div
-              className="mt-2 flex space-x-10"
-              style={{ marginLeft: "30px" }}
-            >
-              <div>
-                <label htmlFor="Category" className="ml-2 text-xl font-bold">
-                  Category:{" "}
-                </label>
-                <select
-                  name="Category"
-                  id="Category"
-                  onChange={(e) => setCategory(e.target.value)}
-                  defaultValue={"default"}
-                  value={category}
-                >
-                  <option value={"default"} disabled>
-                    Choose
-                  </option>
-                  <option value="General">General</option>
-                  <option value="S.C.">S.C.</option>
-                  <option value="S.T.">S.T.</option>
-                </select>
-                <label htmlFor="Category" className="ml-8 text-lg font-bold">
-                  Upload Caste Validity Certificate(If S.C/S.T then upload):{" "}
-                </label>
-                <input
-                  type="file"
-                  name="Category"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  onChange={(e) => handleCasteInputChange(e.target.files)}
-                ></input>{" "}
-              </div>
-            </div>
-            <div
-              className="mt-2 flex space-x-10"
-              style={{ marginLeft: "30px" }}
-            >
-              <div>
-                <label htmlFor="Address" className="ml-2 text-xl font-bold">
-                  Address:{" "}
-                </label>
-                <input
-                  type="text"
-                  name="Address"
-                  className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  onChange={(e) => setAddress(e.target.value)}
-                  value={address}
-                ></input>
-              </div>
-
-              <div className="mt-2 flex space-x-10">
-                <div>
-                  <label htmlFor="Sign" className="ml-2 text-xl font-bold">
-                    Upload Signature of Student:{" "}
-                  </label>
-                  <input
-                    type="file"
-                    name="Sign"
-                    className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                    onChange={(e) => handleSignatureInputChange(e.target.files)}
-                  ></input>
+                  <div className="aform">
+                    Your application form has been created already!
+                  </div>
                 </div>
               </div>
-            </div>
-            <div
-              className="mt-2 flex space-x-10"
-              style={{ marginLeft: "30px" }}
-            >
-              <div>
-                <label htmlFor="AadharCard" className="ml-2 text-xl font-bold">
-                  Student ID Card(having address):{" "}
-                </label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  name="AadharCard"
-                  className="mx-1 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  onChange={(e) => handleIDInputChange(e.target.files)}
-                ></input>
-                <label htmlFor="middlename" className="text-lg font-bold">
-                  Registration ID:{" "}
-                </label>
-                <input
-                  type="text"
-                  name="middlename"
-                  className="mx-2 shadow-lg appearance-none border w-48 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
-                  // onChange={(e) => setmiddleName(e.target.value)}
-                  value={userDetails.regId}
-                  minLength={3}
-                  required
-                  readOnly
-                />
+            </>
+          ) : (
+            <>
+              <div className="flex h-screen flex justify-center items-center bg-cover bg-center bg-no-repeat bg-picSignUp">
+                <div
+                  className={`bg-white w-[1000px] h-[720px] flex flex-col space-y-10 justifiy-center items-center transition-opacity duration-1000 ${
+                    isPageLoaded ? "opacity-100" : "opacity-0"
+                  }`}
+                >
+                  <div className="flex flex-row w-full h-12 text-2xl font-bond justify-center items-center dark:bg-gray-900 text-white">
+                    Application Form{" "}
+                  </div>
+                  <form
+                    autoComplete="on"
+                    className="grid grid-col-3 space-x-3 space-y-10 content-center"
+                  >
+                    <div
+                      className="mt-2 ml flex space-x-5"
+                      style={{ marginLeft: "80px" }}
+                    >
+                      <div>
+                        <label
+                          htmlFor="firstname"
+                          className="ml-2 text-lg font-bold"
+                        >
+                          First Name:{" "}
+                        </label>
+                        <input
+                          type="text"
+                          name="firstname"
+                          className="mx-2 shadow-lg appearance border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                          value={userDetails.firstname}
+                          minLength={3}
+                          required
+                          readOnly
+                        />
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="middlename"
+                          className="text-lg font-bold"
+                        >
+                          Middle Name:{" "}
+                        </label>
+                        <input
+                          type="text"
+                          name="middlename"
+                          className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                          value={userDetails.middlename}
+                          minLength={3}
+                          required
+                          readOnly
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="surname" className="text-lg font-bold">
+                          Surname:{" "}
+                        </label>
+                        <span>
+                          <input
+                            type="text"
+                            name="surname"
+                            className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                            value={userDetails.surname}
+                            minLength={3}
+                            required
+                            readOnly
+                          />
+                        </span>
+                      </div>
+                    </div>
+                    <div
+                      className="my-1 flex space-x-1"
+                      style={{ marginLeft: "80px" }}
+                    >
+                      <div>
+                        <label htmlFor="dob" className="ml-2 text-xl font-bold">
+                          D.O.B:{" "}
+                        </label>
+                        <input
+                          type="date"
+                          name="dob"
+                          className="mx-2 shadow-lg appearance border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                          onChange={handleDobChange}
+                          value={dob}
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="age" className="text-xl font-bold">
+                          Age:{" "}
+                        </label>
+                        <input
+                          type="number"
+                          
+                          name="age"
+                          disabled
+                          className="mx-2 shadow-lg appearance-none border w-36 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                          onChange={(e) => setAge(e.target.value)}
+                          value={age}
+                          minLength={1}
+                          maxLength={2}
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="gender"
+                          className="text-xl font-bold ml-16"
+                        >
+                          Gender:{" "}
+                        </label>
+                        <select
+                          name="gender"
+                          id="cars"
+                          onChange={(e) => setgender(e.target.value)}
+                          defaultValue={"default"}
+                          value={gender}
+                        >
+                          <option value={"default"} disabled>
+                            Choose
+                          </option>
+                          <option value="Male">Male</option>
+                          <option value="Female">Female</option>
+                          <option value="Other">Other</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div
+                      className="my-1 flex space-x-20"
+                      style={{ marginLeft: "50px" }}
+                    >
+                      <div>
+                        <label
+                          htmlFor="course"
+                          className="ml-2 text-xl font-bold"
+                        >
+                          Courses:{" "}
+                        </label>
+                        <select
+                          name="course"
+                          id="course"
+                          onChange={(e) => setCourse(e.target.value)}
+                          defaultValue={"default"}
+                          value={course}
+                        >
+                          <option value={"default"} disabled>
+                            Choose
+                          </option>
+                          <option value="M.Tech">M.Tech</option>
+                          <option value="B.Tech">B.Tech</option>
+                          <option value="MCA">MCA</option>
+                          <option value="Diploma">Diploma</option>
+                          <option value="FDC">FDC</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label htmlFor="year" className="text-xl font-bold">
+                          Year:{" "}
+                        </label>
+                        <select
+                          name="year"
+                          id="year"
+                          onChange={(e) => setYear(e.target.value)}
+                          defaultValue={"default"}
+                          value={year}
+                        >
+                          <option value={"default"} disabled>
+                            Choose
+                          </option>
+                          <option value="FY">FY</option>
+                          <option value="SY">SY</option>
+                          <option value="TY">TY</option>
+                          <option value="Final YR">Final YR</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="Selecttheoption"
+                          className="ml-2 text-xl font-bold"
+                        >
+                          Duration:{" "}
+                        </label>
+                        <select
+                          name="Selecttheoption"
+                          id="Selecttheoption"
+                          onChange={(e) => setDuration(e.target.value)}
+                          defaultValue={"default"}
+                          value={duration}
+                        >
+                          <option value={"default"} disabled>
+                            Choose
+                          </option>
+                          <option value="Monthly">Monthly</option>
+                          <option value="Quarterly">Quarterly</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label htmlFor="Class" className="text-xl font-bold">
+                          Class:{" "}
+                        </label>
+                        <select
+                          name="Class"
+                          id="Class"
+                          onChange={(e) => setClass1(e.target.value)}
+                          defaultValue={"default"}
+                          value={class1}
+                        >
+                          <option value={"default"} disabled>
+                            Choose
+                          </option>
+                          <option value="1st Class">1st Class</option>
+                          <option value="2nd Class">2nd Class</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div
+                      className="mt-2 flex space-x-10"
+                      style={{ marginLeft: "42px" }}
+                    >
+                      <div>
+                        <label
+                          htmlFor="stationfrom"
+                          className="text-xl font-bold"
+                        >
+                          Station From:{" "}
+                        </label>
+                        <input
+                          type="text"
+                          name="stationfrom"
+                          className="mx-2 shadow-lg appearance-none border w-50 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                          onChange={(e) => setStationFrom(e.target.value)}
+                          value={stationfrom}
+                        ></input>
+                        <span>
+                          <span className="text-lg mx-2">to</span>
+                          <select
+                            name="Stationto"
+                            id="Stationto"
+                            onChange={(e) => setStationto(e.target.value)}
+                            defaultValue={"default"}
+                            value={stationto}
+                          >
+                            <option value={"default"} disabled>
+                              Choose
+                            </option>
+                            <option value="Dadar">Dadar</option>
+                            <option value="Matunga">Matunga</option>
+                            <option value="King Circle">King Circle</option>
+                            <option value="Vadala">Vadala</option>
+                          </select>
+                        </span>
+                      </div>
+
+                      <div>
+                        <label htmlFor="MobileNo" className="text-xl font-bold">
+                          Mobile Number:{" "}
+                        </label>
+                        <input
+                          type="tel"
+                          name="MobileNo"
+                          className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                          value={userDetails.phnNumber}
+                          minLength={10}
+                          maxLength={10}
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    {/* /////////////////// */}
+                    <div
+                      className="mt-2 flex space-x-10"
+                      style={{ marginLeft: "30px" }}
+                    >
+                      <div>
+                        <label
+                          htmlFor="Category"
+                          className="ml-2 text-xl font-bold"
+                        >
+                          Category:{" "}
+                        </label>
+                        <select
+                          name="Category"
+                          id="Category"
+                          onChange={(e) => setCategory(e.target.value)}
+                          defaultValue={"default"}
+                          value={category}
+                        >
+                          <option value={"default"} disabled>
+                            Choose
+                          </option>
+                          <option value="General">General</option>
+                          <option value="S.C.">S.C.</option>
+                          <option value="S.T.">S.T.</option>
+                        </select>
+                        <label
+                          htmlFor="Category"
+                          className="ml-8 text-lg font-bold"
+                        >
+                          Upload Caste Validity Certificate(If S.C/S.T then
+                          upload):{" "}
+                        </label>
+                        <input
+                          type="file"
+                          name="Category"
+                          className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                          onChange={(e) =>
+                            handleCasteInputChange(e.target.files)
+                          }
+                        ></input>{" "}
+                      </div>
+                    </div>
+                    <div
+                      className="mt-2 flex space-x-10"
+                      style={{ marginLeft: "30px" }}
+                    >
+                      <div>
+                        <label
+                          htmlFor="Address"
+                          className="ml-2 text-xl font-bold"
+                        >
+                          Address:{" "}
+                        </label>
+                        <input
+                          type="text"
+                          name="Address"
+                          className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                          onChange={(e) => setAddress(e.target.value)}
+                          value={address}
+                        ></input>
+                      </div>
+
+                      <div className="mt-2 flex space-x-10">
+                        <div>
+                          <label
+                            htmlFor="Sign"
+                            className="ml-2 text-xl font-bold"
+                          >
+                            Upload Signature of Student:{" "}
+                          </label>
+                          <input
+                            type="file"
+                            name="Sign"
+                            className="mx-2 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                            onChange={(e) =>
+                              handleSignatureInputChange(e.target.files)
+                            }
+                          ></input>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="mt-2 flex space-x-10"
+                      style={{ marginLeft: "30px" }}
+                    >
+                      <div>
+                        <label
+                          htmlFor="AadharCard"
+                          className="ml-2 text-xl font-bold"
+                        >
+                          Student ID Card(having address):{" "}
+                        </label>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          name="AadharCard"
+                          className="mx-1 shadow-lg appearance-none border w-64 py-2 px-3 text-gray-700 leading-tight hover:dark:bg-gray-900 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                          onChange={(e) => handleIDInputChange(e.target.files)}
+                        ></input>
+                        <label
+                          htmlFor="middlename"
+                          className="text-lg font-bold"
+                        >
+                          Registration ID:{" "}
+                        </label>
+                        <input
+                          type="text"
+                          name="middlename"
+                          className="mx-2 shadow-lg appearance-none border w-48 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"
+                          // onChange={(e) => setmiddleName(e.target.value)}
+                          value={userDetails.regId}
+                          minLength={3}
+                          required
+                          readOnly
+                        />
+                      </div>
+                    </div>
+                    <button
+                      type="submit"
+                      className="inline-block m-auto w-32 px-4 py-2.5 font-medium text-lg leading-tight uppercase rounded-full shadow-md dark:bg-gray-900 text-white hover:bg-white hover:text-gray-900 hover:shadow-lg focus:bg-pink-violent focus:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-violent active:text-white active:shadow-lg transition duration-150 ease-in-out"
+                      // className="inline-block m-auto w-32 px-4 py-2.5 bg-blue text-pink font-medium text-lg leading-tight uppercase rounded-full shadow-md hover:dark:bg-gray-900 hover:text-white hover:shadow-lg focus:bg-pink-violent focus:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-violent active:text-white active:shadow-lg transition duration-150 ease-in-out"
+                      onClick={submitHandler}
+                      style={{ marginLeft: "43%" }}
+                    >
+                      Submit
+                    </button>
+                    <ToastContainer limit={1}/>
+                  </form>
+                </div>
               </div>
-            </div>
-            <button
-              type="submit"
-              className="inline-block m-auto w-32 px-4 py-2.5 font-medium text-lg leading-tight uppercase rounded-full shadow-md dark:bg-gray-900 text-white hover:bg-white hover:text-gray-900 hover:shadow-lg focus:bg-pink-violent focus:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-violent active:text-white active:shadow-lg transition duration-150 ease-in-out"
-              // className="inline-block m-auto w-32 px-4 py-2.5 bg-blue text-pink font-medium text-lg leading-tight uppercase rounded-full shadow-md hover:dark:bg-gray-900 hover:text-white hover:shadow-lg focus:bg-pink-violent focus:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-violent active:text-white active:shadow-lg transition duration-150 ease-in-out"
-              onClick={submitHandler}
-              style={{ marginLeft: "43%" }}
-            >
-              Submit
-            </button>
-            <ToastContainer />
-          </form>
-        </div>
-      </div>
+            </>
+          )}
+        </>
+      )}
+
       <Footer />
     </div>
   );

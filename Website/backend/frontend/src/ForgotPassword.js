@@ -72,8 +72,8 @@ const diffToast = (message, type) => {
             >
               Submit
             </button>
-            <ToastContainer />
           </form>
+            <ToastContainer limit={1}/>
         </div>
       </div>
       <Footer />

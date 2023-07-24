@@ -14,7 +14,11 @@ function Login() {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isPageLoaded, setPageLoaded] = useState(false);
-
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      window.location = "/";
+    }
+  }, []);
   useEffect(() => {
     // Set a delay of 100ms to show the page content after the fade-in effect
     setTimeout(() => {
@@ -120,7 +124,7 @@ const diffToast = (message, type) => {
             >
               Submit
             </button>
-            <ToastContainer />
+            <ToastContainer limit={1}/>
           </form>
           <div className="my-2 text-white">
             <p className="text-xl text-black">Don't have an account?</p>

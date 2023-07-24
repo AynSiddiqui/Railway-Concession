@@ -19,20 +19,29 @@ function SignUp() {
   const [regId, setregId] = useState("");
   const [phnNumber, setphnNumber] = useState("");
   const [error, setError] = useState(false);
+  const [latestError, setLatestError] = useState("");
+
   // const[loading,setLoading] = useState(false)
   const [message, setMessage] = useState("");
 
   const navigate = useNavigate();
 
   const [isPageLoaded, setPageLoaded] = useState(false);
-
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      window.location = "/";
+    }});
   useEffect(() => {
     // Set a delay of 100ms to show the page content after the fade-in effect
     setTimeout(() => {
       setPageLoaded(true);
     }, 100);
   }, []);
+
   const diffToast = (message, type) => {
+    toast.dismiss();
+
+    // For success message, use default toast function
     toast[type](message, {
       position: "top-center",
       theme: "dark",
@@ -41,7 +50,7 @@ function SignUp() {
   const submitHandler = async (e) => {
     e.preventDefault();
     if (password !== confirmpassword) {
-      setMessage("Passwords Do not match");
+      diffToast("Passwords Do not match", "error");
     } else {
       setMessage(null);
       try {
@@ -77,9 +86,19 @@ function SignUp() {
         window.location = "/login";
         diffToast("Registered Successfully", "success");
       } catch (error) {
-        setError(error.response.data.message);
-        diffToast("User already exists", "error");
-        console.log(error);
+        if (
+          email === "" ||
+          regId === "" ||
+          firstname === "" ||
+          middlename === "" ||
+          surname === "" ||
+          phnNumber === "" ||
+          password === ""
+        ) {
+          diffToast("Invalid Input", "error");
+        } else {
+          diffToast("User already exists", "error");
+        }
       }
     }
   };
@@ -237,15 +256,15 @@ function SignUp() {
             </div>
             <button
               type="submit"
-              className="inline-block w-32 px-6 py-2.5 bg-white text-pink-violent font-medium text-lg leading-tight uppercase rounded-full shadow-md hover:dark:bg-gray-900 hover:text-white hover:shadow-lg focus:bg-pink-violent focus:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-violent active:text-white active:shadow-lg transition duration-150 ease-in-out"
+              className="inline-block w-31 px-6 py-2.5 bg-white text-pink-violent font-medium text-lg leading-tight uppercase rounded-full shadow-md hover:dark:bg-gray-900 hover:text-white hover:shadow-lg focus:bg-pink-violent focus:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-violent active:text-white active:shadow-lg transition duration-150 ease-in-out"
               onClick={submitHandler}
             >
               Submit
             </button>
-            <ToastContainer />
           </form>
+          <ToastContainer />
           <div className="my-1 text-white">
-            <p className="text-xl text-black">Already have account?</p>
+            <div className="text-xl text-black">Already have account?</div>
             <Link
               to="/Login"
               className="text-2xl text-black text-center underline cursor-pointer hover:dark:bg-gray-900 hover:text-white"
