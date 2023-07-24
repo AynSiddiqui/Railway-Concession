@@ -14,7 +14,11 @@ function Login() {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isPageLoaded, setPageLoaded] = useState(false);
-
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      window.location = "/";
+    }
+  }, []);
   useEffect(() => {
     // Set a delay of 100ms to show the page content after the fade-in effect
     setTimeout(() => {

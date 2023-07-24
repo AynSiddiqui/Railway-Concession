@@ -27,7 +27,10 @@ function SignUp() {
   const navigate = useNavigate();
 
   const [isPageLoaded, setPageLoaded] = useState(false);
-
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      window.location = "/";
+    }});
   useEffect(() => {
     // Set a delay of 100ms to show the page content after the fade-in effect
     setTimeout(() => {
