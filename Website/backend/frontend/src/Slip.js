@@ -10,7 +10,11 @@ function Slip({ isButtonClick }) {
   const [FormUser, setFormUsers] = useState("");
   console.log(localStorage.getItem("userRegId"));
   const loggedInUserRegId = localStorage.getItem("userRegId");
-
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      window.location = "/Login";
+    }
+  }, []);
   useEffect(() => {
     fetchUserDetails(loggedInUserRegId);
   }, [loggedInUserRegId]);

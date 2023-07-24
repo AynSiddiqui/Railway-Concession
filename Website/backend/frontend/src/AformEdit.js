@@ -36,6 +36,11 @@ function ApplicationEdit() {
     });
   };
   useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      window.location = "/Login";
+    }
+  }, []);
+  useEffect(() => {
     fetchTicket(loggedInUserRegId);
     fetchUserDetails(loggedInUserEmail);
   }, [loggedInUserEmail]);

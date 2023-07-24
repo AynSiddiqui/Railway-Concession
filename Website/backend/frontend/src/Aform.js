@@ -50,6 +50,11 @@ function Application() {
     });
   };
   useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      window.location = "/Login";
+    }
+  }, []);
+  useEffect(() => {
     fetchUserDetails(loggedInUserEmail);
   }, [loggedInUserEmail]);
   const fetchUserDetails = async (email) => {

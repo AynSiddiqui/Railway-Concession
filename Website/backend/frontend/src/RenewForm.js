@@ -21,6 +21,12 @@ function RenewalApplication() {
   const [isPageLoaded, setPageLoaded] = useState(false);
   const loggedInUserRegId = localStorage.getItem("userRegId");
   const [userDetails, setUserDetails] = useState("");
+  
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      window.location = "/Login";
+    }
+  }, []);
   useEffect(() => {
     fetchUserDetails(loggedInUserRegId);
   }, [loggedInUserRegId]);
@@ -42,11 +48,6 @@ function RenewalApplication() {
     }, 100);
   }, []);
 
-  useEffect(() => {
-    if (!localStorage.getItem("token")) {
-      window.location = "/Login";
-    }
-  }, []);
 
   //CHECKING IF TICKET ALREADY EXISTS
   const [loading, setLoading] = useState(true);
