@@ -429,7 +429,7 @@ function Application() {
                         </label>
                         <input
                           type="number"
-                          maxLength="2"
+                          
                           name="age"
                           disabled
                           className="mx-2 shadow-lg appearance-none border w-36 py-2 px-3 text-gray-700 leading-tight hover:bg-red-600 hover:text-white focus:outline-indigo-100 focus:shadow-outline"

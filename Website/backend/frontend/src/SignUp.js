@@ -19,6 +19,8 @@ function SignUp() {
   const [regId, setregId] = useState("");
   const [phnNumber, setphnNumber] = useState("");
   const [error, setError] = useState(false);
+  const [latestError, setLatestError] = useState("");
+
   // const[loading,setLoading] = useState(false)
   const [message, setMessage] = useState("");
 
@@ -32,11 +34,33 @@ function SignUp() {
       setPageLoaded(true);
     }, 100);
   }, []);
+  
   const diffToast = (message, type) => {
-    toast[type](message, {
-      position: "top-center",
-      theme: "dark",
-    });
+    if (type === "error") {
+      // Update the latest error message
+      setLatestError(message);
+      // Check if there's already an active toast with error type, and update it
+      const existingErrorToast = toast.isActive("errorToast");
+      if (existingErrorToast) {
+        toast.update(existingErrorToast, {
+          render: message,
+          type: "error",
+        });
+      } else {
+        // If there's no active toast with error type, create a new one
+        toast.error(message, {
+          position: "top-center",
+          theme: "dark",
+          toastId: "errorToast",
+        });
+      }
+    } else {
+      // For success message, use default toast function
+      toast[type](message, {
+        position: "top-center",
+        theme: "dark",
+      });
+    }
   };
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -88,18 +112,18 @@ function SignUp() {
           password === ""
         )
         {
-           toast.dismiss();
+           
              diffToast("Invalid Input", "error");
            
         }
-        else 
-        {
+       
           
-        toast.dismiss();
+       else
+       {
       
             diffToast("User already exists", "error");
           
-      }
+       }
       }
     }
   };
