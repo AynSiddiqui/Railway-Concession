@@ -160,10 +160,24 @@ function RenewalApplication() {
           {ticket ? (
             userDetails.enddate &&
             new Date() < new Date(parseDate(userDetails.enddate)) ? (
-              // Show the timer if the enddate is not reached yet
-              <div className="days-left">
-                Renewal form is not available yet. Days left:{" "}
-                {calculateDaysLeft()}
+              <div className="flex  flex justify-center items-center bg-cover bg-center bg-no-repeat bg-picSignUp">
+                <div
+                  className={`w-[800px] h-[340px] flex flex-col space-y-10 justifiy-center items-center transition-opacity duration-1000 ${
+                    isPageLoaded ? "opacity-100" : "opacity-0"
+                  }`}
+                >
+                  {/* // Show the timer if the enddate is not reached yet */}
+                  <div className="days-left">
+                    <p>
+                      Renewal form will be available after your current
+                      concession slip expires.
+                    </p>
+                    <br />
+                    <p>Please check on or after {userDetails.enddate}. </p>
+                    {/* <br /> */}
+                    {/* <p>Days left: {calculateDaysLeft()}</p> */}
+                  </div>
+                </div>
               </div>
             ) : (
               // <div className="days-left">

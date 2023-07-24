@@ -111,21 +111,36 @@ function Footer() {
               </p>
               {isAuthenticated ? (
                 <>
-              <p className="mb-4">
-                <a href="/ApplicationForm" className="text-gray-600">
-                  Application Form
-                </a>
-              </p>
-              </>
-                ) : (
-                  <>
-              </>
-                )}
-              <p className="mb-4">
-                <a href="/SignUp" className="text-gray-600">
-                  Sign Up
-                </a>
-              </p>
+                  <p className="mb-4">
+                    <a href="/ApplicationForm" className="text-gray-600">
+                      Application Form
+                    </a>
+                  </p>
+                  <p className="mb-4">
+                    <a href="/ApplicationFormEdit" className="text-gray-600">
+                      Edit Application Form
+                    </a>
+                  </p>
+                  <p className="mb-4">
+                    <a href="/renewal" className="text-gray-600">
+                      Renew Application Form
+                    </a>
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="mb-4">
+                    <a href="/SignUp" className="text-gray-600">
+                      Sign Up
+                    </a>
+                  </p>
+                  <p className="mb-4">
+                    <a href="/login" className="text-gray-600">
+                      Sign In
+                    </a>
+                  </p>
+                </>
+              )}
               <p>
                 <a href={Pdf} target="blank" className="text-gray-600" download>
                   Documentation
