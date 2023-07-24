@@ -41,7 +41,7 @@ function SignUp() {
   const submitHandler = async (e) => {
     e.preventDefault();
     if (password !== confirmpassword) {
-      setMessage("Passwords Do not match");
+      diffToast("Passwords Do not match","error");
     } else {
       setMessage(null);
       try {
@@ -77,8 +77,23 @@ function SignUp() {
         window.location = "/login";
         diffToast("Registered Successfully", "success");
       } catch (error) {
-        setError(error.response.data.message);
-        diffToast("User already exists or Invalid Input", "error");
+       
+        if (
+          email === "" ||
+          regId === "" ||
+          firstname === "" ||
+          middlename === "" ||
+          surname === "" ||
+          phnNumber === "" ||
+          password === ""
+        )
+        {
+          diffToast("Invalid", "error");
+        }
+        else 
+        {
+          diffToast("User already exists", "error");
+        }
         console.log(error);
       }
     }
