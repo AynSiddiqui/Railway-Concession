@@ -78,7 +78,7 @@ function SignUp() {
         diffToast("Registered Successfully", "success");
       } catch (error) {
         setError(error.response.data.message);
-        diffToast("User already exists", "error");
+        diffToast("User already exists or Invalid Input", "error");
         console.log(error);
       }
     }
@@ -237,7 +237,7 @@ function SignUp() {
             </div>
             <button
               type="submit"
-              className="inline-block w-32 px-6 py-2.5 bg-white text-pink-violent font-medium text-lg leading-tight uppercase rounded-full shadow-md hover:dark:bg-gray-900 hover:text-white hover:shadow-lg focus:bg-pink-violent focus:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-violent active:text-white active:shadow-lg transition duration-150 ease-in-out"
+              className="inline-block w-31 px-6 py-2.5 bg-white text-pink-violent font-medium text-lg leading-tight uppercase rounded-full shadow-md hover:dark:bg-gray-900 hover:text-white hover:shadow-lg focus:bg-pink-violent focus:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-violent active:text-white active:shadow-lg transition duration-150 ease-in-out"
               onClick={submitHandler}
             >
               Submit
@@ -245,12 +245,11 @@ function SignUp() {
             <ToastContainer />
           </form>
           <div className="my-1 text-white">
-            <p className="text-xl text-black">Already have account?</p>
+            <div className="text-xl text-black">Already have account?</div>
             <Link
               to="/Login"
               className="text-2xl text-black text-center underline cursor-pointer hover:dark:bg-gray-900 hover:text-white"
-            >
-              Log In
+            >Log In
             </Link>
           </div>
         </div>
