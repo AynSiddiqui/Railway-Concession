@@ -120,7 +120,7 @@ const diffToast = (message, type) => {
             >
               Submit
             </button>
-            <ToastContainer />
+            <ToastContainer limit={1}/>
           </form>
           <div className="my-2 text-white">
             <p className="text-xl text-black">Don't have an account?</p>

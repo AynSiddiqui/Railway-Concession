@@ -88,13 +88,18 @@ function SignUp() {
           password === ""
         )
         {
-          diffToast("Invalid", "error");
+           toast.dismiss();
+             diffToast("Invalid Input", "error");
+           
         }
         else 
         {
-          diffToast("User already exists", "error");
-        }
-        console.log(error);
+          
+        toast.dismiss();
+      
+            diffToast("User already exists", "error");
+          
+      }
       }
     }
   };
@@ -257,8 +262,8 @@ function SignUp() {
             >
               Submit
             </button>
-            <ToastContainer />
           </form>
+            <ToastContainer limit = {1}/>
           <div className="my-1 text-white">
             <div className="text-xl text-black">Already have account?</div>
             <Link

@@ -732,7 +732,7 @@ function Application() {
                     >
                       Submit
                     </button>
-                    <ToastContainer />
+                    <ToastContainer limit={1}/>
                   </form>
                 </div>
               </div>
